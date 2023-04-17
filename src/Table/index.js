@@ -2,17 +2,10 @@ import * as React from "react";
 import { debounce } from "throttle-debounce";
 // import data from '@/components/organisms/grid/__stories__/_common_/data';
 import "./style.css";
-import {
-  Card,
-  Grid,
-  Dropdown,
-  Subheading,
-  Icon,
-  Pagination,
-  DatePicker
-} from "@innovaccer/design-system";
+import { Card, Grid, Pagination } from "@innovaccer/design-system";
 import { updateBatchData, getSelectAll, getTotalPages } from "./utils";
 import Header from "./TableHeader";
+import RightPanel from "../RightPanel";
 
 export class Table extends React.Component {
   constructor(props) {
@@ -29,7 +22,7 @@ export class Table extends React.Component {
       error: false,
       selectAll: getSelectAll([]),
       searchTerm: undefined,
-      showVerticalFilters: props.showVerticalFilters
+      showVerticalFilters: props.showVerticalFilters,
     };
 
     this.pageSize = 4;
@@ -62,7 +55,7 @@ export class Table extends React.Component {
 
   updateData() {
     this.setState({
-      loading: true
+      loading: true,
     });
 
     this.debounceUpdate();
@@ -82,11 +75,11 @@ export class Table extends React.Component {
       pageSize,
       sortingList,
       filterList,
-      searchTerm
+      searchTerm,
     };
 
     this.setState({
-      loading: true
+      loading: true,
     });
     if (fetchData) {
       fetchData(opts)
@@ -101,14 +94,14 @@ export class Table extends React.Component {
             selectAll: getSelectAll(data),
             totalRecords: res.count,
             loading: false,
-            error: !data.length
+            error: !data.length,
           });
         })
         .catch(() => {
           this.setState({
             loading: false,
             error: true,
-            data: []
+            data: [],
           });
         });
     }
@@ -123,12 +116,12 @@ export class Table extends React.Component {
     let newData = data;
     if (rowIndexes >= 0) {
       newData = updateBatchData(data, indexes, {
-        _selected: selected
+        _selected: selected,
       });
 
       this.setState({
         data: newData,
-        selectAll: getSelectAll(newData)
+        selectAll: getSelectAll(newData),
       });
     }
 
@@ -149,7 +142,7 @@ export class Table extends React.Component {
     const indexes = Array.from({ length: data.length }, (_, i) => i);
 
     const newData = updateBatchData(data, indexes, {
-      _selected: selected
+      _selected: selected,
     });
 
     if (onSelect) {
@@ -163,13 +156,13 @@ export class Table extends React.Component {
 
     this.setState({
       data: newData,
-      selectAll: getSelectAll(newData)
+      selectAll: getSelectAll(newData),
     });
   }
 
   onPageChange(newPage) {
     this.setState({
-      page: newPage
+      page: newPage,
     });
   }
 
@@ -178,7 +171,7 @@ export class Table extends React.Component {
 
     const newFilterList = {
       ...filterList,
-      [name]: selected
+      [name]: selected,
     };
 
     this.updateFilterList(newFilterList);
@@ -186,13 +179,13 @@ export class Table extends React.Component {
 
   updateShowVerticalFilters(val) {
     this.setState({
-      showVerticalFilters: val
+      showVerticalFilters: val,
     });
   }
 
   updateSchema(newSchema) {
     this.setState({
-      schema: newSchema
+      schema: newSchema,
     });
   }
 
@@ -203,32 +196,35 @@ export class Table extends React.Component {
       sortingList: multipleSorting
         ? [...newSortingList]
         : newSortingList.slice(-1),
-      page: 1
+      page: 1,
     });
   }
 
   updateFilterList(newFilterList) {
-    const newList = { ...this.state.filterList, ...newFilterList };
+    const newList = { ...this.state.filterList, newFilterList };
     console.log(
       "newList",
       newList,
       "newFilterList",
       newFilterList,
-      "this.state.filterList",
-      this.state.filterList
+      "this.state.filterList"
     );
     this.setState({
-      // filterList: newFilterList,
-      filterList: newList,
-      page: 1
+      filterList: newFilterList,
+      // filterList: newList,
+      page: 1,
     });
   }
 
   updateSearchTerm(newSearchTerm) {
     this.setState({
       searchTerm: newSearchTerm,
-      page: 1
+      page: 1,
     });
+  }
+
+  handleCloseHandler() {
+    this.setState({ showVerticalFilters: false });
   }
 
   render() {
@@ -293,50 +289,14 @@ export class Table extends React.Component {
             )}
           </Card>
         </div>
-        <div
-          className={`Table-filters Table-filters--vertical${
-            !showVerticalFilters ? " d-none" : ""
-          }`}
-        >
-          <div className="Table-filtersHeading">
-            <Subheading>Filters</Subheading>
-            <Icon
-              name="close"
-              className="Table-filtersCloseIcon"
-              onClick={() => this.setState({ showVerticalFilters: false })}
-            />
-          </div>
-          <div>
-            <div className="Table-filter">
-              <Dropdown
-                key="gender"
-                disabled={loading}
-                withCheckbox={true}
-                showApplyButton={true}
-                inlineLabel={"Gender"}
-                options={[
-                  { label: "Male", value: "male", selected: true },
-                  { label: "Female", value: "female", selected: true }
-                ]}
-                onChange={(selected) => this.onFilterChange("gender", selected)}
-              />
-            </div>
-            <div className="Table-filter">
-              <DatePicker
-                withInput={true}
-                label="Date"
-                inputOptions={{
-                  placeholder: "mm/dd/yyyy",
-                  disabled: loading,
-                  minWidth: "unset"
-                }}
-                onDateChange={(_date, dateStr) =>
-                  this.onFilterChange("date", dateStr)
-                }
-              />
-            </div>
-          </div>
-        </div>
+        <RightPanel
+          loading={loading}
+          onCloseHandler={() => this.setState({ showVerticalFilters: false })}
+          onFilterChange={(name, selected) =>
+            this.onFilterChange(name, selected)
+          }
+          showVerticalFilters={showVerticalFilters}
+        />
       </div>
     );
   }
