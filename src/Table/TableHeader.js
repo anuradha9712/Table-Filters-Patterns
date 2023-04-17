@@ -9,7 +9,7 @@ import {
   Label
 } from "@innovaccer/design-system";
 import { DraggableDropdown } from "./DraggableDropdown";
-import { HeaderFilters } from "./HeaderFilters";
+import { HeaderFilters } from "../HeaderFilters";
 export const Header = (props) => {
   const {
     loading,

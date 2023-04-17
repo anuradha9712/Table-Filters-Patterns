@@ -1,7 +1,7 @@
 import React from "react";
 import "@innovaccer/design-system/css/dist/index.css";
-import { Card, Button } from "@innovaccer/design-system";
-import { Table } from "./TableGrid";
+import { Button } from "@innovaccer/design-system";
+import { Table } from "./Table";
 const App = () => {
   const schema = [
     {
