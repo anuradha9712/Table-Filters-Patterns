@@ -335,6 +335,8 @@ const App = () => {
   };
 
   const filterData = (data, filterList) => {
+    console.log("step 3", data, "filterList", filterList);
+
     let filteredData = data;
     if (filterList) {
       Object.keys(filterList).forEach((name) => {
@@ -351,6 +353,7 @@ const App = () => {
 
   const fetchData = (options) => {
     const { page, pageSize, sortingList, filterList, searchTerm } = options;
+    console.log("step 2");
 
     const onSearch = (d, searchTerm = "") => {
       return (

@@ -11,6 +11,7 @@ export const RightPanel = ({
   loading,
   onFilterChange,
   onCloseHandler,
+  // clearAllFilter,
 }) => {
   return (
     <div

@@ -31,27 +31,30 @@ export const Header = (props) => {
     searchTerm,
     updateSearchTerm,
     allowSelectAll,
-    updateShowVerticalFilters
+    updateShowVerticalFilters,
+    clearAllFilter,
   } = props;
 
   const [selectAllRecords, setSelectAllRecords] = React.useState(false);
   const [flag, setFlag] = React.useState(true);
-  const [originalFilterList, setFilterList] = React.useState({});
+  // const [originalFilterList, setFilterList] = React.useState({});
 
   React.useEffect(() => {
     setFlag(!flag);
   }, [schema]);
 
-  React.useEffect(() => {
-    const newFilterList = { ...originalFilterList, ...filterList };
-    // console.log(
-    //   "in headers filterList",
-    //   filterList,
-    //   "myFilterList",
-    //   newFilterList
-    // );
-    setFilterList(newFilterList);
-  }, [filterList]);
+  // React.useEffect(() => {
+  //   const newFilterList = { ...originalFilterList, ...filterList };
+  //   console.log(
+  //     "filterlist in header",
+  //     newFilterList,
+  //     "originalFilterList",
+  //     originalFilterList,
+  //     "filterList",
+  //     filterList
+  //   );
+  //   setFilterList(newFilterList);
+  // }, [filterList]);
 
   React.useEffect(() => {
     if (selectAll && selectAll.checked) {
@@ -120,9 +123,9 @@ export const Header = (props) => {
     : `Showing ${totalRecords} item${getPluralSuffix(totalRecords)}`;
 
   return (
-    <div className="Header">
-      <div className="Header-content Header-content--top">
-        <div className="Header-search">
+    <div className="p-5 border-bottom">
+      <div className="d-flex mb-5">
+        <div className="w-50 mr-6">
           <Input
             name="GridHeader-search"
             icon="search"
@@ -133,7 +136,7 @@ export const Header = (props) => {
             disabled={loading && !hasSchema(schema)}
           />
         </div>
-        <div className="Header-dropdown">
+        <div className="d-flex">
           <div className="Table-filters Table-filters--horizontal">
             <div className="Table-filter">
               <Dropdown
@@ -160,10 +163,17 @@ export const Header = (props) => {
             </div>
           </div>
         </div>
-        <div className="Header-actions"></div>
+
+        {/* <div className="Header-actions"></div> */}
       </div>
-      <div className="Header-content Header-content--bottom">
-        <div className="Header-label">
+      <HeaderFilters
+        // filterList={originalFilterList}
+        filterList={filterList}
+        clearAllFilter={clearAllFilter}
+      />
+
+      <div className="d-flex mt-4 justify-content-center align-items-center">
+        <div className="flex-grow-1">
           {showHead && !loading && (
             <Checkbox
               {...selectAll}
@@ -201,14 +211,13 @@ export const Header = (props) => {
             </div>
           )}
         </div>
-        <div className="Header-hideColumns">
+        <div>
           <DraggableDropdown
             options={columnOptions}
             onChange={onDynamicColumnUpdate}
           />
         </div>
       </div>
-      <HeaderFilters filterList={originalFilterList} />
     </div>
   );
 };

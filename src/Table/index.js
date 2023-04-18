@@ -63,6 +63,7 @@ export class Table extends React.Component {
 
   updateDataFn() {
     this.onSelect(-1, false);
+    console.log('step 1');
 
     const { fetchData } = this.props;
 
@@ -166,6 +167,14 @@ export class Table extends React.Component {
     });
   }
 
+  clearAllFilter()  {
+    // this.updateFilterList({});
+    this.setState({
+      filterList: {},
+      page: 1,
+    });
+  }
+
   onFilterChange(name, selected) {
     const { filterList } = this.props;
 
@@ -256,6 +265,8 @@ export class Table extends React.Component {
                 withCheckbox={withCheckbox}
                 withPagination={withPagination}
                 pageSize={pageSize}
+                // clearAllFilter={() => this.clearAllFilter()}
+                clearAllFilter={this.clearAllFilter.bind(this)}
               />
             </div>
             <div className="Table-grid">
@@ -291,6 +302,7 @@ export class Table extends React.Component {
         </div>
         <RightPanel
           loading={loading}
+          clearAllFilter={this.clearAllFilter}
           onCloseHandler={() => this.setState({ showVerticalFilters: false })}
           onFilterChange={(name, selected) =>
             this.onFilterChange(name, selected)
