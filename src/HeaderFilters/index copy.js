@@ -9,7 +9,7 @@ export const HeaderFilters = (props) => {
 
   React.useEffect(() => {
     setFilterList(filterList);
-  }, [filterList]);
+  },[filterList]);
 
   const getLabel = (filter) => {
     return (
@@ -25,7 +25,7 @@ export const HeaderFilters = (props) => {
   const clearFilterHandler = () => {
     clearAllFilter && clearAllFilter();
     setFilterList({});
-  };
+  }
 
   return (
     <div
@@ -33,15 +33,7 @@ export const HeaderFilters = (props) => {
       style={{ rowGap: "8px" }}
     >
       {Object.keys(originalFilterList).map((filter) => {
-        console.log(
-          "filter value",
-          originalFilterList[filter],
-          "filter",
-          filter
-        );
-        if (originalFilterList[filter].length === 0) {
-          return;
-        }
+        console.log("filter value", originalFilterList[filter]);
         return (
           <>
             <Chip
@@ -56,7 +48,7 @@ export const HeaderFilters = (props) => {
           </>
         );
       })}
-      {Object.keys(originalFilterList).length > 0 && (
+      {filterLength > 0 && (
         <div className="border-left pl-4">
           <Button
             appearance="transparent"

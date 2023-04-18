@@ -38,6 +38,39 @@ const App = () => {
         statusAppearance: a.gender === "Female" ? "alert" : "success",
       }),
     },
+    // {
+    //   name: "status",
+    //   displayName: "Status",
+    //   width: 200,
+    //   resizable: true,
+    //   comparator: (a, b) => a.status.localeCompare(b.status),
+    //   cellType: "STATUS_HINT",
+    //   translate: (a) => ({
+    //     title: a.status,
+    //     statusAppearance: a.status === "Failed" ? "alert" : "success",
+    //   }),
+    // },
+    // {
+    //   name: "status",
+    //   displayName: "Status",
+    //   width: "20%",
+    //   cellType: "STATUS_HINT",
+    //   comparator: (a, b) => a.status.localeCompare(b.status),
+    //   translate: (a) => ({
+    //     title: a.status,
+    //     statusAppearance: a.status === "Failed" ? "alert" : "success",
+    //   }),
+    //   filters: [
+    //     { label: "Failed", value: "failed" },
+    //     { label: "Completed", value: "completed" },
+    //   ],
+    //   onFilterChange: (a, filters) => {
+    //     for (const filter of filters) {
+    //       if (a.status.toLowerCase() === filter) return true;
+    //     }
+    //     return false;
+    //   },
+    // },
     {
       name: "icon",
       displayName: "Icon",
@@ -147,7 +180,7 @@ const App = () => {
       firstName: "Sayres",
       lastName: "Adelberg",
       email: "sadelberg6@uol.com.br",
-      gender: "Male",
+      gender: "Female",
       status: "Completed",
     },
     {
@@ -322,6 +355,8 @@ const App = () => {
             )
               return true;
             break;
+          default:
+            return true;
         }
       }
       return false;
@@ -329,14 +364,14 @@ const App = () => {
     gender: (a, filters) => {
       for (const filter of filters) {
         if (a.gender.toLowerCase() === filter) return true;
+        return false;
       }
-      return false;
+      return true;
     },
   };
 
   const filterData = (data, filterList) => {
-    console.log("step 3", data, "filterList", filterList);
-
+    // debugger;
     let filteredData = data;
     if (filterList) {
       Object.keys(filterList).forEach((name) => {
@@ -348,12 +383,21 @@ const App = () => {
       });
     }
 
+    console.log(
+      "step 3",
+      data,
+      "filterList",
+      filterList,
+      "filteredData",
+      filteredData
+    );
+
     return filteredData;
   };
 
   const fetchData = (options) => {
     const { page, pageSize, sortingList, filterList, searchTerm } = options;
-    console.log("step 2");
+    console.log("step 2", filterList);
 
     const onSearch = (d, searchTerm = "") => {
       return (

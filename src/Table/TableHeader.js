@@ -35,26 +35,28 @@ export const Header = (props) => {
     clearAllFilter,
   } = props;
 
+  console.log("filterList-->>>>>", filterList);
+
   const [selectAllRecords, setSelectAllRecords] = React.useState(false);
   const [flag, setFlag] = React.useState(true);
-  // const [originalFilterList, setFilterList] = React.useState({});
+  const [originalFilterList, setFilterList] = React.useState({});
 
   React.useEffect(() => {
     setFlag(!flag);
   }, [schema]);
 
-  // React.useEffect(() => {
-  //   const newFilterList = { ...originalFilterList, ...filterList };
-  //   console.log(
-  //     "filterlist in header",
-  //     newFilterList,
-  //     "originalFilterList",
-  //     originalFilterList,
-  //     "filterList",
-  //     filterList
-  //   );
-  //   setFilterList(newFilterList);
-  // }, [filterList]);
+  React.useEffect(() => {
+    const newFilterList = { ...originalFilterList, ...filterList };
+    console.log(
+      "filterlist in header",
+      newFilterList,
+      "originalFilterList",
+      originalFilterList,
+      "filterList",
+      filterList
+    );
+    setFilterList(newFilterList);
+  }, [filterList]);
 
   React.useEffect(() => {
     if (selectAll && selectAll.checked) {
@@ -167,8 +169,8 @@ export const Header = (props) => {
         {/* <div className="Header-actions"></div> */}
       </div>
       <HeaderFilters
-        // filterList={originalFilterList}
-        filterList={filterList}
+        filterList={originalFilterList}
+        // filterList={filterList}
         clearAllFilter={clearAllFilter}
       />
 
