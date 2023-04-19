@@ -6,10 +6,12 @@ import {
   Dropdown,
   PlaceholderParagraph,
   Placeholder,
-  Label
+  Label,
 } from "@innovaccer/design-system";
 import { DraggableDropdown } from "./DraggableDropdown";
 import { HeaderFilters } from "../HeaderFilters";
+import { TableContext } from "../TableContext";
+
 export const Header = (props) => {
   const {
     loading,
@@ -22,8 +24,6 @@ export const Header = (props) => {
     pageSize,
     withCheckbox,
     updateSchema,
-    filterList = {},
-    updateFilterList,
     totalRecords = 0,
     onSelectAll,
     searchPlaceholder,
@@ -32,31 +32,16 @@ export const Header = (props) => {
     updateSearchTerm,
     allowSelectAll,
     updateShowVerticalFilters,
-    clearAllFilter,
   } = props;
-
-  console.log("filterList-->>>>>", filterList);
 
   const [selectAllRecords, setSelectAllRecords] = React.useState(false);
   const [flag, setFlag] = React.useState(true);
-  const [originalFilterList, setFilterList] = React.useState({});
+  const contextProp = React.useContext(TableContext);
+  const { filterList, updateFilterList } = contextProp;
 
   React.useEffect(() => {
     setFlag(!flag);
   }, [schema]);
-
-  React.useEffect(() => {
-    const newFilterList = { ...originalFilterList, ...filterList };
-    console.log(
-      "filterlist in header",
-      newFilterList,
-      "originalFilterList",
-      originalFilterList,
-      "filterList",
-      filterList
-    );
-    setFilterList(newFilterList);
-  }, [filterList]);
 
   React.useEffect(() => {
     if (selectAll && selectAll.checked) {
@@ -80,7 +65,7 @@ export const Header = (props) => {
   const onFilterChange = (name, filters) => {
     const newFilterList = {
       ...filterList,
-      [name]: filters
+      [name]: filters,
     };
 
     if (updateFilterList) {
@@ -91,13 +76,13 @@ export const Header = (props) => {
   const columnOptions = schema.map((s) => ({
     label: s.displayName,
     value: s.name,
-    selected: !s.hidden
+    selected: !s.hidden,
   }));
 
   const onDynamicColumnUpdate = (options) => {
     const newSchema = options.map((option) => ({
       ...schema.find((colSchema) => colSchema.name === option.value),
-      hidden: !option.selected
+      hidden: !option.selected,
     }));
 
     if (updateSchema) updateSchema(newSchema);
@@ -165,14 +150,8 @@ export const Header = (props) => {
             </div>
           </div>
         </div>
-
-        {/* <div className="Header-actions"></div> */}
       </div>
-      <HeaderFilters
-        filterList={originalFilterList}
-        // filterList={filterList}
-        clearAllFilter={clearAllFilter}
-      />
+      <HeaderFilters />
 
       <div className="d-flex mt-4 justify-content-center align-items-center">
         <div className="flex-grow-1">
@@ -228,7 +207,7 @@ Header.defaultProps = {
   schema: [],
   data: [],
   searchPlaceholder: "Search",
-  dynamicColumn: true
+  dynamicColumn: true,
 };
 
 export default Header;

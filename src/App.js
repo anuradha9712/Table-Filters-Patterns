@@ -38,18 +38,19 @@ const App = () => {
         statusAppearance: a.gender === "Female" ? "alert" : "success",
       }),
     },
-    // {
-    //   name: "status",
-    //   displayName: "Status",
-    //   width: 200,
-    //   resizable: true,
-    //   comparator: (a, b) => a.status.localeCompare(b.status),
-    //   cellType: "STATUS_HINT",
-    //   translate: (a) => ({
-    //     title: a.status,
-    //     statusAppearance: a.status === "Failed" ? "alert" : "success",
-    //   }),
-    // },
+    {
+      name: "status",
+      displayName: "Status",
+      width: 200,
+      sorting: false,
+      resizable: true,
+      comparator: (a, b) => a.status.localeCompare(b.status),
+      cellType: "STATUS_HINT",
+      translate: (a) => ({
+        title: a.status,
+        statusAppearance: a.status === "Failed" ? "alert" : "success",
+      }),
+    },
     // {
     //   name: "status",
     //   displayName: "Status",
@@ -76,6 +77,7 @@ const App = () => {
       displayName: "Icon",
       width: 100,
       resizable: true,
+      sorting: false,
       align: "center",
       cellType: "ICON",
       translate: (_) => ({
@@ -86,6 +88,7 @@ const App = () => {
       name: "customCell",
       displayName: "Custom Cell",
       width: 200,
+      sorting: false,
       resizable: true,
       separator: true,
       cellRenderer: (props) => {
@@ -105,12 +108,6 @@ const App = () => {
       email: "bheeran0@altervista.org",
       gender: "Female",
       status: "Failed",
-      // _expanded: {
-      //     schema: [
-      //         { name: 'firstName', displayName: 'First Name', width: 200 },
-      //         { name: 'lastName', displayName: 'Last Name', width: 200 },
-      //     ]
-      // },
     },
     {
       firstName: "Frazer",
@@ -118,18 +115,6 @@ const App = () => {
       email: "fcathro1@ucla.edu",
       gender: "Male",
       status: "Failed",
-      // _expanded: {
-      //     schema: [
-      //         { name: 'year', displayName: 'Year', width: 100, comparator: (a: Data, b: Data): number => a.year.localeCompare(b.year) },
-      //         { name: 'income', displayName: 'Income', width: 200, comparator: (a: Data, b: Data): number => a.income.localeCompare(b.income) },
-      //     ],
-      //     data: [
-      //         { year: 2016, income: "50k" },
-      //         { year: 2018, income: "80k" },
-      //         { year: 2017, income: "60k" },
-      //         { year: 2020, income: "70k" }
-      //     ]
-      // }
     },
     {
       firstName: "Lemmie",
@@ -147,20 +132,6 @@ const App = () => {
       email: "rboatwright3@arstechnica.com",
       status: "Completed",
       gender: "Male",
-      // _expanded: {
-      //     showHead: false,
-      //     data: [
-      //         {
-      //             gender: 'Male',
-      //         },
-      //         {
-      //             gender: 'Male',
-      //         },
-      //         {
-      //             gender: 'Male',
-      //         }
-      //     ]
-      // }
     },
     {
       firstName: "Rolando",
@@ -216,48 +187,56 @@ const App = () => {
       lastName: "Gamon",
       email: "agamonb@economist.com",
       gender: "Male",
+      status: "Failed",
     },
     {
       firstName: "Brina",
       lastName: "Pirie",
       email: "bpiriec@stumbleupon.com",
       gender: "Female",
+      status: "Failed",
     },
     {
       firstName: "Hermy",
       lastName: "Dyett",
       email: "hdyettd@boston.com",
       gender: "Male",
+      status: "Failed",
     },
     {
       firstName: "Aime",
       lastName: "von Hagt",
       email: "avonhagte@nyu.edu",
       gender: "Female",
+      status: "Failed",
     },
     {
       firstName: "Wash",
       lastName: "Vannuchi",
       email: "wvannuchi1f@japanpost.jp",
       gender: "Male",
+      status: "Failed",
     },
     {
       firstName: "Nikki",
       lastName: "Faye",
       email: "nfaye1g@feedburner.com",
       gender: "Female",
+      status: "Completed",
     },
     {
       firstName: "Aron",
       lastName: "Scimonelli",
       email: "ascimonelli1h@nationalgeographic.com",
       gender: "Male",
+      status: "Failed",
     },
     {
       firstName: "Smitty",
       lastName: "Giacomello",
       email: "sgiacomello1i@google.co.uk",
       gender: "Male",
+      status: "Failed",
     },
 
     {
@@ -265,6 +244,7 @@ const App = () => {
       lastName: "Linkie",
       email: "alinkie2a@wp.com",
       gender: "Female",
+      status: "Completed",
     },
 
     {
@@ -272,18 +252,21 @@ const App = () => {
       lastName: "Boot",
       email: "cboot2g@furl.net",
       gender: "Male",
+      status: "Completed",
     },
     {
       firstName: "Montague",
       lastName: "Rossey",
       email: "mrossey2h@goo.gl",
       gender: "Male",
+      status: "Completed",
     },
     {
       firstName: "Garrek",
       lastName: "Matignon",
       email: "gmatignon2r@noaa.gov",
       gender: "Male",
+      status: "Failed",
     },
   ];
 
@@ -364,9 +347,8 @@ const App = () => {
     gender: (a, filters) => {
       for (const filter of filters) {
         if (a.gender.toLowerCase() === filter) return true;
-        return false;
       }
-      return true;
+      return false;
     },
   };
 

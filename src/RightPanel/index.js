@@ -5,14 +5,25 @@ import {
   Icon,
   DatePicker,
 } from "@innovaccer/design-system";
+import { TableContext } from "../TableContext";
 
 export const RightPanel = ({
   showVerticalFilters,
   loading,
-  onFilterChange,
   onCloseHandler,
-  // clearAllFilter,
 }) => {
+  const contextProp = React.useContext(TableContext);
+  const { filterList, updateFilterList } = contextProp;
+
+  const onFilterChange = (name, selected) => {
+    const newFilterList = {
+      ...filterList,
+      [name]: selected,
+    };
+
+    updateFilterList(newFilterList);
+  };
+
   return (
     <div
       className={`Table-filters Table-filters--vertical${

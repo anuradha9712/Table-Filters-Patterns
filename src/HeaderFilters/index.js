@@ -1,15 +1,10 @@
 import * as React from "react";
 import { Chip, Text, Button } from "@innovaccer/design-system";
+import { TableContext } from "../TableContext";
 
-export const HeaderFilters = (props) => {
-  const { filterList, clearAllFilter } = props;
-  const [originalFilterList, setFilterList] = React.useState(filterList);
-  const filterLength = Object.keys(originalFilterList).length;
-  console.log("clear filters", filterList, filterLength);
-
-  React.useEffect(() => {
-    setFilterList(filterList);
-  }, [filterList]);
+export const HeaderFilters = () => {
+  const contextProp = React.useContext(TableContext);
+  const { filterList, updateFilterList } = contextProp;
 
   const getLabel = (filter) => {
     return (
@@ -17,14 +12,9 @@ export const HeaderFilters = (props) => {
         <Text className="mr-3" color="primary" weight="medium">
           {filter}:
         </Text>
-        <Text color="primary">{originalFilterList[filter].toString()}</Text>
+        <Text color="primary">{filterList[filter].toString()}</Text>
       </span>
     );
-  };
-
-  const clearFilterHandler = () => {
-    clearAllFilter && clearAllFilter();
-    setFilterList({});
   };
 
   return (
@@ -32,14 +22,9 @@ export const HeaderFilters = (props) => {
       className="d-flex align-items-center flex-wrap flex-row"
       style={{ rowGap: "8px" }}
     >
-      {Object.keys(originalFilterList).map((filter) => {
-        console.log(
-          "filter value",
-          originalFilterList[filter],
-          "filter",
-          filter
-        );
-        if (originalFilterList[filter].length === 0) {
+      {Object.keys(filterList).map((filter) => {
+        
+        if (filterList[filter].length === 0) {
           return;
         }
         return (
@@ -56,12 +41,12 @@ export const HeaderFilters = (props) => {
           </>
         );
       })}
-      {Object.keys(originalFilterList).length > 0 && (
+      {Object.keys(filterList).length > 0 && (
         <div className="border-left pl-4">
           <Button
             appearance="transparent"
             aria-label="Re-evaluate"
-            onClick={clearFilterHandler}
+            onClick={() => updateFilterList({})}
           >
             Clear filters
           </Button>

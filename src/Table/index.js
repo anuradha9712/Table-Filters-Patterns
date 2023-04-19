@@ -1,11 +1,11 @@
 import * as React from "react";
 import { debounce } from "throttle-debounce";
-// import data from '@/components/organisms/grid/__stories__/_common_/data';
-import "./style.css";
 import { Card, Grid, Pagination } from "@innovaccer/design-system";
 import { updateBatchData, getSelectAll, getTotalPages } from "./utils";
 import Header from "./TableHeader";
 import RightPanel from "../RightPanel";
+import { TableContext } from "../TableContext";
+import "./style.css";
 
 export class Table extends React.Component {
   constructor(props) {
@@ -63,7 +63,7 @@ export class Table extends React.Component {
 
   updateDataFn() {
     this.onSelect(-1, false);
-    console.log('step 1');
+    console.log("step 1");
 
     const { fetchData } = this.props;
 
@@ -167,14 +167,6 @@ export class Table extends React.Component {
     });
   }
 
-  clearAllFilter()  {
-    // this.updateFilterList({});
-    this.setState({
-      filterList: {},
-      page: 1,
-    });
-  }
-
   onFilterChange(name, selected) {
     const { filterList } = this.props;
 
@@ -210,7 +202,7 @@ export class Table extends React.Component {
   }
 
   updateFilterList(newFilterList) {
-    const newList = { ...this.state.filterList, newFilterList };
+    const newList = { ...this.state.filterList, ...newFilterList };
     console.log(
       "newList",
       newList,
@@ -219,8 +211,8 @@ export class Table extends React.Component {
       "this.state.filterList"
     );
     this.setState({
-      filterList: newFilterList,
-      // filterList: newList,
+      // filterList: newFilterList,
+      filterList: newList,
       page: 1,
     });
   }
@@ -248,68 +240,72 @@ export class Table extends React.Component {
 
     const classNames = showVerticalFilters ? "Table-verticalFilter" : "w-100";
 
+    const contextValue = {
+      filterList: this.state.filterList,
+      updateFilterList: this.updateFilterList.bind(this),
+    };
+
     return (
-      <div className="Table-container">
-        <div className={classNames}>
-          <Card className="Table overflow-hidden">
-            <div className="Table-header">
-              <Header
-                {...this.state}
-                updateSchema={this.updateSchema.bind(this)}
-                updateFilterList={this.updateFilterList.bind(this)}
-                updateSearchTerm={this.updateSearchTerm.bind(this)}
-                updateShowVerticalFilters={this.updateShowVerticalFilters.bind(
-                  this
-                )}
-                onSelectAll={this.onSelectAll.bind(this)}
-                withCheckbox={withCheckbox}
-                withPagination={withPagination}
-                pageSize={pageSize}
-                // clearAllFilter={() => this.clearAllFilter()}
-                clearAllFilter={this.clearAllFilter.bind(this)}
-              />
-            </div>
-            <div className="Table-grid">
-              <Grid
-                {...this.state}
-                updateData={this.updateData.bind(this)}
-                updateSchema={this.updateSchema.bind(this)}
-                updateSortingList={this.updateSortingList.bind(this)}
-                updateFilterList={this.updateFilterList.bind(this)}
-                withCheckbox={withCheckbox}
-                onSelect={this.onSelect.bind(this)}
-                onSelectAll={this.onSelectAll.bind(this)}
-                showMenu={true}
-                type="data"
-                size="comfortable"
-                draggable={true}
-                withPagination={withPagination && totalPages > 1}
-                pageSize={pageSize}
-                loaderSchema={loaderSchema}
-              />
-            </div>
-            {withPagination && totalPages > 1 && (
-              <div className="Table-pagination">
-                <Pagination
-                  page={this.state.page}
-                  totalPages={getTotalPages(totalRecords, pageSize)}
-                  type="jump"
-                  onPageChange={this.onPageChange.bind(this)}
+      <TableContext.Provider value={contextValue}>
+        <div className="Table-container">
+          <div className={classNames}>
+            <Card className="Table overflow-hidden">
+              <div className="Table-header">
+                <Header
+                  {...this.state}
+                  updateSchema={this.updateSchema.bind(this)}
+                  // updateFilterList={this.updateFilterList.bind(this)}
+                  updateSearchTerm={this.updateSearchTerm.bind(this)}
+                  updateShowVerticalFilters={this.updateShowVerticalFilters.bind(
+                    this
+                  )}
+                  onSelectAll={this.onSelectAll.bind(this)}
+                  withCheckbox={withCheckbox}
+                  withPagination={withPagination}
+                  pageSize={pageSize}
                 />
               </div>
-            )}
-          </Card>
+              <div className="Table-grid">
+                <Grid
+                  {...this.state}
+                  updateData={this.updateData.bind(this)}
+                  updateSchema={this.updateSchema.bind(this)}
+                  updateSortingList={this.updateSortingList.bind(this)}
+                  updateFilterList={this.updateFilterList.bind(this)}
+                  withCheckbox={withCheckbox}
+                  onSelect={this.onSelect.bind(this)}
+                  onSelectAll={this.onSelectAll.bind(this)}
+                  showMenu={true}
+                  type="data"
+                  size="comfortable"
+                  draggable={true}
+                  withPagination={withPagination && totalPages > 1}
+                  pageSize={pageSize}
+                  loaderSchema={loaderSchema}
+                />
+              </div>
+              {withPagination && totalPages > 1 && (
+                <div className="Table-pagination">
+                  <Pagination
+                    page={this.state.page}
+                    totalPages={getTotalPages(totalRecords, pageSize)}
+                    type="jump"
+                    onPageChange={this.onPageChange.bind(this)}
+                  />
+                </div>
+              )}
+            </Card>
+          </div>
+          <RightPanel
+            loading={loading}
+            onCloseHandler={() => this.setState({ showVerticalFilters: false })}
+            onFilterChange={(name, selected) =>
+              this.onFilterChange(name, selected)
+            }
+            showVerticalFilters={showVerticalFilters}
+          />
         </div>
-        <RightPanel
-          loading={loading}
-          clearAllFilter={this.clearAllFilter}
-          onCloseHandler={() => this.setState({ showVerticalFilters: false })}
-          onFilterChange={(name, selected) =>
-            this.onFilterChange(name, selected)
-          }
-          showVerticalFilters={showVerticalFilters}
-        />
-      </div>
+      </TableContext.Provider>
     );
   }
 }
