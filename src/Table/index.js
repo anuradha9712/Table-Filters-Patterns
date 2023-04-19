@@ -211,8 +211,8 @@ export class Table extends React.Component {
       "this.state.filterList"
     );
     this.setState({
-      // filterList: newFilterList,
-      filterList: newList,
+      filterList: newFilterList,
+      // filterList: newList,
       page: 1,
     });
   }
