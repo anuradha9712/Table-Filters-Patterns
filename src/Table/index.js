@@ -25,7 +25,7 @@ export class Table extends React.Component {
       showVerticalFilters: props.showVerticalFilters,
     };
 
-    this.pageSize = 4;
+    this.pageSize = 8;
     this.searchDebounceDuration = 750;
     this.debounceUpdate = debounce(
       this.searchDebounceDuration,

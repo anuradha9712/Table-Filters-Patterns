@@ -1,13 +1,12 @@
 import React from "react";
 import "@innovaccer/design-system/css/dist/index.css";
-import { Button } from "@innovaccer/design-system";
 import { Table } from "./Table";
+
 const App = () => {
   const schema = [
     {
       name: "name",
       displayName: "Name",
-      width: 300,
       resizable: true,
       separator: true,
       tooltip: true,
@@ -17,87 +16,61 @@ const App = () => {
         lastName: a.lastName,
       }),
       cellType: "AVATAR_WITH_TEXT",
+      width: "15%",
     },
     {
       name: "email",
       displayName: "Email",
-      width: 350,
       resizable: true,
       sorting: false,
       cellType: "WITH_META_LIST",
+      width: "20%",
     },
     {
       name: "gender",
       displayName: "Gender",
-      width: 200,
       resizable: true,
       comparator: (a, b) => a.gender.localeCompare(b.gender),
       cellType: "STATUS_HINT",
+      width: "10%",
       translate: (a) => ({
         title: a.gender,
         statusAppearance: a.gender === "Female" ? "alert" : "success",
       }),
     },
     {
+      name: "type",
+      displayName: "Type",
+      sorting: false,
+      cellType: "DEFAULT",
+      width: "15%",
+    },
+    {
       name: "status",
       displayName: "Status",
-      width: 200,
       sorting: false,
       resizable: true,
       comparator: (a, b) => a.status.localeCompare(b.status),
       cellType: "STATUS_HINT",
+      width: "15%",
       translate: (a) => ({
         title: a.status,
         statusAppearance: a.status === "Failed" ? "alert" : "success",
       }),
     },
-    // {
-    //   name: "status",
-    //   displayName: "Status",
-    //   width: "20%",
-    //   cellType: "STATUS_HINT",
-    //   comparator: (a, b) => a.status.localeCompare(b.status),
-    //   translate: (a) => ({
-    //     title: a.status,
-    //     statusAppearance: a.status === "Failed" ? "alert" : "success",
-    //   }),
-    //   filters: [
-    //     { label: "Failed", value: "failed" },
-    //     { label: "Completed", value: "completed" },
-    //   ],
-    //   onFilterChange: (a, filters) => {
-    //     for (const filter of filters) {
-    //       if (a.status.toLowerCase() === filter) return true;
-    //     }
-    //     return false;
-    //   },
-    // },
     {
-      name: "icon",
-      displayName: "Icon",
-      width: 100,
-      resizable: true,
+      name: "department",
+      displayName: "Department",
       sorting: false,
-      align: "center",
-      cellType: "ICON",
-      translate: (_) => ({
-        icon: "events",
-      }),
+      cellType: "DEFAULT",
+      width: "15%",
     },
     {
-      name: "customCell",
-      displayName: "Custom Cell",
-      width: 200,
+      name: "priority",
+      displayName: "Priority",
       sorting: false,
-      resizable: true,
-      separator: true,
-      cellRenderer: (props) => {
-        const { loading } = props;
-
-        if (loading) return <div></div>;
-
-        return <Button appearance={"primary"}>Button</Button>;
-      },
+      cellType: "DEFAULT",
+      width: "10%",
     },
   ];
 
@@ -108,6 +81,9 @@ const App = () => {
       email: "bheeran0@altervista.org",
       gender: "Female",
       status: "Failed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Urgent",
     },
     {
       firstName: "Frazer",
@@ -115,6 +91,9 @@ const App = () => {
       email: "fcathro1@ucla.edu",
       gender: "Male",
       status: "Failed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Lemmie",
@@ -125,6 +104,9 @@ const App = () => {
       },
       gender: "Male",
       status: "Completed",
+      type: "Batch Execution",
+      department: "Claims",
+      priority: "Subacute",
     },
     {
       firstName: "Randy",
@@ -132,6 +114,9 @@ const App = () => {
       email: "rboatwright3@arstechnica.com",
       status: "Completed",
       gender: "Male",
+      type: "Batch Execution",
+      department: "Quality",
+      priority: "Urgent",
     },
     {
       firstName: "Rolando",
@@ -139,6 +124,9 @@ const App = () => {
       email: "rcyples4@biglobe.ne.jp",
       gender: "Male",
       status: "Failed",
+      type: "Batch Execution",
+      department: "Claims",
+      priority: "Routine",
     },
     {
       firstName: "Lem",
@@ -146,6 +134,9 @@ const App = () => {
       email: "lmales5@admin.ch",
       gender: "Male",
       status: "Failed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Urgent",
     },
     {
       firstName: "Sayres",
@@ -153,6 +144,9 @@ const App = () => {
       email: "sadelberg6@uol.com.br",
       gender: "Female",
       status: "Completed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Urgent",
     },
     {
       firstName: "Murray",
@@ -160,6 +154,9 @@ const App = () => {
       email: "mbravington7@drupal.org",
       gender: "Male",
       status: "Failed",
+      type: "Test Function",
+      department: "Claims",
+      priority: "Urgent",
     },
     {
       firstName: "Jena",
@@ -167,6 +164,9 @@ const App = () => {
       email: "jswatheridge8@npr.org",
       gender: "Female",
       status: "Failed",
+      type: "Test Function",
+      department: "Quality",
+      priority: "Routine",
     },
     {
       firstName: "Annabel",
@@ -174,6 +174,9 @@ const App = () => {
       email: "anelsey9@google.com",
       gender: "Female",
       status: "Completed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Urgent",
     },
     {
       firstName: "Carin",
@@ -181,6 +184,9 @@ const App = () => {
       email: "crobioua@skype.com",
       gender: "Female",
       status: "Completed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Anson",
@@ -188,6 +194,9 @@ const App = () => {
       email: "agamonb@economist.com",
       gender: "Male",
       status: "Failed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Brina",
@@ -195,6 +204,9 @@ const App = () => {
       email: "bpiriec@stumbleupon.com",
       gender: "Female",
       status: "Failed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Hermy",
@@ -202,6 +214,9 @@ const App = () => {
       email: "hdyettd@boston.com",
       gender: "Male",
       status: "Failed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Subacute",
     },
     {
       firstName: "Aime",
@@ -209,6 +224,9 @@ const App = () => {
       email: "avonhagte@nyu.edu",
       gender: "Female",
       status: "Failed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Wash",
@@ -216,6 +234,9 @@ const App = () => {
       email: "wvannuchi1f@japanpost.jp",
       gender: "Male",
       status: "Failed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Nikki",
@@ -223,6 +244,9 @@ const App = () => {
       email: "nfaye1g@feedburner.com",
       gender: "Female",
       status: "Completed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
     {
       firstName: "Aron",
@@ -230,6 +254,9 @@ const App = () => {
       email: "ascimonelli1h@nationalgeographic.com",
       gender: "Male",
       status: "Failed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Subacute",
     },
     {
       firstName: "Smitty",
@@ -237,6 +264,9 @@ const App = () => {
       email: "sgiacomello1i@google.co.uk",
       gender: "Male",
       status: "Failed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Subacute",
     },
 
     {
@@ -245,6 +275,9 @@ const App = () => {
       email: "alinkie2a@wp.com",
       gender: "Female",
       status: "Completed",
+      type: "Batch Execution",
+      department: "Claims",
+      priority: "Subacute",
     },
 
     {
@@ -253,6 +286,9 @@ const App = () => {
       email: "cboot2g@furl.net",
       gender: "Male",
       status: "Completed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Subacute",
     },
     {
       firstName: "Montague",
@@ -260,6 +296,9 @@ const App = () => {
       email: "mrossey2h@goo.gl",
       gender: "Male",
       status: "Completed",
+      type: "Batch Execution",
+      department: "Risk Analysis",
+      priority: "Subacute",
     },
     {
       firstName: "Garrek",
@@ -267,6 +306,9 @@ const App = () => {
       email: "gmatignon2r@noaa.gov",
       gender: "Male",
       status: "Failed",
+      type: "Test Function",
+      department: "Risk Analysis",
+      priority: "Routine",
     },
   ];
 
@@ -347,6 +389,30 @@ const App = () => {
     gender: (a, filters) => {
       for (const filter of filters) {
         if (a.gender.toLowerCase() === filter) return true;
+      }
+      return false;
+    },
+    type: (a, filters) => {
+      for (const filter of filters) {
+        if (a.type === filter) return true;
+      }
+      return false;
+    },
+    status: (a, filters) => {
+      for (const filter of filters) {
+        if (a.status === filter) return true;
+      }
+      return false;
+    },
+    department: (a, filters) => {
+      for (const filter of filters) {
+        if (a.department === filter) return true;
+      }
+      return false;
+    },
+    priority: (a, filters) => {
+      for (const filter of filters) {
+        if (a.priority === filter) return true;
       }
       return false;
     },

@@ -16,16 +16,6 @@
   padding: 0 var(--spacing-l);
 }
 
-.Table-filtersHeading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.Table-filtersCloseIcon {
-  cursor: pointer;
-}
-
 .Table-filters--vertical .Table-filter {
   padding: var(--spacing) 0;
 }

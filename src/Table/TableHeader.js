@@ -125,7 +125,7 @@ export const Header = (props) => {
         </div>
         <div className="d-flex">
           <div className="Table-filters Table-filters--horizontal">
-            <div className="Table-filter">
+            {/* <div className="Table-filter">
               <Dropdown
                 key="name"
                 disabled={loading}
@@ -139,7 +139,7 @@ export const Header = (props) => {
                 ]}
                 onChange={(selected) => onFilterChange("name", selected)}
               />
-            </div>
+            </div> */}
             <div className="Table-filter">
               <Button
                 icon="add"
