@@ -17,13 +17,18 @@ export const HeaderFilters = () => {
     );
   };
 
+  const onChipClose = (filter) => {
+    const newList = {...filterList};
+    delete newList[filter];
+    updateFilterList(newList);
+  };
+
   return (
     <div
       className="d-flex align-items-center flex-wrap flex-row"
       style={{ rowGap: "8px" }}
     >
       {Object.keys(filterList).map((filter) => {
-        
         if (filterList[filter].length === 0) {
           return;
         }
@@ -31,7 +36,7 @@ export const HeaderFilters = () => {
           <>
             <Chip
               onClick={function () {}}
-              onClose={function () {}}
+              onClose={() => onChipClose(filter)}
               selected={true}
               type="selection"
               clearButton={true}
