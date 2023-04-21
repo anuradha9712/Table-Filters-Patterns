@@ -4,23 +4,38 @@ import { TableContext } from "../TableContext";
 
 export const HeaderFilters = () => {
   const contextProp = React.useContext(TableContext);
-  const { filterList, updateFilterList } = contextProp;
+  const {
+    filterList,
+    updateFilterList,
+    updateSelectedChipList,
+    unselectedChipList,
+  } = contextProp;
 
-  const getLabel = (filter) => {
+  const getLabel = (filter, selected) => {
+    const color = selected ? 'primary': 'inverse';
     return (
       <span>
-        <Text className="mr-3" color="primary" weight="medium">
+        <Text className="mr-3" color={color} weight="medium">
           {filter}:
         </Text>
-        <Text color="primary">{filterList[filter].toString()}</Text>
+        <Text color={color}>{filterList[filter].toString()}</Text>
       </span>
     );
   };
 
   const onChipClose = (filter) => {
-    const newList = {...filterList};
+    const newList = { ...filterList };
     delete newList[filter];
     updateFilterList(newList);
+  };
+
+  const onChipClick = (filter) => {
+    if (unselectedChipList.includes(filter)) {
+      let newList = unselectedChipList.filter((item) => item !== filter);
+      updateSelectedChipList(newList);
+    } else {
+      updateSelectedChipList([...unselectedChipList, filter]);
+    }
   };
 
   return (
@@ -29,18 +44,19 @@ export const HeaderFilters = () => {
       style={{ rowGap: "8px" }}
     >
       {Object.keys(filterList).map((filter) => {
+        const selected = !unselectedChipList.includes(filter);
         if (filterList[filter].length === 0) {
           return;
         }
         return (
           <>
             <Chip
-              onClick={function () {}}
+              onClick={() => onChipClick(filter)}
               onClose={() => onChipClose(filter)}
-              selected={true}
+              selected={selected}
               type="selection"
               clearButton={true}
-              label={getLabel(filter)}
+              label={getLabel(filter, selected)}
               className="mr-4"
             />
           </>

@@ -18,6 +18,7 @@ export class Table extends React.Component {
       totalRecords: 0,
       sortingList: props.sortingList || [],
       filterList: props.filterList || {},
+      unselectedChipList: [],
       loading: true,
       error: false,
       selectAll: getSelectAll([]),
@@ -47,7 +48,8 @@ export class Table extends React.Component {
       prevState.page !== this.state.page ||
       prevState.filterList !== this.state.filterList ||
       prevState.sortingList !== this.state.sortingList ||
-      prevState.searchTerm !== this.state.searchTerm
+      prevState.searchTerm !== this.state.searchTerm ||
+      prevState.unselectedChipList !== this.state.unselectedChipList
     ) {
       if (!this.props.loading) this.updateData({});
     }
@@ -67,7 +69,8 @@ export class Table extends React.Component {
 
     const { fetchData } = this.props;
 
-    const { page, sortingList, filterList, searchTerm } = this.state;
+    const { page, sortingList, filterList, searchTerm, unselectedChipList } =
+      this.state;
 
     const { pageSize } = this;
 
@@ -77,6 +80,7 @@ export class Table extends React.Component {
       sortingList,
       filterList,
       searchTerm,
+      unselectedChipList,
     };
 
     this.setState({
@@ -217,6 +221,13 @@ export class Table extends React.Component {
     });
   }
 
+  updateSelectedChipList(newList) {
+    this.setState({
+      unselectedChipList: newList,
+      page: 1,
+    });
+  }
+
   updateSearchTerm(newSearchTerm) {
     this.setState({
       searchTerm: newSearchTerm,
@@ -243,6 +254,8 @@ export class Table extends React.Component {
     const contextValue = {
       filterList: this.state.filterList,
       updateFilterList: this.updateFilterList.bind(this),
+      unselectedChipList: this.state.unselectedChipList,
+      updateSelectedChipList: this.updateSelectedChipList.bind(this),
     };
 
     return (

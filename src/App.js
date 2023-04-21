@@ -206,9 +206,24 @@ const App = () => {
     return filteredData;
   };
 
+  const getFilterList = (filterList, unselectedChipList) => {
+    const newList = {...filterList}
+    for (let i = 0; i < unselectedChipList.length; i++) {
+      delete newList[unselectedChipList[i]];
+    }
+    return newList;
+  };
+
   const fetchData = (options) => {
-    const { page, pageSize, sortingList, filterList, searchTerm } = options;
-    console.log("step 2", filterList);
+    const {
+      page,
+      pageSize,
+      sortingList,
+      filterList,
+      searchTerm,
+      unselectedChipList,
+    } = options;
+    console.log("step 22", filterList, unselectedChipList);
 
     const onSearch = (d, searchTerm = "") => {
       return (
@@ -221,8 +236,9 @@ const App = () => {
 
     // const data = JSON.stringify(originalData.slice(0, 10), null, 4);
     const data = originalData;
+    const updatedFilterList = getFilterList(filterList, unselectedChipList);
 
-    const filteredData = filterData(data, filterList);
+    const filteredData = filterData(data, updatedFilterList, unselectedChipList);
     const searchedData = filteredData.filter((d) => onSearch(d, searchTerm));
     const sortedData = sortData(schema, searchedData, sortingList);
 
