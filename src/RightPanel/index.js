@@ -3,7 +3,6 @@ import {
   Dropdown,
   Subheading,
   Icon,
-  DatePicker,
   Label,
 } from "@innovaccer/design-system";
 import { TableContext } from "../TableContext";
@@ -43,15 +42,27 @@ export const RightPanel = ({
         <div className="Table-filter">
           <Label className="mb-3">Name</Label>
           <Dropdown
-            key="name"
+            key={filterList["name"]}
             disabled={loading}
             withCheckbox={true}
             showApplyButton={true}
             inlineLabel={"Name"}
             options={[
-              { label: "A-G", value: "a-g", selected: true },
-              { label: "H-R", value: "h-r", selected: true },
-              { label: "S-Z", value: "s-z", selected: true },
+              {
+                label: "A-G",
+                value: "a-g",
+                selected: filterList["name"]?.includes("a-g"),
+              },
+              {
+                label: "H-R",
+                value: "h-r",
+                selected: filterList["name"]?.includes("h-r"),
+              },
+              {
+                label: "S-Z",
+                value: "s-z",
+                selected: filterList["name"]?.includes("s-z"),
+              },
             ]}
             onChange={(selected) => onFilterChange("name", selected)}
           />
@@ -59,14 +70,22 @@ export const RightPanel = ({
         <div className="Table-filter">
           <Label className="mb-3">Gender</Label>
           <Dropdown
-            key="gender"
+            key={filterList["gender"]}
             disabled={loading}
             withCheckbox={true}
             showApplyButton={true}
             inlineLabel={"Gender"}
             options={[
-              { label: "Male", value: "male", selected: true },
-              { label: "Female", value: "female", selected: true },
+              {
+                label: "Male",
+                value: "male",
+                selected: filterList["gender"]?.includes("male"),
+              },
+              {
+                label: "Female",
+                value: "female",
+                selected: filterList["gender"]?.includes("female"),
+              },
             ]}
             onChange={(selected) => onFilterChange("gender", selected)}
           />
@@ -74,7 +93,7 @@ export const RightPanel = ({
         <div className="Table-filter">
           <Label className="mb-3">Type</Label>
           <Dropdown
-            key="type"
+            key={filterList["type"]}
             disabled={loading}
             withCheckbox={true}
             showApplyButton={true}
@@ -83,12 +102,12 @@ export const RightPanel = ({
               {
                 label: "Batch Execution",
                 value: "Batch Execution",
-                selected: true,
+                selected: filterList["type"]?.includes("Batch Execution"),
               },
               {
                 label: "Test Function",
                 value: "Test Function",
-                selected: true,
+                selected: filterList["type"]?.includes("Test Function"),
               },
             ]}
             onChange={(selected) => onFilterChange("type", selected)}
@@ -98,14 +117,22 @@ export const RightPanel = ({
         <div className="Table-filter">
           <Label className="mb-3">Status</Label>
           <Dropdown
-            key="status"
+            key={filterList["status"]}
             disabled={loading}
             withCheckbox={true}
             showApplyButton={true}
             inlineLabel={"Status"}
             options={[
-              { label: "Completed", value: "Completed", selected: true },
-              { label: "Failed", value: "Failed", selected: true },
+              {
+                label: "Completed",
+                value: "Completed",
+                selected: filterList["status"]?.includes("Completed"),
+              },
+              {
+                label: "Failed",
+                value: "Failed",
+                selected: filterList["status"]?.includes("Failed"),
+              },
             ]}
             onChange={(selected) => onFilterChange("status", selected)}
           />
@@ -114,18 +141,26 @@ export const RightPanel = ({
         <div className="Table-filter">
           <Label className="mb-3">Department</Label>
           <Dropdown
-            key="department"
+            key={filterList["department"]}
             disabled={loading}
             withCheckbox={true}
             showApplyButton={true}
             inlineLabel={"Department"}
             options={[
-              { label: "Claims", value: "Claims", selected: true },
-              { label: "Quality", value: "Quality", selected: true },
+              {
+                label: "Claims",
+                value: "Claims",
+                selected: filterList["department"]?.includes("Claims"),
+              },
+              {
+                label: "Quality",
+                value: "Quality",
+                selected: filterList["department"]?.includes("Quality"),
+              },
               {
                 label: "Risk Analysis",
                 value: "Risk Analysis",
-                selected: true,
+                selected: filterList["department"]?.includes("Risk Analysis"),
               },
             ]}
             onChange={(selected) => onFilterChange("department", selected)}
@@ -135,36 +170,31 @@ export const RightPanel = ({
         <div className="Table-filter">
           <Label className="mb-3">Priority</Label>
           <Dropdown
-            key="priority"
+            key={filterList["priority"]}
             disabled={loading}
             withCheckbox={true}
             showApplyButton={true}
             inlineLabel={"Priority"}
             options={[
-              { label: "Subacute", value: "Subacute", selected: true },
-              { label: "Urgent", value: "Urgent", selected: true },
+              {
+                label: "Subacute",
+                value: "Subacute",
+                selected: filterList["department"]?.includes("Subacute"),
+              },
+              {
+                label: "Urgent",
+                value: "Urgent",
+                selected: filterList["department"]?.includes("Urgent"),
+              },
               {
                 label: "Routine",
                 value: "Routine",
-                selected: true,
+                selected: filterList["department"]?.includes("Routine"),
               },
             ]}
             onChange={(selected) => onFilterChange("priority", selected)}
           />
         </div>
-
-        {/* <div className="Table-filter">
-          <DatePicker
-            withInput={true}
-            label="Date"
-            inputOptions={{
-              placeholder: "mm/dd/yyyy",
-              disabled: loading,
-              minWidth: "unset",
-            }}
-            onDateChange={(_date, dateStr) => onFilterChange("date", dateStr)}
-          />
-        </div> */}
       </div>
     </div>
   );
