@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Chip, Text, Button } from "@innovaccer/design-system";
+import { Chip, Text, LinkButton } from "@innovaccer/design-system";
 import { TableContext } from "../TableContext";
 
 export const HeaderFilters = () => {
@@ -64,13 +64,13 @@ export const HeaderFilters = () => {
       })}
       {Object.keys(filterList).length > 0 && (
         <div className="border-left pl-4">
-          <Button
+          <LinkButton
             appearance="transparent"
             aria-label="Re-evaluate"
             onClick={() => updateFilterList({})}
           >
             Clear filters
-          </Button>
+          </LinkButton>
         </div>
       )}
     </div>
