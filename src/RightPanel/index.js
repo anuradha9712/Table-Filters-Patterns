@@ -1,28 +1,14 @@
 import React from "react";
-import {
-  Dropdown,
-  Subheading,
-  Icon,
-  Label,
-} from "@innovaccer/design-system";
-import { TableContext } from "../TableContext";
+import { Subheading, Icon, Label, Dropdown } from "@innovaccer/design-system";
+import "../style.css";
 
 export const RightPanel = ({
   showVerticalFilters,
-  loading,
   onCloseHandler,
+  onFilterChange,
+  filterList,
+  loading
 }) => {
-  const contextProp = React.useContext(TableContext);
-  const { filterList, updateFilterList } = contextProp;
-
-  const onFilterChange = (name, selected) => {
-    const newFilterList = {
-      ...filterList,
-      [name]: selected,
-    };
-
-    updateFilterList(newFilterList);
-  };
 
   return (
     <div
@@ -38,8 +24,9 @@ export const RightPanel = ({
           onClick={onCloseHandler}
         />
       </div>
+
       <div>
-        <div className="Table-filter">
+        <div className="pt-5 pb-4">
           <Label className="mb-3">Name</Label>
           <Dropdown
             key={filterList["name"]}
@@ -67,7 +54,8 @@ export const RightPanel = ({
             onChange={(selected) => onFilterChange("name", selected)}
           />
         </div>
-        <div className="Table-filter">
+
+        <div className="py-4">
           <Label className="mb-3">Gender</Label>
           <Dropdown
             key={filterList["gender"]}
@@ -90,7 +78,8 @@ export const RightPanel = ({
             onChange={(selected) => onFilterChange("gender", selected)}
           />
         </div>
-        <div className="Table-filter">
+
+        <div className="py-4">
           <Label className="mb-3">Type</Label>
           <Dropdown
             key={filterList["type"]}
@@ -114,7 +103,7 @@ export const RightPanel = ({
           />
         </div>
 
-        <div className="Table-filter">
+        <div className="py-4">
           <Label className="mb-3">Status</Label>
           <Dropdown
             key={filterList["status"]}
@@ -138,7 +127,7 @@ export const RightPanel = ({
           />
         </div>
 
-        <div className="Table-filter">
+        <div className="py-4">
           <Label className="mb-3">Department</Label>
           <Dropdown
             key={filterList["department"]}
@@ -167,7 +156,7 @@ export const RightPanel = ({
           />
         </div>
 
-        <div className="Table-filter">
+        <div className="pb-5 pt-4">
           <Label className="mb-3">Priority</Label>
           <Dropdown
             key={filterList["priority"]}
@@ -199,5 +188,3 @@ export const RightPanel = ({
     </div>
   );
 };
-
-export default RightPanel;

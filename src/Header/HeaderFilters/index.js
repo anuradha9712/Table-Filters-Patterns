@@ -1,18 +1,23 @@
 import * as React from "react";
 import { Chip, Text, LinkButton } from "@innovaccer/design-system";
-import { TableContext } from "../TableContext";
+// import { TableContext } from "../TableContext";
 
-export const HeaderFilters = () => {
-  const contextProp = React.useContext(TableContext);
-  const {
-    filterList,
-    updateFilterList,
-    updateSelectedChipList,
-    unselectedChipList,
-  } = contextProp;
+export const HeaderFilters = ({
+  filterList,
+  updateFilterList,
+  updateSelectedChipList,
+  unselectedChipList,
+}) => {
+  // const contextProp = React.useContext(TableContext);
+  // const {
+  //   filterList,
+  //   updateFilterList,
+  //   updateSelectedChipList,
+  //   unselectedChipList,
+  // } = contextProp;
 
   const getLabel = (filter, selected) => {
-    const color = selected ? 'primary': 'inverse';
+    const color = selected ? "primary" : "inverse";
     return (
       <span>
         <Text className="mr-3" color={color} weight="medium">

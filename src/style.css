@@ -1,0 +1,19 @@
+.Table-verticalFilter {
+  width: calc(100% - var(--spacing-9));
+}
+
+.Table-filters {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.Table-filters--vertical {
+  flex-direction: column;
+  width: var(--spacing-9);
+  padding: 0 var(--spacing-l);
+}
+
+.Header-content {
+  /* display: block; */
+}

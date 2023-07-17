@@ -129,10 +129,11 @@ export const sortData = (schema, data, sortingList) => {
   return sortedData;
 };
 
-export const getFilterList = (filterList, unselectedChipList) => {
+export const getFilterList = (filterList, unselectedChipList=[]) => {
   const newList = { ...filterList };
   for (let i = 0; i < unselectedChipList.length; i++) {
     delete newList[unselectedChipList[i]];
   }
   return newList;
 };
+
