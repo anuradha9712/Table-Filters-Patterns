@@ -17,3 +17,7 @@
 .Header-content {
   /* display: block; */
 }
+
+.Header-wrapper {
+  max-width: 400px;
+}
