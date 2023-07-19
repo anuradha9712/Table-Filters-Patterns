@@ -18,6 +18,10 @@ const App = () => {
 
   const classNames = showVerticalFilters ? "Table-verticalFilter" : "w-100";
 
+  React.useEffect(() => {
+    console.log("change->  useeffect called");
+  }, []); 
+
   // const updateDataFn = React.useCallback(() => {
 
   //   const opts = {
@@ -67,7 +71,7 @@ const App = () => {
     const filteredData = filterData(
       data,
       updatedFilterList,
-      unselectedChipList
+      // unselectedChipList
     );
 
     console.log("filteredData----", filteredData);
@@ -155,6 +159,8 @@ const App = () => {
       ...filterList,
       [name]: selected,
     };
+
+    console.log("change-> ", 'previous filter list', filterList, name, selected, newFilterList);
 
     updateFilterList(newFilterList);
   };
