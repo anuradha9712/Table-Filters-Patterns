@@ -168,17 +168,17 @@ export const RightPanel = ({
               {
                 label: "Subacute",
                 value: "Subacute",
-                selected: filterList["department"]?.includes("Subacute"),
+                selected: filterList["priority"]?.includes("Subacute"),
               },
               {
                 label: "Urgent",
                 value: "Urgent",
-                selected: filterList["department"]?.includes("Urgent"),
+                selected: filterList["priority"]?.includes("Urgent"),
               },
               {
                 label: "Routine",
                 value: "Routine",
-                selected: filterList["department"]?.includes("Routine"),
+                selected: filterList["priority"]?.includes("Routine"),
               },
             ]}
             onChange={(selected) => onFilterChange("priority", selected)}

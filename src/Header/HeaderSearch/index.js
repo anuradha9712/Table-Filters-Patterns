@@ -7,7 +7,6 @@ export const HeaderSearch = () => {
       name="TableHeader-search"
       icon="search"
       placeholder="Search"
-      className="mr-6"
     />
   );
 };

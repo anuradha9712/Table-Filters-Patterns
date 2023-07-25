@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Chip, Text, LinkButton } from "@innovaccer/design-system";
+import { SavedFilterView } from "../SavedFilterView";
 // import { TableContext } from "../TableContext";
 
 export const HeaderFilters = ({
@@ -7,15 +8,9 @@ export const HeaderFilters = ({
   updateFilterList,
   updateSelectedChipList,
   unselectedChipList,
+  savedFilterList,
+  updateSavedFilterList,
 }) => {
-  // const contextProp = React.useContext(TableContext);
-  // const {
-  //   filterList,
-  //   updateFilterList,
-  //   updateSelectedChipList,
-  //   unselectedChipList,
-  // } = contextProp;
-
   const getLabel = (filter, selected) => {
     const color = selected ? "primary" : "inverse";
     return (
@@ -48,14 +43,15 @@ export const HeaderFilters = ({
       className="d-flex align-items-center flex-wrap flex-row"
       style={{ rowGap: "8px" }}
     >
-      {Object.keys(filterList).map((filter) => {
+      {Object.keys(filterList).map((filter, key) => {
         const selected = !unselectedChipList.includes(filter);
         if (filterList[filter].length === 0) {
-          return;
+          return null;
         }
         return (
           <>
             <Chip
+              key={key}
               onClick={() => onChipClick(filter)}
               onClose={() => onChipClose(filter)}
               selected={selected}
@@ -67,6 +63,7 @@ export const HeaderFilters = ({
           </>
         );
       })}
+
       {Object.keys(filterList).length > 0 && (
         <div className="border-left pl-4">
           <LinkButton
@@ -77,6 +74,14 @@ export const HeaderFilters = ({
             Clear filters
           </LinkButton>
         </div>
+      )}
+
+      {Object.keys(filterList).length > 0 && (
+        <SavedFilterView
+          filterList={filterList}
+          savedFilterList={savedFilterList}
+          updateSavedFilterList={updateSavedFilterList}
+        />
       )}
     </div>
   );

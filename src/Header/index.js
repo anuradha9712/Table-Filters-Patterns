@@ -5,15 +5,36 @@ import HeaderFilters from "./HeaderFilters";
 import '../style.css';
 
 export const Header = (props) => {
+
+  const [savedFilterList, setSavedFilterList] = React.useState([]);
+  console.log("savedFilterList", savedFilterList);
+
   return (
     <div>
       <div className="d-flex mb-4 w-50 Header-wrapper">
         <HeaderSearch />
-        <Button icon="add" onClick={props.toggleVerticalFilter}>
+        <Button
+          icon="add"
+          className="ml-6"
+          onClick={props.toggleVerticalFilter}
+        >
           More Filters
         </Button>
+        {savedFilterList.length > 0 && (
+          <Button
+            icon="list"
+            className="ml-6"
+            // onClick={props.toggleVerticalFilter}
+          >
+            Filter views
+          </Button>
+        )}
       </div>
-      <HeaderFilters {...props} />
+      <HeaderFilters
+        {...props}
+        savedFilterList={savedFilterList}
+        updateSavedFilterList={setSavedFilterList}
+      />
     </div>
   );
 };
