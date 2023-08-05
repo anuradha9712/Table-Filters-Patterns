@@ -140,14 +140,16 @@ const App = () => {
   };
 
   const updateSelectedChipList = (newList) => {
-        setLoading(true);
+    setLoading(true);
 
     setUnselectedChipList(newList);
-  }
+  };
 
   const updateFilterList = (newFilterList) => {
-    setFilterList(newFilterList);
-    setLoading(true);
+    if (newFilterList !== filterList) {
+      setFilterList(newFilterList);
+      setLoading(true);
+    }
   };
 
   const onFilterChange = (name, selected) => {

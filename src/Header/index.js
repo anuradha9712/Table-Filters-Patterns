@@ -2,11 +2,12 @@ import React from "react";
 import { Button } from "@innovaccer/design-system";
 import { HeaderSearch } from "./HeaderSearch";
 import HeaderFilters from "./HeaderFilters";
-import '../style.css';
+import {SavedFilterView} from "./SavedFilterView";
+import "../style.css";
 
 export const Header = (props) => {
-
   const [savedFilterList, setSavedFilterList] = React.useState([]);
+  const [openSidesheet, setOpenSidesheet] = React.useState(false);
   console.log("savedFilterList", savedFilterList);
 
   return (
@@ -24,7 +25,7 @@ export const Header = (props) => {
           <Button
             icon="list"
             className="ml-6"
-            // onClick={props.toggleVerticalFilter}
+            onClick={() => setOpenSidesheet(true)}
           >
             Filter views
           </Button>
@@ -34,6 +35,13 @@ export const Header = (props) => {
         {...props}
         savedFilterList={savedFilterList}
         updateSavedFilterList={setSavedFilterList}
+      />
+      <SavedFilterView
+        openSidesheet={openSidesheet}
+        savedFilterList={savedFilterList}
+        onClose={() => setOpenSidesheet(false)}
+        updateSavedFilterList={setSavedFilterList}
+        updateFilterList={props.updateFilterList}
       />
     </div>
   );

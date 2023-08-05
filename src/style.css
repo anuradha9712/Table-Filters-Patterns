@@ -21,3 +21,12 @@
 .Header-wrapper {
   max-width: 400px;
 }
+
+.Menu-Dropdown-Option {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.Menu-Dropdown-Wrapper {
+  min-width: 140px;
+}

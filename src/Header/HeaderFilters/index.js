@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Chip, Text, LinkButton } from "@innovaccer/design-system";
-import { SavedFilterView } from "../SavedFilterView";
+import { SaveFilter } from "./SaveFilter";
 // import { TableContext } from "../TableContext";
 
 export const HeaderFilters = ({
@@ -77,7 +77,7 @@ export const HeaderFilters = ({
       )}
 
       {Object.keys(filterList).length > 0 && (
-        <SavedFilterView
+        <SaveFilter
           filterList={filterList}
           savedFilterList={savedFilterList}
           updateSavedFilterList={updateSavedFilterList}
