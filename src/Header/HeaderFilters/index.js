@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Chip, Text, LinkButton } from "@innovaccer/design-system";
 import { SaveFilter } from "./SaveFilter";
-// import { TableContext } from "../TableContext";
 
 export const HeaderFilters = ({
   filterList,

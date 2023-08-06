@@ -13,7 +13,6 @@ export const SaveFilter = ({
   savedFilterList,
   updateSavedFilterList,
 }) => {
-  console.log("saved filterList", filterList);
   const [showModal, setShowModal] = React.useState(false);
   const [filterName, setFilterName] = React.useState("");
   const [filterDesc, setFilterDesc] = React.useState("");
@@ -31,7 +30,6 @@ export const SaveFilter = ({
       saveTime: new Date(),
       filterId: Math.random().toString(36).substring(2, 6)
     };
-    console.log("savedFilterList", savedFilterList);
     updateSavedFilterList([...savedFilterList, list]);
     onClose();
     setShowToast(true);

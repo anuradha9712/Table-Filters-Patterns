@@ -84,7 +84,6 @@ const translateData = (schema, data) => {
 };
 
 export const filterData = (data, filterList) => {
-  // debugger;
   let filteredData = data;
   if (filterList) {
     Object.keys(filterList).forEach((name) => {
@@ -95,15 +94,6 @@ export const filterData = (data, filterList) => {
       }
     });
   }
-
-  console.log(
-    "step 3",
-    data,
-    "filterList",
-    filterList,
-    "filteredData",
-    filteredData
-  );
 
   return filteredData;
 };

@@ -8,7 +8,6 @@ import "../style.css";
 export const Header = (props) => {
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
-  console.log("savedFilterList", savedFilterList);
 
   return (
     <div>

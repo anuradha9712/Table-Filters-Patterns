@@ -161,7 +161,6 @@ export const SavedFilterView = ({
   };
 
   const applyFilterHandler = (filterItem) => {
-    console.log("filterItemfilterItem", filterItem);
     updateFilterList(filterItem.filterList);
     onClose();
   };
@@ -185,12 +184,13 @@ export const SavedFilterView = ({
           <Divider appearance="header" />
           {savedFilterList.map((filterItem, key) => {
             return (
-              <div key={key}>
+              <div
+                key={key}
+                className="cursor-pointer"
+                onClick={() => applyFilterHandler(filterItem)}
+              >
                 <div className="p-5 d-flex justify-content-between">
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => applyFilterHandler(filterItem)}
-                  >
+                  <div>
                     <Text>{filterItem.filterName}</Text>
                     <br />
                     <Text appearance="subtle">{filterItem.filterDesc}</Text>
