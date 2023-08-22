@@ -5,7 +5,7 @@ import {
   Label,
   Button,
   Input,
-  Toast,
+  // Toast,
 } from "@innovaccer/design-system";
 
 export const SaveFilter = ({
@@ -16,7 +16,7 @@ export const SaveFilter = ({
   const [showModal, setShowModal] = React.useState(false);
   const [filterName, setFilterName] = React.useState("");
   const [filterDesc, setFilterDesc] = React.useState("");
-  const [showToast, setShowToast] = React.useState(false);
+  // const [showToast, setShowToast] = React.useState(false);
 
   const onClose = () => {
     setShowModal(!showModal);
@@ -32,7 +32,7 @@ export const SaveFilter = ({
     };
     updateSavedFilterList([...savedFilterList, list]);
     onClose();
-    setShowToast(true);
+    // setShowToast(true);
   };
 
   return (

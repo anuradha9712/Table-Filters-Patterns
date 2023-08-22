@@ -7,9 +7,8 @@ import {
   Divider,
   Text,
   Button,
-  Popover,
-  Icon,
   Modal,
+  Dropdown,
 } from "@innovaccer/design-system";
 import "../../style.css";
 
@@ -104,34 +103,32 @@ const ContextMenu = ({
     updateSavedFilterList(updatedList);
   };
 
+  const onChangeHandler = (selectedOption) => {
+    if (selectedOption === "edit") {
+      onEditHandler();
+    } else if (selectedOption === "delete") {
+      onDeleteHandler();
+    }
+  };
+
   return (
     <>
-      <Popover
-        className="pl-5 pr-4 py-3 Menu-Dropdown-Wrapper"
-        position="bottom-end"
-        trigger={
-          <Button
-            aria-label="Menu"
-            icon="more_horiz"
-            appearance="transparent"
-          />
-        }
-      >
-        <div
-          className="d-flex align-items-center cursor-pointer Menu-Dropdown-Option"
-          onClick={onEditHandler}
-        >
-          <Icon name="edit" size={16} className="mr-4" />
-          <Text>Edit details</Text>
-        </div>
-        <div
-          className="d-flex align-items-center cursor-pointer Menu-Dropdown-Option"
-          onClick={onDeleteHandler}
-        >
-          <Icon name="delete" size={16} className="mr-4" />
-          <Text>Delete</Text>
-        </div>
-      </Popover>
+      <Dropdown
+        menu={true}
+        className="w-25"
+        optionType="WITH_ICON"
+        onChange={onChangeHandler}
+        align="left"
+        options={[
+          {
+            icon: "edit",
+            label: "Edit details",
+            value: "edit",
+          },
+          { icon: "delete", label: "Delete", value: "delete" },
+        ]}
+      />
+
       <EditModal
         filterItem={filterItem}
         onClose={onClose}
@@ -197,7 +194,7 @@ export const SavedFilterView = ({
                   </div>
 
                   <div className="d-flex align-items-center">
-                    <Text appearance="subtle" className="mr-5">
+                    <Text appearance="subtle" className="mr-5 w-100">
                       few mins ago
                     </Text>
                     <ContextMenu
