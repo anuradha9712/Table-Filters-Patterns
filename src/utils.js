@@ -59,6 +59,12 @@ const onFilterChange = {
     }
     return false;
   },
+  creation_date: (a, filters) => {
+    if (a.creation_date === filters || filters === '') {
+      return true;
+    }
+    return false;
+  },
 };
 
 const translateData = (schema, data) => {
@@ -119,11 +125,10 @@ export const sortData = (schema, data, sortingList) => {
   return sortedData;
 };
 
-export const getFilterList = (filterList, unselectedChipList=[]) => {
+export const getFilterList = (filterList, unselectedChipList = []) => {
   const newList = { ...filterList };
   for (let i = 0; i < unselectedChipList.length; i++) {
     delete newList[unselectedChipList[i]];
   }
   return newList;
 };
-

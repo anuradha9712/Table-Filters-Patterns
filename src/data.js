@@ -8,6 +8,7 @@ export const originalData = [
     type: "Batch Execution",
     department: "Risk Analysis",
     priority: "Urgent",
+    creation_date: "08/30/2023",
   },
   {
     firstName: "Frazer",
@@ -18,6 +19,7 @@ export const originalData = [
     type: "Test Function",
     department: "Risk Analysis",
     priority: "Routine",
+    creation_date: "08/25/2023",
   },
   {
     firstName: "Lemmie",
@@ -31,6 +33,7 @@ export const originalData = [
     type: "Batch Execution",
     department: "Claims",
     priority: "Subacute",
+    creation_date: "08/20/2023",
   },
   {
     firstName: "Randy",
@@ -41,6 +44,7 @@ export const originalData = [
     type: "Batch Execution",
     department: "Quality",
     priority: "Urgent",
+    creation_date: "08/10/2023",
   },
   {
     firstName: "Rolando",
@@ -51,6 +55,7 @@ export const originalData = [
     type: "Batch Execution",
     department: "Claims",
     priority: "Routine",
+    creation_date: "05/02/2023",
   },
   {
     firstName: "Lem",
@@ -61,6 +66,7 @@ export const originalData = [
     type: "Batch Execution",
     department: "Risk Analysis",
     priority: "Urgent",
+    creation_date: "12/12/2023",
   },
   {
     firstName: "Sayres",
@@ -71,6 +77,7 @@ export const originalData = [
     type: "Test Function",
     department: "Risk Analysis",
     priority: "Urgent",
+    creation_date: "08/03/2023",
   },
   {
     firstName: "Murray",
@@ -81,6 +88,7 @@ export const originalData = [
     type: "Test Function",
     department: "Claims",
     priority: "Urgent",
+    creation_date: "08/07/2023",
   },
   {
     firstName: "Jena",
@@ -91,6 +99,7 @@ export const originalData = [
     type: "Test Function",
     department: "Quality",
     priority: "Routine",
+    creation_date: "08/02/2023",
   },
   {
     firstName: "Annabel",
@@ -101,6 +110,7 @@ export const originalData = [
     type: "Test Function",
     department: "Risk Analysis",
     priority: "Urgent",
+    creation_date: "10/05/2023",
   },
   {
     firstName: "Carin",
@@ -111,6 +121,7 @@ export const originalData = [
     type: "Test Function",
     department: "Risk Analysis",
     priority: "Routine",
+    creation_date: "12/26/2023",
   },
   {
     firstName: "Anson",

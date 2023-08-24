@@ -48,18 +48,16 @@ export const HeaderFilters = ({
           return null;
         }
         return (
-          <>
-            <Chip
-              key={key}
-              onClick={() => onChipClick(filter)}
-              onClose={() => onChipClose(filter)}
-              selected={selected}
-              type="selection"
-              clearButton={true}
-              label={getLabel(filter, selected)}
-              className="mr-4"
-            />
-          </>
+          <Chip
+            key={key}
+            onClick={() => onChipClick(filter)}
+            onClose={() => onChipClose(filter)}
+            selected={selected}
+            type="selection"
+            clearButton={true}
+            label={getLabel(filter, selected)}
+            className="mr-4"
+          />
         );
       })}
 

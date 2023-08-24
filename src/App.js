@@ -41,6 +41,7 @@ const App = () => {
   };
 
   const updateFilterList = (newFilterList) => {
+    console.log("newFilterList", newFilterList, "filterList", filterList);
     if (newFilterList !== filterList) {
       setFilterList(newFilterList);
       setLoading(true);
@@ -48,6 +49,7 @@ const App = () => {
   };
 
   const onFilterChange = (name, selected) => {
+    // debugger;
     const newFilterList = {
       ...filterList,
       [name]: selected,

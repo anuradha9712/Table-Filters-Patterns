@@ -1,10 +1,10 @@
 import React from "react";
 import {
+  Subheading,
   Icon,
   Label,
-  Button,
   Dropdown,
-  Subheading,
+  Button,
 } from "@innovaccer/design-system";
 import { staticFilterList, dynamicFilterList } from "./data";
 import "../style.css";
@@ -14,31 +14,20 @@ export const RightPanel = ({
   onCloseHandler,
   onFilterChange,
   filterList,
-  loading,
+  loading
 }) => {
+
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
-  // const filterChangeHandler = (name, value) => {
-  //   console.log("ondatechange filterlisttt", filterList);
-
-  //   onFilterChange(name, value);
-  // };
-
-  // const newOptionList = dynamicFilterList(
-  //   filterChangeHandler,
-  //   loading,
-  //   filterList
-  // );
+  const newOptionList = dynamicFilterList(onFilterChange, loading);
 
   const onNewFilterAddition = (selected) => {
     // const list = [...selectedFilterList];
     const list = [];
-    dynamicFilterList(onFilterChange, loading, filterList).forEach(
-      (filterItem) => {
-        if (selected.includes(filterItem.label)) {
-          list.push(filterItem);
-        }
+    newOptionList.forEach((filterItem) => {
+      if (selected.includes(filterItem.label)) {
+        list.push(filterItem);
       }
-    );
+    });
     console.log("dynamic addedlist", list, selected);
     setSelectedFilterList(list);
   };
@@ -83,27 +72,18 @@ export const RightPanel = ({
         })}
       </div>
 
-      {selectedFilterList.length > 0 && (
-        <div className="py-4">
-          {selectedFilterList.map((filterOption, key) => {
-            const { label, props, element, value } = filterOption;
-            const Element = element;
-            return (
-              <div className="mb-5" key={key}>
-                <Label className="mb-3">{label}</Label>
-                {Element && (
-                  <Element
-                    {...props}
-                    onDateChange={(date, dateStr) => {
-                      onFilterChange(value, dateStr);
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      <div className="py-5">
+        {selectedFilterList.map((filterOption, key) => {
+          const { label, props, element } = filterOption;
+          const Element = element;
+          return (
+            <div className="mb-5" key={key}>
+              <Label className="mb-3">{label}</Label>
+              {Element && <Element {...props} />}
+            </div>
+          );
+        })}
+      </div>
 
       <Dropdown
         options={[{ label: "Creation date", value: "Creation date" }]}
@@ -113,6 +93,7 @@ export const RightPanel = ({
         showApplyButton={true}
         className="mt-6"
         onChange={onNewFilterAddition}
+        // onChange={(selected) => setCustomFilterList(selected)}
         customTrigger={() => (
           <Button
             className="w-100"
