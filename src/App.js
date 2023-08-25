@@ -41,7 +41,6 @@ const App = () => {
   };
 
   const updateFilterList = (newFilterList) => {
-    console.log("newFilterList", newFilterList, "filterList", filterList);
     if (newFilterList !== filterList) {
       setFilterList(newFilterList);
       setLoading(true);
@@ -49,7 +48,6 @@ const App = () => {
   };
 
   const onFilterChange = (name, selected) => {
-    // debugger;
     const newFilterList = {
       ...filterList,
       [name]: selected,
@@ -86,10 +84,11 @@ const App = () => {
       </div>
       <RightPanel
         loading={loading}
-        onFilterChange={onFilterChange}
         filterList={filterList}
-        showVerticalFilters={showVerticalFilters}
+        onFilterChange={onFilterChange}
+        updateFilterList={updateFilterList}
         onCloseHandler={toggleVerticalFilter}
+        showVerticalFilters={showVerticalFilters}
       />
     </div>
   );

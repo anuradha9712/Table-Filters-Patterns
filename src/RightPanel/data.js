@@ -54,7 +54,7 @@ export const staticFilterList = [
   },
 ];
 
-export const dynamicFilterList = (filterChangeHandler, loading, filterList) => {
+export const dynamicFilterList = (loading) => {
   return [
     {
       element: DatePicker,
@@ -68,10 +68,6 @@ export const dynamicFilterList = (filterChangeHandler, loading, filterList) => {
           disabled: loading,
           minWidth: "unset",
         },
-        // onDateChange: (date, dateStr) => {
-        //   console.log("ondatechange filterlist", filterList);
-        //   filterChangeHandler("date", dateStr);
-        // },
       },
     },
   ];

@@ -15,32 +15,31 @@ export const RightPanel = ({
   onFilterChange,
   filterList,
   loading,
+  updateFilterList,
 }) => {
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
-  // const filterChangeHandler = (name, value) => {
-  //   console.log("ondatechange filterlisttt", filterList);
-
-  //   onFilterChange(name, value);
-  // };
-
-  // const newOptionList = dynamicFilterList(
-  //   filterChangeHandler,
-  //   loading,
-  //   filterList
-  // );
 
   const onNewFilterAddition = (selected) => {
-    // const list = [...selectedFilterList];
     const list = [];
-    dynamicFilterList(onFilterChange, loading, filterList).forEach(
-      (filterItem) => {
-        if (selected.includes(filterItem.label)) {
-          list.push(filterItem);
-        }
+    dynamicFilterList(loading).forEach((filterItem) => {
+      if (selected.includes(filterItem.label)) {
+        list.push(filterItem);
       }
-    );
-    console.log("dynamic addedlist", list, selected);
+    });
     setSelectedFilterList(list);
+  };
+
+  const removeDynamicFilter = (label, value) => {
+    console.log("filterList", filterList, "label", label, value);
+    const newList = selectedFilterList.filter((filterOption) => {
+      return filterOption.label !== label;
+    });
+
+    const updatedList = { ...filterList };
+    delete updatedList[value];
+    updateFilterList(updatedList);
+
+    setSelectedFilterList(newList);
   };
 
   return (
@@ -90,7 +89,15 @@ export const RightPanel = ({
             const Element = element;
             return (
               <div className="mb-5" key={key}>
-                <Label className="mb-3">{label}</Label>
+                <div className="d-flex justify-content-between align-items-center">
+                  <Label className="mb-3">{label}</Label>
+                  <Button
+                    icon="delete"
+                    appearance="transparent"
+                    size="tiny"
+                    onClick={() => removeDynamicFilter(label, value)}
+                  />
+                </div>
                 {Element && (
                   <Element
                     {...props}
@@ -107,11 +114,11 @@ export const RightPanel = ({
 
       <Dropdown
         options={[{ label: "Creation date", value: "Creation date" }]}
+        className="mt-6"
+        withSearch={true}
         placeholder="Select"
         withCheckbox={true}
-        withSearch={true}
         showApplyButton={true}
-        className="mt-6"
         onChange={onNewFilterAddition}
         customTrigger={() => (
           <Button

@@ -21,14 +21,12 @@ export const RightPanel = ({
   const newOptionList = dynamicFilterList(onFilterChange, loading);
 
   const onNewFilterAddition = (selected) => {
-    // const list = [...selectedFilterList];
     const list = [];
     newOptionList.forEach((filterItem) => {
       if (selected.includes(filterItem.label)) {
         list.push(filterItem);
       }
     });
-    console.log("dynamic addedlist", list, selected);
     setSelectedFilterList(list);
   };
 
