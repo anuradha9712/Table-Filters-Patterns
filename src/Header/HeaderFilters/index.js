@@ -15,7 +15,7 @@ export const HeaderFilters = ({
     return (
       <span>
         <Text className="mr-3" color={color} weight="medium">
-          {filter}:
+          {filter.charAt(0).toUpperCase() + filter.slice(1)}:
         </Text>
         <Text color={color}>{filterList[filter].toString()}</Text>
       </span>
