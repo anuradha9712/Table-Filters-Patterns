@@ -18,6 +18,17 @@ export const RightPanel = ({
   updateFilterList,
 }) => {
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
+  const [pinnedFilters, setPinnedFilters] = React.useState([]);
+  let displayFilterList = [];
+  let pinnedFilterList = [];
+
+  staticFilterList.forEach((filterItem) => {
+    if (!pinnedFilters.includes(filterItem.optionKey)) {
+      displayFilterList.push(filterItem);
+    } else {
+      pinnedFilterList.push(filterItem);
+    }
+  });
 
   const onNewFilterAddition = (selected) => {
     const list = [];
@@ -42,6 +53,16 @@ export const RightPanel = ({
     setSelectedFilterList(newList);
   };
 
+  const pinnedFilterHandler = (optionKey) => {
+    let pinnedList = [...pinnedFilters];
+    if (pinnedFilters.includes(optionKey)) {
+      pinnedList = pinnedList.filter((pinnedItem) => pinnedItem !== optionKey);
+    } else {
+      pinnedList.push(optionKey);
+    }
+    setPinnedFilters(pinnedList);
+  };
+
   return (
     <div
       className={`Table-filters Table-filters--vertical bg-secondary-lightest${
@@ -57,30 +78,69 @@ export const RightPanel = ({
         />
       </div>
 
-      <div>
-        {staticFilterList.map((listItem, key) => {
-          const { inlineLabel, optionKey, optionList } = listItem;
-          return (
-            <div className="py-4" key={key}>
-              <Label className="mb-3">{inlineLabel}</Label>
-              <Dropdown
-                disabled={loading}
-                withCheckbox={true}
-                showApplyButton={true}
-                inlineLabel={inlineLabel}
-                key={filterList[optionKey]}
-                onChange={(selected) => onFilterChange(optionKey, selected)}
-                options={optionList.map((optionItem) => {
-                  optionItem.selected = filterList[optionKey]?.includes(
-                    optionItem.value
-                  );
-                  return optionItem;
-                })}
+      {pinnedFilterList.map((listItem, key) => {
+        const { inlineLabel, optionKey, optionList } = listItem;
+        return (
+          <div className="py-4" key={key}>
+            <div className="d-flex align-items-center mb-3">
+              <Label>{inlineLabel}</Label>
+              <Icon
+                size={12}
+                name="push_pin"
+                appearance="accent1"
+                className="ml-3 cursor-pointer"
+                onClick={() => pinnedFilterHandler(optionKey)}
               />
             </div>
-          );
-        })}
-      </div>
+            <Dropdown
+              disabled={loading}
+              withCheckbox={true}
+              showApplyButton={true}
+              inlineLabel={inlineLabel}
+              key={filterList[optionKey]}
+              onChange={(selected) => onFilterChange(optionKey, selected)}
+              options={optionList.map((optionItem) => {
+                optionItem.selected = filterList[optionKey]?.includes(
+                  optionItem.value
+                );
+                return optionItem;
+              })}
+            />
+          </div>
+        );
+      })}
+
+      {displayFilterList.map((listItem, key) => {
+        const { inlineLabel, optionKey, optionList } = listItem;
+        return (
+          <div className="py-4" key={key}>
+            <div className="d-flex align-items-center mb-3 FilterLabel">
+              <Label>{inlineLabel}</Label>
+              <Icon
+                size={12}
+                name="push_pin"
+                appearance="subtle"
+                className="ml-3 cursor-pointer FilterLabel-pinnedIcon"
+                onClick={() => pinnedFilterHandler(optionKey)}
+              />
+            </div>
+            <Dropdown
+              disabled={loading}
+              withCheckbox={true}
+              showApplyButton={true}
+              inlineLabel={inlineLabel}
+              key={filterList[optionKey]}
+              onChange={(selected) => onFilterChange(optionKey, selected)}
+              options={optionList.map((optionItem) => {
+                optionItem.selected = filterList[optionKey]?.includes(
+                  optionItem.value
+                );
+                return optionItem;
+              })}
+            />
+          </div>
+        );
+      })}
 
       {selectedFilterList.length > 0 && (
         <div className="py-4">

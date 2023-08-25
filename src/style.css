@@ -17,3 +17,11 @@
 .Header-wrapper {
   max-width: 400px;
 }
+
+.FilterLabel-pinnedIcon {
+  display: none;
+}
+
+.FilterLabel:hover .FilterLabel-pinnedIcon{
+  display: inline;
+}
