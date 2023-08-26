@@ -1,4 +1,4 @@
-const onFilterChange = {
+const onFilterChangeHandler = {
   name: (a, filters) => {
     for (const filter of filters) {
       switch (filter) {
@@ -94,7 +94,7 @@ export const filterData = (data, filterList) => {
   if (filterList) {
     Object.keys(filterList).forEach((name) => {
       const filters = filterList[name];
-      const onChange = onFilterChange[name];
+      const onChange = onFilterChangeHandler[name];
       if (onChange) {
         filteredData = filteredData.filter((d) => onChange(d, filters));
       }

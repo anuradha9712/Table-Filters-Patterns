@@ -12,12 +12,12 @@ import "../style.css";
 export const RightPanel = ({
   showVerticalFilters,
   onCloseHandler,
-  onFilterChange,
   filterList,
   loading,
   updateFilterList,
 }) => {
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
+  const [selectedOption, setSelectedOption] = React.useState({});
   const [pinnedFilters, setPinnedFilters] = React.useState([]);
   let displayFilterList = [];
   let pinnedFilterList = [];
@@ -41,7 +41,6 @@ export const RightPanel = ({
   };
 
   const removeDynamicFilter = (label, value) => {
-    console.log("filterList", filterList, "label", label, value);
     const newList = selectedFilterList.filter((filterOption) => {
       return filterOption.label !== label;
     });
@@ -61,6 +60,14 @@ export const RightPanel = ({
       pinnedList.push(optionKey);
     }
     setPinnedFilters(pinnedList);
+  };
+
+  const onFilterChangeHandler = (name, selected) => {
+    const newSelectedOption = {
+      ...selectedOption,
+      [name]: selected,
+    };
+    setSelectedOption(newSelectedOption);
   };
 
   return (
@@ -98,7 +105,9 @@ export const RightPanel = ({
               showApplyButton={true}
               inlineLabel={inlineLabel}
               key={filterList[optionKey]}
-              onChange={(selected) => onFilterChange(optionKey, selected)}
+              onChange={(selected) =>
+                onFilterChangeHandler(optionKey, selected)
+              }
               options={optionList.map((optionItem) => {
                 optionItem.selected = filterList[optionKey]?.includes(
                   optionItem.value
@@ -130,7 +139,9 @@ export const RightPanel = ({
               showApplyButton={true}
               inlineLabel={inlineLabel}
               key={filterList[optionKey]}
-              onChange={(selected) => onFilterChange(optionKey, selected)}
+              onChange={(selected) =>
+                onFilterChangeHandler(optionKey, selected)
+              }
               options={optionList.map((optionItem) => {
                 optionItem.selected = filterList[optionKey]?.includes(
                   optionItem.value
@@ -162,7 +173,7 @@ export const RightPanel = ({
                   <Element
                     {...props}
                     onDateChange={(date, dateStr) => {
-                      onFilterChange(value, dateStr);
+                      onFilterChangeHandler(value, dateStr);
                     }}
                   />
                 )}
@@ -191,6 +202,18 @@ export const RightPanel = ({
           </Button>
         )}
       />
+
+      <div className="d-flex justify-content-between mt-4">
+        <Button
+          onClick={() => updateFilterList({})}
+          appearance="transparent"
+        >
+          Reset values
+        </Button>
+        <Button onClick={() => updateFilterList(selectedOption)}>
+          Apply filters
+        </Button>
+      </div>
     </div>
   );
 };

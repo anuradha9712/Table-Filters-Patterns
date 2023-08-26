@@ -85,7 +85,6 @@ const App = () => {
       <RightPanel
         loading={loading}
         filterList={filterList}
-        onFilterChange={onFilterChange}
         updateFilterList={updateFilterList}
         onCloseHandler={toggleVerticalFilter}
         showVerticalFilters={showVerticalFilters}
