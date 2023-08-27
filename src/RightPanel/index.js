@@ -70,6 +70,11 @@ export const RightPanel = ({
     setSelectedOption(newSelectedOption);
   };
 
+  const onResetHandler = () => {
+    setSelectedOption({});
+    updateFilterList({});
+  };
+
   return (
     <div
       className={`Table-filters Table-filters--vertical bg-secondary-lightest${
@@ -159,7 +164,7 @@ export const RightPanel = ({
             const { label, props, element, value } = filterOption;
             const Element = element;
             return (
-              <div className="mb-5" key={key}>
+              <div key={key}>
                 <div className="d-flex justify-content-between align-items-center">
                   <Label className="mb-3">{label}</Label>
                   <Button
@@ -205,7 +210,7 @@ export const RightPanel = ({
 
       <div className="d-flex justify-content-between mt-4">
         <Button
-          onClick={() => updateFilterList({})}
+          onClick={onResetHandler}
           appearance="transparent"
         >
           Reset values
