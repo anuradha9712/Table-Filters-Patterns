@@ -62,6 +62,9 @@ const App = () => {
     updateSelectedChipList,
     unselectedChipList,
     toggleVerticalFilter,
+    showVerticalFilters,
+    onFilterChange,
+    loading,
   };
 
   return (

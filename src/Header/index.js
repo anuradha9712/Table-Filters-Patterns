@@ -2,10 +2,12 @@ import React from "react";
 import { Button } from "@innovaccer/design-system";
 import { HeaderSearch } from "./HeaderSearch";
 import HeaderFilters from "./HeaderFilters";
-import {SavedFilterView} from "./SavedFilterView";
+import { HeaderButton } from "./HeaderButton";
+import { SavedFilterView } from "./SavedFilterView";
 import "../style.css";
 
 export const Header = (props) => {
+  console.log("header props", props);
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
 
@@ -13,13 +15,7 @@ export const Header = (props) => {
     <div>
       <div className="d-flex mb-4 w-50 Header-wrapper">
         <HeaderSearch />
-        <Button
-          icon="add"
-          className="ml-6"
-          onClick={props.toggleVerticalFilter}
-        >
-          More Filters
-        </Button>
+        <HeaderButton {...props} />
         {savedFilterList.length > 0 && (
           <Button
             icon="list"
