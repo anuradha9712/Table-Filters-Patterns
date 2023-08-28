@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@innovaccer/design-system";
+import { Button, Tooltip } from "@innovaccer/design-system";
 import { HeaderSearch } from "./HeaderSearch";
 import HeaderFilters from "./HeaderFilters";
 import { HeaderButton } from "./HeaderButton";
@@ -7,7 +7,6 @@ import { SavedFilterView } from "./SavedFilterView";
 import "../style.css";
 
 export const Header = (props) => {
-  console.log("header props", props);
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
 
@@ -16,10 +15,21 @@ export const Header = (props) => {
       <div className="d-flex mb-4 w-50 Header-wrapper">
         <HeaderSearch />
         <HeaderButton {...props} />
-        {savedFilterList.length > 0 && (
+        {savedFilterList.length === 0 ? (
+          <Tooltip tooltip="No saved filter views">
+            <Button
+              icon="list"
+              className="ml-4"
+              onClick={() => setOpenSidesheet(true)}
+              disabled={true}
+            >
+              Filter views
+            </Button>
+          </Tooltip>
+        ) : (
           <Button
             icon="list"
-            className="ml-6"
+            className="ml-4"
             onClick={() => setOpenSidesheet(true)}
           >
             Filter views

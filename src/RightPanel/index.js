@@ -5,6 +5,7 @@ import {
   Button,
   Dropdown,
   Subheading,
+  Tooltip,
 } from "@innovaccer/design-system";
 import { staticFilterList, dynamicFilterList } from "./data";
 import "../style.css";
@@ -96,18 +97,21 @@ export const RightPanel = ({
           <div className="py-4" key={key}>
             <div className="d-flex align-items-center mb-3">
               <Label>{inlineLabel}</Label>
-              <Icon
-                size={12}
-                name="push_pin"
-                appearance="accent1"
-                className="ml-3 cursor-pointer"
-                onClick={() => pinnedFilterHandler(optionKey)}
-              />
+              <Tooltip tooltip="Unpin" position="bottom-start">
+                <Icon
+                  size={12}
+                  name="push_pin"
+                  appearance="accent1"
+                  className="ml-3 cursor-pointer"
+                  onClick={() => pinnedFilterHandler(optionKey)}
+                />
+              </Tooltip>
             </div>
             <Dropdown
               disabled={loading}
               withCheckbox={true}
               showApplyButton={true}
+              applyButtonLabel="Select"
               inlineLabel={inlineLabel}
               key={filterList[optionKey]}
               onChange={(selected) =>
@@ -130,18 +134,21 @@ export const RightPanel = ({
           <div className="py-4" key={key}>
             <div className="d-flex align-items-center mb-3 FilterLabel">
               <Label>{inlineLabel}</Label>
-              <Icon
-                size={12}
-                name="push_pin"
-                appearance="subtle"
-                className="ml-3 cursor-pointer FilterLabel-pinnedIcon"
-                onClick={() => pinnedFilterHandler(optionKey)}
-              />
+              <Tooltip tooltip='Pin' position='bottom-start'>
+                <Icon
+                  size={12}
+                  name="push_pin"
+                  appearance="subtle"
+                  className="ml-3 cursor-pointer FilterLabel-pinnedIcon"
+                  onClick={() => pinnedFilterHandler(optionKey)}
+                />
+              </Tooltip>
             </div>
             <Dropdown
               disabled={loading}
               withCheckbox={true}
               showApplyButton={true}
+              applyButtonLabel="Select"
               inlineLabel={inlineLabel}
               key={filterList[optionKey]}
               onChange={(selected) =>
@@ -209,10 +216,7 @@ export const RightPanel = ({
       />
 
       <div className="d-flex justify-content-between mt-4">
-        <Button
-          onClick={onResetHandler}
-          appearance="transparent"
-        >
+        <Button onClick={onResetHandler} appearance="transparent">
           Reset values
         </Button>
         <Button onClick={() => updateFilterList(selectedOption)}>
