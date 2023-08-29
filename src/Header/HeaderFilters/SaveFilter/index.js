@@ -27,7 +27,7 @@ export const SaveFilter = ({
       filterName,
       filterDesc,
       filterList,
-      saveTime: new Date(),
+      created_date: new Date(),
       filterId: Math.random().toString(36).substring(2, 6)
     };
     updateSavedFilterList([...savedFilterList, list]);

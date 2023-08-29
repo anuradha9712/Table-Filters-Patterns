@@ -11,6 +11,7 @@ import {
   Dropdown,
 } from "@innovaccer/design-system";
 import "../../style.css";
+import { getDisplayDate } from "./utils";
 
 const EditModal = ({
   filterItem,
@@ -147,6 +148,7 @@ export const SavedFilterView = ({
   updateSavedFilterList,
   updateFilterList,
 }) => {
+
   const headerOptions = {
     heading: "Saved filter views",
   };
@@ -195,7 +197,7 @@ export const SavedFilterView = ({
 
                   <div className="d-flex align-items-center">
                     <Text appearance="subtle" className="mr-5 w-100">
-                      few mins ago
+                      {getDisplayDate(filterItem.created_date)}
                     </Text>
                     <ContextMenu
                       filterItem={filterItem}
