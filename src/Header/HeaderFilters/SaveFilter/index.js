@@ -5,6 +5,7 @@ import {
   Label,
   Button,
   Input,
+  Tooltip,
   // Toast,
 } from "@innovaccer/design-system";
 
@@ -16,7 +17,12 @@ export const SaveFilter = ({
   const [showModal, setShowModal] = React.useState(false);
   const [filterName, setFilterName] = React.useState("");
   const [filterDesc, setFilterDesc] = React.useState("");
+  const [isFilterSaved, setIsFilterSaved] = React.useState(false);
   // const [showToast, setShowToast] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsFilterSaved(false);
+  }, [filterList]);
 
   const onClose = () => {
     setShowModal(!showModal);
@@ -28,18 +34,27 @@ export const SaveFilter = ({
       filterDesc,
       filterList,
       created_date: new Date(),
-      filterId: Math.random().toString(36).substring(2, 6)
+      filterId: Math.random().toString(36).substring(2, 6),
     };
     updateSavedFilterList([...savedFilterList, list]);
     onClose();
+    setIsFilterSaved(true);
     // setShowToast(true);
   };
 
   return (
     <div className="ml-6">
-      <LinkButton onClick={() => setShowModal(!showModal)}>
-        Save as filter view
-      </LinkButton>
+      {isFilterSaved ? (
+        <Tooltip tooltip="Already saved filter view">
+          <LinkButton onClick={() => setShowModal(!showModal)} disabled={true}>
+            Save as filter view
+          </LinkButton>
+        </Tooltip>
+      ) : (
+        <LinkButton onClick={() => setShowModal(!showModal)}>
+          Save as filter view
+        </LinkButton>
+      )}
       <Modal
         onClose={onClose}
         open={showModal}
