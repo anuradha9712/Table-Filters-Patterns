@@ -23,6 +23,10 @@ export const RightPanel = ({
   let displayFilterList = [];
   let pinnedFilterList = [];
 
+  React.useEffect(() => {
+    setSelectedOption(filterList);
+  }, [filterList]);
+
   staticFilterList.forEach((filterItem) => {
     if (!pinnedFilters.includes(filterItem.optionKey)) {
       displayFilterList.push(filterItem);
@@ -112,7 +116,6 @@ export const RightPanel = ({
               withCheckbox={true}
               showApplyButton={true}
               applyButtonLabel="Select"
-              inlineLabel={inlineLabel}
               key={filterList[optionKey]}
               onChange={(selected) =>
                 onFilterChangeHandler(optionKey, selected)
@@ -134,7 +137,7 @@ export const RightPanel = ({
           <div className="py-4" key={key}>
             <div className="d-flex align-items-center mb-3 FilterLabel">
               <Label>{inlineLabel}</Label>
-              <Tooltip tooltip='Pin' position='bottom-start'>
+              <Tooltip tooltip="Pin" position="bottom-start">
                 <Icon
                   size={12}
                   name="push_pin"
@@ -149,7 +152,6 @@ export const RightPanel = ({
               withCheckbox={true}
               showApplyButton={true}
               applyButtonLabel="Select"
-              inlineLabel={inlineLabel}
               key={filterList[optionKey]}
               onChange={(selected) =>
                 onFilterChangeHandler(optionKey, selected)
@@ -219,7 +221,10 @@ export const RightPanel = ({
         <Button onClick={onResetHandler} appearance="transparent">
           Reset values
         </Button>
-        <Button onClick={() => updateFilterList(selectedOption)}>
+        <Button
+          onClick={() => updateFilterList(selectedOption)}
+          disabled={selectedOption === filterList}
+        >
           Apply filters
         </Button>
       </div>
