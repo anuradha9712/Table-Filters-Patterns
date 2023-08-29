@@ -116,12 +116,12 @@ export const RightPanel = ({
               withCheckbox={true}
               showApplyButton={true}
               applyButtonLabel="Select"
-              key={filterList[optionKey]}
+              key={selectedOption[optionKey]}
               onChange={(selected) =>
                 onFilterChangeHandler(optionKey, selected)
               }
               options={optionList.map((optionItem) => {
-                optionItem.selected = filterList[optionKey]?.includes(
+                optionItem.selected = selectedOption[optionKey]?.includes(
                   optionItem.value
                 );
                 return optionItem;
@@ -152,12 +152,12 @@ export const RightPanel = ({
               withCheckbox={true}
               showApplyButton={true}
               applyButtonLabel="Select"
-              key={filterList[optionKey]}
+              key={selectedOption[optionKey]}
               onChange={(selected) =>
                 onFilterChangeHandler(optionKey, selected)
               }
               options={optionList.map((optionItem) => {
-                optionItem.selected = filterList[optionKey]?.includes(
+                optionItem.selected = selectedOption[optionKey]?.includes(
                   optionItem.value
                 );
                 return optionItem;
@@ -218,7 +218,11 @@ export const RightPanel = ({
       />
 
       <div className="d-flex justify-content-between mt-4">
-        <Button onClick={onResetHandler} appearance="transparent">
+        <Button
+          onClick={onResetHandler}
+          appearance="transparent"
+          disabled={Object.keys(selectedOption).length === 0}
+        >
           Reset values
         </Button>
         <Button
