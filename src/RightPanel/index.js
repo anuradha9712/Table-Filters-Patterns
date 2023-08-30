@@ -6,6 +6,7 @@ import {
   Dropdown,
   Subheading,
   Tooltip,
+  Divider,
 } from "@innovaccer/design-system";
 import { staticFilterList, dynamicFilterList } from "./data";
 import "../style.css";
@@ -20,12 +21,23 @@ export const RightPanel = ({
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
   const [selectedOption, setSelectedOption] = React.useState({});
   const [pinnedFilters, setPinnedFilters] = React.useState([]);
+  const [separator, setSeperator] = React.useState(false);
+
   let displayFilterList = [];
   let pinnedFilterList = [];
+
+  const ref = React.useRef();
 
   React.useEffect(() => {
     setSelectedOption(filterList);
   }, [filterList]);
+
+  React.useEffect(() => {
+    if (ref.current) {
+      // If filter options causes overflow stick the Apply buttons to bottom and show separator
+      setSeperator(ref.current.scrollHeight > ref.current.clientHeight);
+    }
+  }, [selectedFilterList]);
 
   staticFilterList.forEach((filterItem) => {
     if (!pinnedFilters.includes(filterItem.optionKey)) {
@@ -82,142 +94,147 @@ export const RightPanel = ({
 
   return (
     <div
+      ref={ref}
       className={`Table-filters Table-filters--vertical bg-secondary-lightest${
         !showVerticalFilters ? " d-none" : ""
       }`}
     >
-      <div className="d-flex align-items-center justify-content-between pt-5 mb-7">
-        <Subheading>Filters</Subheading>
-        <Icon
-          name="close"
-          className="cursor-pointer"
-          onClick={onCloseHandler}
+      <div className={`${separator ? "Table-filters--scroll" : ""}`}>
+        <div className="d-flex align-items-center justify-content-between pt-5 mb-7">
+          <Subheading>Filters</Subheading>
+          <Icon
+            name="close"
+            className="cursor-pointer"
+            onClick={onCloseHandler}
+          />
+        </div>
+
+        {pinnedFilterList.map((listItem, key) => {
+          const { inlineLabel, optionKey, optionList } = listItem;
+          return (
+            <div className="py-4" key={key}>
+              <div className="d-flex align-items-center mb-3">
+                <Label>{inlineLabel}</Label>
+                <Tooltip tooltip="Unpin" position="bottom-start">
+                  <Icon
+                    size={12}
+                    name="push_pin"
+                    appearance="accent1"
+                    className="ml-3 cursor-pointer"
+                    onClick={() => pinnedFilterHandler(optionKey)}
+                  />
+                </Tooltip>
+              </div>
+              <Dropdown
+                disabled={loading}
+                withCheckbox={true}
+                showApplyButton={true}
+                applyButtonLabel="Select"
+                key={selectedOption[optionKey]}
+                onChange={(selected) =>
+                  onFilterChangeHandler(optionKey, selected)
+                }
+                options={optionList.map((optionItem) => {
+                  optionItem.selected = selectedOption[optionKey]?.includes(
+                    optionItem.value
+                  );
+                  return optionItem;
+                })}
+              />
+            </div>
+          );
+        })}
+
+        {displayFilterList.map((listItem, key) => {
+          const { inlineLabel, optionKey, optionList } = listItem;
+          return (
+            <div className="py-4" key={key}>
+              <div className="d-flex align-items-center mb-3 FilterLabel">
+                <Label>{inlineLabel}</Label>
+                <Tooltip tooltip="Pin" position="bottom-start">
+                  <Icon
+                    size={12}
+                    name="push_pin"
+                    appearance="subtle"
+                    className="ml-3 cursor-pointer FilterLabel-pinnedIcon"
+                    onClick={() => pinnedFilterHandler(optionKey)}
+                  />
+                </Tooltip>
+              </div>
+              <Dropdown
+                disabled={loading}
+                withCheckbox={true}
+                showApplyButton={true}
+                applyButtonLabel="Select"
+                key={selectedOption[optionKey]}
+                onChange={(selected) =>
+                  onFilterChangeHandler(optionKey, selected)
+                }
+                options={optionList.map((optionItem) => {
+                  optionItem.selected = selectedOption[optionKey]?.includes(
+                    optionItem.value
+                  );
+                  return optionItem;
+                })}
+              />
+            </div>
+          );
+        })}
+
+        {selectedFilterList.length > 0 && (
+          <div className="py-4">
+            {selectedFilterList.map((filterOption, key) => {
+              const { label, props, element, value } = filterOption;
+              const Element = element;
+              return (
+                <div key={key}>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <Label className="mb-3">{label}</Label>
+                    <Button
+                      icon="delete"
+                      appearance="transparent"
+                      size="tiny"
+                      onClick={() => removeDynamicFilter(label, value)}
+                    />
+                  </div>
+                  {Element && (
+                    <Element
+                      {...props}
+                      onDateChange={(date, dateStr) => {
+                        onFilterChangeHandler(value, dateStr);
+                      }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <Dropdown
+          className="mt-6"
+          options={[{ label: "Creation date", value: "Creation date" }]}
+          withSearch={true}
+          placeholder="Select"
+          withCheckbox={true}
+          showApplyButton={true}
+          onChange={onNewFilterAddition}
+          customTrigger={() => (
+            <Button
+              className="w-100"
+              appearance="transparent"
+              icon="expand_more"
+              iconAlign="right"
+            >
+              Add new filter
+            </Button>
+          )}
         />
       </div>
 
-      {pinnedFilterList.map((listItem, key) => {
-        const { inlineLabel, optionKey, optionList } = listItem;
-        return (
-          <div className="py-4" key={key}>
-            <div className="d-flex align-items-center mb-3">
-              <Label>{inlineLabel}</Label>
-              <Tooltip tooltip="Unpin" position="bottom-start">
-                <Icon
-                  size={12}
-                  name="push_pin"
-                  appearance="accent1"
-                  className="ml-3 cursor-pointer"
-                  onClick={() => pinnedFilterHandler(optionKey)}
-                />
-              </Tooltip>
-            </div>
-            <Dropdown
-              disabled={loading}
-              withCheckbox={true}
-              showApplyButton={true}
-              applyButtonLabel="Select"
-              key={selectedOption[optionKey]}
-              onChange={(selected) =>
-                onFilterChangeHandler(optionKey, selected)
-              }
-              options={optionList.map((optionItem) => {
-                optionItem.selected = selectedOption[optionKey]?.includes(
-                  optionItem.value
-                );
-                return optionItem;
-              })}
-            />
-          </div>
-        );
-      })}
+      {separator && <Divider />}
 
-      {displayFilterList.map((listItem, key) => {
-        const { inlineLabel, optionKey, optionList } = listItem;
-        return (
-          <div className="py-4" key={key}>
-            <div className="d-flex align-items-center mb-3 FilterLabel">
-              <Label>{inlineLabel}</Label>
-              <Tooltip tooltip="Pin" position="bottom-start">
-                <Icon
-                  size={12}
-                  name="push_pin"
-                  appearance="subtle"
-                  className="ml-3 cursor-pointer FilterLabel-pinnedIcon"
-                  onClick={() => pinnedFilterHandler(optionKey)}
-                />
-              </Tooltip>
-            </div>
-            <Dropdown
-              disabled={loading}
-              withCheckbox={true}
-              showApplyButton={true}
-              applyButtonLabel="Select"
-              key={selectedOption[optionKey]}
-              onChange={(selected) =>
-                onFilterChangeHandler(optionKey, selected)
-              }
-              options={optionList.map((optionItem) => {
-                optionItem.selected = selectedOption[optionKey]?.includes(
-                  optionItem.value
-                );
-                return optionItem;
-              })}
-            />
-          </div>
-        );
-      })}
-
-      {selectedFilterList.length > 0 && (
-        <div className="py-4">
-          {selectedFilterList.map((filterOption, key) => {
-            const { label, props, element, value } = filterOption;
-            const Element = element;
-            return (
-              <div key={key}>
-                <div className="d-flex justify-content-between align-items-center">
-                  <Label className="mb-3">{label}</Label>
-                  <Button
-                    icon="delete"
-                    appearance="transparent"
-                    size="tiny"
-                    onClick={() => removeDynamicFilter(label, value)}
-                  />
-                </div>
-                {Element && (
-                  <Element
-                    {...props}
-                    onDateChange={(date, dateStr) => {
-                      onFilterChangeHandler(value, dateStr);
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      <Dropdown
-        options={[{ label: "Creation date", value: "Creation date" }]}
-        className="mt-6"
-        withSearch={true}
-        placeholder="Select"
-        withCheckbox={true}
-        showApplyButton={true}
-        onChange={onNewFilterAddition}
-        customTrigger={() => (
-          <Button
-            className="w-100"
-            appearance="transparent"
-            icon="expand_more"
-            iconAlign="right"
-          >
-            Add new filter
-          </Button>
-        )}
-      />
-
-      <div className="d-flex justify-content-between mt-4">
+      <div className="d-flex justify-content-between pt-4">
         <Button
           onClick={onResetHandler}
           appearance="transparent"
