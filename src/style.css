@@ -19,7 +19,9 @@
   position: relative;
 }
 
-.Table-filters--scroll::-webkit-scrollbar {
+.Table-filters--scroll::-webkit-scrollbar,
+.Header-filters-row::-webkit-scrollbar 
+{
   display: none;
 }
 
@@ -33,4 +35,10 @@
 
 .FilterLabel:hover .FilterLabel-pinnedIcon {
   display: inline;
+}
+
+.Header-filters-row {
+  max-width: calc(100vw - 600px);
+  overflow-x: scroll;
+  display: flex;
 }
