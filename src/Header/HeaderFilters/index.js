@@ -10,7 +10,8 @@ export const HeaderFilters = ({
   savedFilterList,
   updateSavedFilterList,
 }) => {
-  const [isOverflow, setIsOverflow] = React.useState(false);
+  // const [isOverflow, setIsOverflow] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
 
   const ref = React.useRef();
 
@@ -22,21 +23,10 @@ export const HeaderFilters = ({
         "ref.current.clientWidth",
         ref.current.clientWidth
       );
-      setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
+      // setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
     }
   }, [filterList]);
 
-  const getLabel = (filter, selected) => {
-    const color = selected ? "primary" : "inverse";
-    return (
-      <span>
-        <Text className="mr-3" color={color} weight="medium">
-          {filter.charAt(0).toUpperCase() + filter.slice(1)}:
-        </Text>
-        <Text color={color}>{filterList[filter].toString()}</Text>
-      </span>
-    );
-  };
 
   const onChipClose = (filter) => {
     const newList = { ...filterList };
@@ -56,11 +46,11 @@ export const HeaderFilters = ({
   return (
     <div className="d-flex align-items-center">
       <div
-        className="Header-filters-row"
+        // className="Header-filters-row"
         // className="Header-filters-row flex-wrap flex-row"
-        // className={`${
-        //   isOverflow ? "Header-filters-row" : "d-flex flex-wrap flex-row"
-        // }`}
+        className={`${
+          !expanded ? "Header-filters-row" : "d-flex flex-wrap flex-row"
+        }`}
         style={{ rowGap: "8px" }}
         ref={ref}
       >
@@ -78,27 +68,71 @@ export const HeaderFilters = ({
               type="selection"
               clearButton={true}
               label={filterList[filter].toString()}
-              labelPrefix={filter.charAt(0).toUpperCase() + filter.slice(1)+ ':'}
+              labelPrefix={
+                filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
+              }
               className="mr-4"
             />
           );
         })}
+
+        {Object.keys(filterList).length > 0 && expanded && (
+          <div className="d-flex align-items-center">
+            <LinkButton
+              appearance="transparent"
+              aria-label="Re-evaluate"
+              onClick={() => setExpanded(false)}
+              className="mx-4"
+              subtle={true}
+            >
+              View Less
+            </LinkButton>
+
+            <div className="border-left pl-4 d-flex align-items-center">
+              <LinkButton
+                appearance="transparent"
+                aria-label="Re-evaluate"
+                onClick={() => updateFilterList({})}
+              >
+                Clear filters
+              </LinkButton>
+              <SaveFilter
+                filterList={filterList}
+                savedFilterList={savedFilterList}
+                updateSavedFilterList={updateSavedFilterList}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
-      {Object.keys(filterList).length > 0 && (
-        <div className="border-left pl-4 d-flex align-items-center">
-          <LinkButton
-            appearance="transparent"
-            aria-label="Re-evaluate"
-            onClick={() => updateFilterList({})}
-          >
-            Clear filters
-          </LinkButton>
-          <SaveFilter
-            filterList={filterList}
-            savedFilterList={savedFilterList}
-            updateSavedFilterList={updateSavedFilterList}
-          />
+      {Object.keys(filterList).length > 0 && !expanded && (
+        <div className="d-flex align-items-center">
+          {ref.current.scrollWidth > ref.current.clientWidth && (
+            <LinkButton
+              appearance="transparent"
+              aria-label="Re-evaluate"
+              onClick={() => setExpanded(true)}
+              className="mx-4"
+              subtle={true}
+            >
+              View More
+            </LinkButton>
+          )}
+          <div className="border-left pl-4 d-flex align-items-center">
+            <LinkButton
+              appearance="transparent"
+              aria-label="Re-evaluate"
+              onClick={() => updateFilterList({})}
+            >
+              Clear filters
+            </LinkButton>
+            <SaveFilter
+              filterList={filterList}
+              savedFilterList={savedFilterList}
+              updateSavedFilterList={updateSavedFilterList}
+            />
+          </div>
         </div>
       )}
     </div>
