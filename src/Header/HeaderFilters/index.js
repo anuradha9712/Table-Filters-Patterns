@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Chip, Text, LinkButton } from "@innovaccer/design-system";
+import { Chip, LinkButton } from "@innovaccer/design-system";
 import { SaveFilter } from "./SaveFilter";
 
 export const HeaderFilters = ({
@@ -10,23 +10,16 @@ export const HeaderFilters = ({
   savedFilterList,
   updateSavedFilterList,
 }) => {
-  // const [isOverflow, setIsOverflow] = React.useState(false);
+  const [isOverflow, setIsOverflow] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
 
   const ref = React.useRef();
 
   React.useEffect(() => {
     if (ref.current) {
-      console.log(
-        "ref.current.scrollWidth",
-        ref.current.scrollWidth,
-        "ref.current.clientWidth",
-        ref.current.clientWidth
-      );
-      // setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
+      setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
     }
   }, [filterList]);
-
 
   const onChipClose = (filter) => {
     const newList = { ...filterList };
@@ -46,8 +39,6 @@ export const HeaderFilters = ({
   return (
     <div className="d-flex align-items-center">
       <div
-        // className="Header-filters-row"
-        // className="Header-filters-row flex-wrap flex-row"
         className={`${
           !expanded ? "Header-filters-row" : "d-flex flex-wrap flex-row"
         }`}
@@ -108,7 +99,7 @@ export const HeaderFilters = ({
 
       {Object.keys(filterList).length > 0 && !expanded && (
         <div className="d-flex align-items-center">
-          {ref.current.scrollWidth > ref.current.clientWidth && (
+          {isOverflow && (
             <LinkButton
               appearance="transparent"
               aria-label="Re-evaluate"
