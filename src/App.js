@@ -14,6 +14,7 @@ const App = () => {
   const [loading, setLoading] = React.useState(false);
   const [tableData, setTableData] = React.useState(originalData);
   const [unselectedChipList, setUnselectedChipList] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   const classNames = showVerticalFilters ? "Table-verticalFilter" : "w-100";
 
@@ -29,6 +30,18 @@ const App = () => {
     setLoading(false);
     setTableData([...filteredData]);
   }, [filterList, unselectedChipList]);
+
+  React.useEffect(() => {
+    const searchResult = originalData.filter((data) => {
+      return (
+        data.firstName.toLowerCase().match(searchTerm.toLowerCase()) ||
+        data.lastName.toLowerCase().match(searchTerm.toLowerCase())
+      );
+    });
+    setTableData(searchResult);
+    setLoading(false);
+
+  }, [searchTerm]);
 
   const toggleVerticalFilter = () => {
     setShowVerticalFilters(!showVerticalFilters);
@@ -56,6 +69,11 @@ const App = () => {
     updateFilterList(newFilterList);
   };
 
+  const updateSearchTerm = (searchTerm) => {
+    setLoading(true);
+    setSearchTerm(searchTerm);
+  };
+
   const headerOptions = {
     filterList,
     updateFilterList,
@@ -64,6 +82,8 @@ const App = () => {
     toggleVerticalFilter,
     showVerticalFilters,
     onFilterChange,
+    searchTerm,
+    updateSearchTerm,
     loading,
   };
 
