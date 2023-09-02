@@ -67,27 +67,27 @@ const onFilterChangeHandler = {
   },
 };
 
-const translateData = (schema, data) => {
-  let newData = data;
+// const translateData = (schema, data) => {
+//   let newData = data;
 
-  if (schema.translate) {
-    const translatedData = schema.translate(data);
-    newData = {
-      ...newData,
-      [schema.name]:
-        typeof translatedData === "object"
-          ? {
-              ...newData[schema.name],
-              ...translatedData,
-            }
-          : translatedData,
-    };
-  }
-  if (typeof newData[schema.name] !== "object")
-    newData[schema.name] = { title: newData[schema.name] };
+//   if (schema.translate) {
+//     const translatedData = schema.translate(data);
+//     newData = {
+//       ...newData,
+//       [schema.name]:
+//         typeof translatedData === "object"
+//           ? {
+//               ...newData[schema.name],
+//               ...translatedData,
+//             }
+//           : translatedData,
+//     };
+//   }
+//   if (typeof newData[schema.name] !== "object")
+//     newData[schema.name] = { title: newData[schema.name] };
 
-  return newData;
-};
+//   return newData;
+// };
 
 export const filterData = (data, filterList) => {
   let filteredData = data;
@@ -104,26 +104,26 @@ export const filterData = (data, filterList) => {
   return filteredData;
 };
 
-export const sortData = (schema, data, sortingList) => {
-  const sortedData = [...data];
-  sortingList.forEach((l) => {
-    const sIndex = schema.findIndex((s) => s.name === l.name);
-    if (sIndex !== -1) {
-      const defaultComparator = (a, b) => {
-        const aData = translateData(schema[sIndex], a);
-        const bData = translateData(schema[sIndex], b);
-        return aData[l.name].title.localeCompare(bData[l.name].title);
-      };
+// export const sortData = (schema, data, sortingList) => {
+//   const sortedData = [...data];
+//   sortingList.forEach((l) => {
+//     const sIndex = schema.findIndex((s) => s.name === l.name);
+//     if (sIndex !== -1) {
+//       const defaultComparator = (a, b) => {
+//         const aData = translateData(schema[sIndex], a);
+//         const bData = translateData(schema[sIndex], b);
+//         return aData[l.name].title.localeCompare(bData[l.name].title);
+//       };
 
-      const { comparator = defaultComparator } = schema[sIndex];
+//       const { comparator = defaultComparator } = schema[sIndex];
 
-      sortedData.sort(comparator);
-      if (l.type === "desc") sortedData.reverse();
-    }
-  });
+//       sortedData.sort(comparator);
+//       if (l.type === "desc") sortedData.reverse();
+//     }
+//   });
 
-  return sortedData;
-};
+//   return sortedData;
+// };
 
 export const getFilterList = (filterList, unselectedChipList = []) => {
   const newList = { ...filterList };

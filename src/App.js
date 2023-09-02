@@ -80,7 +80,6 @@ const App = () => {
     toggleVerticalFilter,
     showVerticalFilters,
     onFilterChange,
-    searchTerm,
     updateSearchTerm,
     loading,
   };

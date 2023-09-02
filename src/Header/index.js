@@ -13,10 +13,7 @@ export const Header = (props) => {
   return (
     <div>
       <div className="d-flex mb-4 w-50 Header-wrapper">
-        <HeaderSearch
-          searchTerm={props.searchTerm}
-          updateSearchTerm={props.updateSearchTerm}
-        />
+        <HeaderSearch updateSearchTerm={props.updateSearchTerm} />
         <HeaderButton {...props} />
         {savedFilterList.length === 0 ? (
           <Tooltip tooltip="No saved filter views">

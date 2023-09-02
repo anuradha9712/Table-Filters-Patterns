@@ -1,19 +1,26 @@
 import React from "react";
 import { Input } from "@innovaccer/design-system";
 
-export const HeaderSearch = ({ updateSearchTerm, searchTerm }) => {
+export function debounce(func, delay = 500) {
+  let timerId;
+  return function () {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => func.apply(this, arguments), delay);
+  };
+}
+
+export const HeaderSearch = ({ updateSearchTerm }) => {
+
+  const onSearchHandler = debounce((target) => {
+    updateSearchTerm(target?.value);
+  });
+
   return (
     <Input
       name="TableHeader-search"
       icon="search"
-      value={searchTerm}
       placeholder="Search"
-      onChange={(e) => {
-        updateSearchTerm(e.target.value);
-      }}
-      onClear={() => {
-        updateSearchTerm("");
-      }}
+      onChange={({ target }) => onSearchHandler(target)}
     />
   );
 };
