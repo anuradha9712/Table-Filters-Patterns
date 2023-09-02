@@ -1,14 +1,14 @@
 import React from "react";
 import {
-  Sidesheet,
+  List,
   Card,
   Input,
   Label,
-  Divider,
   Text,
   Button,
   Modal,
   Dropdown,
+  Sidesheet,
 } from "@innovaccer/design-system";
 import "../../style.css";
 import { getDisplayDate } from "./utils";
@@ -20,8 +20,8 @@ const EditModal = ({
   savedFilterList,
   updateSavedFilterList,
 }) => {
-  const [filterName, setFilterName] = React.useState(filterItem.filterName);
-  const [filterDesc, setFilterDesc] = React.useState(filterItem.filterDesc);
+  const [filterName, setFilterName] = React.useState(filterItem?.filterName);
+  const [filterDesc, setFilterDesc] = React.useState(filterItem?.filterDesc);
 
   const onFilterUpdate = () => {
     const updatedList = savedFilterList.map((filter) => {
@@ -148,7 +148,6 @@ export const SavedFilterView = ({
   updateSavedFilterList,
   updateFilterList,
 }) => {
-
   const headerOptions = {
     heading: "Saved filter views",
   };
@@ -160,56 +159,73 @@ export const SavedFilterView = ({
   };
 
   const applyFilterHandler = (filterItem) => {
-    updateFilterList(filterItem.filterList);
+    updateFilterList(filterItem.filterList, true);
     onClose();
   };
+
+  const schema = [
+    {
+      name: "filterName",
+      displayName: "filterName",
+      width: "75%",
+      cellType: "WITH_META_LIST",
+      sorting: false,
+      translate: (data) => ({
+        title: data.filterName,
+        metaList: [`${data.filterDesc}`],
+      }),
+    },
+    {
+      name: "filterDesc",
+      displayName: "filterDesc",
+      cellType: "DEFAULT",
+      width: "25%",
+      sorting: false,
+      align: "right",
+      cellRenderer: (props) => {
+        return (
+          <div className="d-flex align-items-center justify-content-end flex-grow-1">
+            <Text appearance="subtle" className="mr-5">
+              {getDisplayDate(props?.data?.created_date)}
+            </Text>
+            <div>
+              <ContextMenu
+                filterItem={props?.data}
+                savedFilterList={savedFilterList}
+                updateSavedFilterList={updateSavedFilterList}
+              />
+            </div>
+          </div>
+        );
+      },
+    },
+  ];
 
   return (
     <div>
       <Sidesheet {...options}>
         <Card shadow="none" className="mt-5 pt-5">
-          <div className="ml-5">
-            <Input
-              className="w-25"
-              icon="search"
-              name="input"
-              onChange={function () {}}
-              placeholder="Search"
-            />
-            <Label className="mt-6 mb-4">
-              {`Showing ${savedFilterList.length} items`}
-            </Label>
-          </div>
-          <Divider appearance="header" />
-          {savedFilterList.map((filterItem, key) => {
-            return (
-              <div
-                key={key}
-                className="cursor-pointer"
-                onClick={() => applyFilterHandler(filterItem)}
-              >
-                <div className="p-5 d-flex justify-content-between">
-                  <div>
-                    <Text>{filterItem.filterName}</Text>
-                    <br />
-                    <Text appearance="subtle">{filterItem.filterDesc}</Text>
-                  </div>
-
-                  <div className="d-flex align-items-center">
-                    <Text appearance="subtle" className="mr-5 w-100">
-                      {getDisplayDate(filterItem.created_date)}
-                    </Text>
-                    <ContextMenu
-                      filterItem={filterItem}
-                      savedFilterList={savedFilterList}
-                      updateSavedFilterList={updateSavedFilterList}
-                    />
-                  </div>
-                </div>
-                <Divider />
-              </div>
-            );
-          })}
+          <List
+            pageSize={5}
+            type="resource"
+            schema={schema}
+            showMenu={false}
+            withHeader={true}
+            separator={false}
+            withPagination={true}
+            data={savedFilterList}
+            loading={!options.open}
+            onRowClick={applyFilterHandler}
+            headerOptions={{
+              withSearch: true,
+              dynamicColumn: false,
+            }}
+            onSearch={(currData, searchTerm) => {
+              return currData.filter((d) =>
+                d.filterName.toLowerCase().match(searchTerm.toLowerCase())
+              );
+            }}
+          />
         </Card>
       </Sidesheet>
     </div>

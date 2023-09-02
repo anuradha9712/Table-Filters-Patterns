@@ -102,7 +102,7 @@ export const HeaderFilters = ({
           {isOverflow && (
             <LinkButton
               appearance="transparent"
-              aria-label="Re-evaluate"
+              aria-label="View more"
               onClick={() => setExpanded(true)}
               className="mx-4"
               subtle={true}
@@ -113,7 +113,7 @@ export const HeaderFilters = ({
           <div className="border-left pl-4 d-flex align-items-center">
             <LinkButton
               appearance="transparent"
-              aria-label="Re-evaluate"
+              aria-label="Clear filters"
               onClick={() => updateFilterList({})}
             >
               Clear filters

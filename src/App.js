@@ -54,10 +54,8 @@ const App = () => {
   };
 
   const updateFilterList = (newFilterList) => {
-    if (newFilterList !== filterList) {
-      setFilterList(newFilterList);
-      setLoading(true);
-    }
+    setFilterList(newFilterList);
+    setLoading(true);
   };
 
   const onFilterChange = (name, selected) => {
