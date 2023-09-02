@@ -26,6 +26,8 @@ export const SaveFilter = ({
 
   const onClose = () => {
     setShowModal(!showModal);
+    setFilterName("");
+    setFilterDesc("");
   };
 
   const onFilterSave = () => {

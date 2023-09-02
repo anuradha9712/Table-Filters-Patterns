@@ -41,13 +41,15 @@ export const Header = (props) => {
         savedFilterList={savedFilterList}
         updateSavedFilterList={setSavedFilterList}
       />
-      <SavedFilterView
-        openSidesheet={openSidesheet}
-        savedFilterList={savedFilterList}
-        onClose={() => setOpenSidesheet(false)}
-        updateSavedFilterList={setSavedFilterList}
-        updateFilterList={props.updateFilterList}
-      />
+      {openSidesheet && (
+        <SavedFilterView
+          openSidesheet={openSidesheet}
+          savedFilterList={savedFilterList}
+          onClose={() => setOpenSidesheet(false)}
+          updateSavedFilterList={setSavedFilterList}
+          updateFilterList={props.updateFilterList}
+        />
+      )}
     </div>
   );
 };
