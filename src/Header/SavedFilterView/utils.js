@@ -22,10 +22,10 @@ const getTimeDifference = (created_date) => {
   return { days, hours, minutes, seconds };
 };
 
-const dayHandler = (days) => {
+const dayHandler = (days, fullDate) => {
   switch (true) {
     case days > 7:
-      return days;
+      return fullDate;
     case days === 7:
       return "1 week ago";
     case days === 1:
@@ -43,15 +43,36 @@ const minHandler = (min) => {
   return min === 1 ? "1 min ago" : `${min} mins ago`;
 };
 
-export const getDisplayDate = (created_date) => {
-  let { days, hours, minutes } = getTimeDifference(created_date);
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
+export const getDisplayDate = (created_date) => {
+  let month = monthNames[created_date.getUTCMonth()];
+  let date = ("0" + created_date.getUTCDate()).slice(-2);
+  let year = created_date.getUTCFullYear();
+
+  let { days, hours, minutes } = getTimeDifference(created_date);
+  const fullDate = month + " " + date + ", " + year;
+
+  let displayDate = "just now";
   if (days) {
-    return dayHandler(days);
+    displayDate = dayHandler(days, fullDate);
   } else if (hours) {
-    return hourHandler(hours);
+    displayDate = hourHandler(hours);
   } else if (minutes) {
-    return minHandler(minutes);
+    displayDate = minHandler(minutes);
   }
-  return "just now";
+  return { displayDate, fullDate };
 };

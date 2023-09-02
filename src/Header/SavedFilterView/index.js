@@ -2,11 +2,12 @@ import React from "react";
 import {
   List,
   Card,
+  Text,
+  Modal,
   Input,
   Label,
-  Text,
   Button,
-  Modal,
+  Tooltip,
   Dropdown,
   Sidesheet,
 } from "@innovaccer/design-system";
@@ -41,7 +42,7 @@ const EditModal = ({
     <Modal
       onClose={onClose}
       open={showEditModal}
-      backdropClose={true}
+      backdropClose={false}
       headerOptions={{
         heading: "Filter view details",
       }}
@@ -163,6 +164,24 @@ export const SavedFilterView = ({
     onClose();
   };
 
+  const customCellRenderer = (props) => {
+    const { displayDate, fullDate } = getDisplayDate(props?.data?.created_date);
+    return (
+      <div className="d-flex align-items-center justify-content-end flex-grow-1">
+        {/* <Tooltip tooltip={fullDate} position="top"> */}
+          <Text appearance="subtle" className="mr-5">
+            {displayDate}
+          </Text>
+        {/* </Tooltip> */}
+        <ContextMenu
+          filterItem={props?.data}
+          savedFilterList={savedFilterList}
+          updateSavedFilterList={updateSavedFilterList}
+        />
+      </div>
+    );
+  };
+
   const schema = [
     {
       name: "filterName",
@@ -182,22 +201,7 @@ export const SavedFilterView = ({
       width: "25%",
       sorting: false,
       align: "right",
-      cellRenderer: (props) => {
-        return (
-          <div className="d-flex align-items-center justify-content-end flex-grow-1">
-            <Text appearance="subtle" className="mr-5">
-              {getDisplayDate(props?.data?.created_date)}
-            </Text>
-            <div>
-              <ContextMenu
-                filterItem={props?.data}
-                savedFilterList={savedFilterList}
-                updateSavedFilterList={updateSavedFilterList}
-              />
-            </div>
-          </div>
-        );
-      },
+      cellRenderer: customCellRenderer,
     },
   ];
 
