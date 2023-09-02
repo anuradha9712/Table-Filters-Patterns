@@ -99,7 +99,7 @@ export const RightPanel = ({
         !showVerticalFilters ? " d-none" : ""
       }`}
     >
-      <div className={`${separator ? "Table-filters--scroll" : ""}`}>
+      <div className={`px-5 ${separator ? "Table-filters--scroll" : ""}`}>
         <div className="d-flex align-items-center justify-content-between pt-5 mb-7">
           <Subheading>Filters</Subheading>
           <Icon
@@ -210,7 +210,11 @@ export const RightPanel = ({
             })}
           </div>
         )}
+      </div>
 
+      {separator && <Divider />}
+
+      <div className="px-5">
         <Dropdown
           className="mt-6"
           options={[{ label: "Creation date", value: "Creation date" }]}
@@ -230,24 +234,22 @@ export const RightPanel = ({
             </Button>
           )}
         />
-      </div>
 
-      {separator && <Divider />}
-
-      <div className="d-flex justify-content-between pt-4">
-        <Button
-          onClick={onResetHandler}
-          appearance="transparent"
-          disabled={Object.keys(selectedOption).length === 0}
-        >
-          Reset values
-        </Button>
-        <Button
-          onClick={() => updateFilterList(selectedOption)}
-          disabled={selectedOption === filterList}
-        >
-          Apply filters
-        </Button>
+        <div className="d-flex justify-content-between pt-4">
+          <Button
+            onClick={onResetHandler}
+            appearance="transparent"
+            disabled={Object.keys(selectedOption).length === 0}
+          >
+            Reset values
+          </Button>
+          <Button
+            onClick={() => updateFilterList(selectedOption)}
+            disabled={selectedOption === filterList}
+          >
+            Apply filters
+          </Button>
+        </div>
       </div>
     </div>
   );
