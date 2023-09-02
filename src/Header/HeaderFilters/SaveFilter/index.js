@@ -31,11 +31,13 @@ export const SaveFilter = ({
   };
 
   const onFilterSave = () => {
+    const curr_date = new Date();
     const list = {
       filterName,
       filterDesc,
       filterList,
-      created_date: new Date(),
+      created_date: curr_date,
+      modified_date: curr_date,
       filterId: Math.random().toString(36).substring(2, 6),
     };
     updateSavedFilterList([...savedFilterList, list]);

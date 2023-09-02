@@ -29,6 +29,7 @@ const EditModal = ({
       if (filterItem.filterId === filter.filterId) {
         filter.filterName = filterName;
         filter.filterDesc = filterDesc;
+        filter.modified_date = new Date();
       }
 
       return filter;
@@ -165,13 +166,14 @@ export const SavedFilterView = ({
   };
 
   const customCellRenderer = (props) => {
-    const { displayDate, fullDate } = getDisplayDate(props?.data?.created_date);
+    const {modified_date, created_date} = props.data;
+    const { displayDate, fullDate } = getDisplayDate(modified_date);
     return (
       <div className="d-flex align-items-center justify-content-end flex-grow-1">
         {/* <Tooltip tooltip={fullDate} position="top"> */}
-          <Text appearance="subtle" className="mr-5">
-            {displayDate}
-          </Text>
+        <Text appearance="subtle" className="mr-5">
+          {modified_date === created_date ? 'created' : 'modified'} {displayDate}
+        </Text>
         {/* </Tooltip> */}
         <ContextMenu
           filterItem={props?.data}
@@ -186,7 +188,7 @@ export const SavedFilterView = ({
     {
       name: "filterName",
       displayName: "filterName",
-      width: "75%",
+      width: "70%",
       cellType: "WITH_META_LIST",
       sorting: false,
       translate: (data) => ({
@@ -198,7 +200,7 @@ export const SavedFilterView = ({
       name: "filterDesc",
       displayName: "filterDesc",
       cellType: "DEFAULT",
-      width: "25%",
+      width: "30%",
       sorting: false,
       align: "right",
       cellRenderer: customCellRenderer,
