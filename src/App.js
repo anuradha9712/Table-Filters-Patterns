@@ -1,116 +1,156 @@
 import React from "react";
 import "@innovaccer/design-system/css/dist/index.css";
-import { Card, Table } from "@innovaccer/design-system";
-import { schema } from "./schema";
-import { Header } from "./Header";
-import { RightPanel } from "./RightPanel";
+import { Table } from "./Table";
 import { originalData } from "./data";
-import { getFilterList, filterData } from "./utils";
-import "./style.css";
+import { getFilterList, filterData, sortData } from "./utils";
 
 const App = () => {
-  const [showVerticalFilters, setShowVerticalFilters] = React.useState(true);
-  const [filterList, setFilterList] = React.useState({});
-  const [loading, setLoading] = React.useState(false);
-  const [tableData, setTableData] = React.useState(originalData);
-  const [unselectedChipList, setUnselectedChipList] = React.useState([]);
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const schema = [
+    {
+      name: "name",
+      displayName: "Name",
+      resizable: true,
+      separator: true,
+      tooltip: true,
+      translate: (a) => ({
+        title: `${a.firstName} ${a.lastName}`,
+        firstName: a.firstName,
+        lastName: a.lastName,
+      }),
+      cellType: "AVATAR_WITH_TEXT",
+      width: "15%",
+    },
+    {
+      name: "email",
+      displayName: "Email",
+      resizable: true,
+      sorting: false,
+      cellType: "WITH_META_LIST",
+      width: "20%",
+    },
+    {
+      name: "gender",
+      displayName: "Gender",
+      resizable: true,
+      comparator: (a, b) => a.gender.localeCompare(b.gender),
+      cellType: "STATUS_HINT",
+      width: "10%",
+      translate: (a) => ({
+        title: a.gender,
+        statusAppearance: a.gender === "Female" ? "alert" : "success",
+      }),
+    },
+    {
+      name: "type",
+      displayName: "Type",
+      sorting: false,
+      cellType: "DEFAULT",
+      width: "15%",
+    },
+    {
+      name: "status",
+      displayName: "Status",
+      sorting: false,
+      resizable: true,
+      comparator: (a, b) => a.status.localeCompare(b.status),
+      cellType: "STATUS_HINT",
+      width: "15%",
+      translate: (a) => ({
+        title: a.status,
+        statusAppearance: a.status === "Failed" ? "alert" : "success",
+      }),
+    },
+    {
+      name: "department",
+      displayName: "Department",
+      sorting: false,
+      cellType: "DEFAULT",
+      width: "15%",
+    },
+    {
+      name: "priority",
+      displayName: "Priority",
+      sorting: false,
+      cellType: "DEFAULT",
+      width: "10%",
+    },
+  ];
 
-  const classNames = showVerticalFilters ? "Table-verticalFilter" : "w-100";
+  const fetchData = (options) => {
+    const {
+      page,
+      pageSize,
+      sortingList,
+      filterList,
+      searchTerm,
+      unselectedChipList,
+    } = options;
+    console.log("step 22", filterList, unselectedChipList);
 
-  React.useEffect(() => {
+    const onSearch = (d, searchTerm = "") => {
+      return (
+        d.firstName.toLowerCase().match(searchTerm.toLowerCase()) ||
+        d.lastName.toLowerCase().match(searchTerm.toLowerCase())
+      );
+
+      // return true;
+    };
+
+    // const data = JSON.stringify(originalData.slice(0, 10), null, 4);
+    const data = originalData;
     const updatedFilterList = getFilterList(filterList, unselectedChipList);
-    const data = [...originalData];
+
     const filteredData = filterData(
       data,
       updatedFilterList,
       unselectedChipList
     );
+    const searchedData = filteredData.filter((d) => onSearch(d, searchTerm));
+    const sortedData = sortData(schema, searchedData, sortingList);
 
-    setLoading(false);
-    setTableData([...filteredData]);
-  }, [filterList, unselectedChipList]);
-
-  React.useEffect(() => {
-    const searchResult = originalData.filter((data) => {
-      return (
-        data.firstName.toLowerCase().match(searchTerm.toLowerCase()) ||
-        data.lastName.toLowerCase().match(searchTerm.toLowerCase())
-      );
-    });
-    setTableData(searchResult);
-    setLoading(false);
-
-  }, [searchTerm]);
-
-  const toggleVerticalFilter = () => {
-    setShowVerticalFilters(!showVerticalFilters);
-  };
-
-  const updateSelectedChipList = (newList) => {
-    setLoading(true);
-
-    setUnselectedChipList(newList);
-  };
-
-  const updateFilterList = (newFilterList) => {
-    setFilterList(newFilterList);
-    if (filterList !== newFilterList) {
-      setLoading(true);
+    if (page && pageSize) {
+      return new Promise((resolve) => {
+        // setTimeout(() => {
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        const slicedData = sortedData.slice(start, end);
+        resolve({
+          searchTerm,
+          schema,
+          count: sortedData.length,
+          data: slicedData,
+        });
+        // }, 2000);
+      });
     }
+
+    return new Promise((resolve) => {
+      // setTimeout(() => {
+      resolve({
+        searchTerm,
+        schema,
+        count: sortedData.length,
+        data: sortedData,
+      });
+      // }, 2000);
+    });
   };
 
-  const onFilterChange = (name, selected) => {
-    const newFilterList = {
-      ...filterList,
-      [name]: selected,
+  const loaderSchema = schema.filter((s) => {
+    const { name, displayName, width, separator, cellType, cellRenderer } = s;
+    return {
+      name,
+      displayName,
+      width,
+      separator,
+      cellType,
+      cellRenderer,
     };
-
-    updateFilterList(newFilterList);
-  };
-
-  const updateSearchTerm = (searchTerm) => {
-    setLoading(true);
-    setSearchTerm(searchTerm);
-  };
-
-  const headerOptions = {
-    filterList,
-    updateFilterList,
-    updateSelectedChipList,
-    unselectedChipList,
-    toggleVerticalFilter,
-    showVerticalFilters,
-    onFilterChange,
-    updateSearchTerm,
-    loading,
-  };
+  });
 
   return (
-    <div className="d-flex vh-100">
-      <div className={classNames}>
-        <Card className="overflow-hidden">
-          <Table
-            pageSize={7}
-            schema={schema}
-            data={tableData}
-            loading={loading}
-            withHeader={true}
-            withCheckbox={true}
-            withPagination={true}
-            headerOptions={{
-              children: <Header {...headerOptions} />,
-            }}
-          />
-        </Card>
-      </div>
-      <RightPanel
-        loading={loading}
-        filterList={filterList}
-        updateFilterList={updateFilterList}
-        onCloseHandler={toggleVerticalFilter}
-        showVerticalFilters={showVerticalFilters}
-      />
+    <div>
+      <Table loaderSchema={loaderSchema} fetchData={fetchData} />
     </div>
   );
 };

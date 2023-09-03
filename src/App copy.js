@@ -43,34 +43,36 @@ const App = () => {
 
   }, [searchTerm]);
 
-  const toggleVerticalFilter = React.useCallback(() => {
+  const toggleVerticalFilter = () => {
     setShowVerticalFilters(!showVerticalFilters);
-  }, [showVerticalFilters]);
+  };
 
-  const updateSelectedChipList = React.useCallback((newList) => {
+  const updateSelectedChipList = (newList) => {
     setLoading(true);
 
     setUnselectedChipList(newList);
-  }, []);
+  };
 
-  const updateFilterList = React.useCallback((newFilterList) => {
+  const updateFilterList = (newFilterList) => {
     setFilterList(newFilterList);
-    setLoading(true);
-  },[]);
+    if (filterList !== newFilterList) {
+      setLoading(true);
+    }
+  };
 
-  const onFilterChange = React.useCallback((name, selected) => {
+  const onFilterChange = (name, selected) => {
     const newFilterList = {
       ...filterList,
       [name]: selected,
     };
 
     updateFilterList(newFilterList);
-  },[filterList, updateFilterList]);
+  };
 
-  const updateSearchTerm = React.useCallback((searchTerm) => {
+  const updateSearchTerm = (searchTerm) => {
     setLoading(true);
     setSearchTerm(searchTerm);
-  },[]);
+  };
 
   const headerOptions = {
     filterList,
