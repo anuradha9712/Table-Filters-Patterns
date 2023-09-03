@@ -3,145 +3,11 @@ import {
   List,
   Card,
   Text,
-  Modal,
-  Input,
-  Label,
-  Button,
-  Tooltip,
-  Dropdown,
   Sidesheet,
 } from "@innovaccer/design-system";
 import "../../style.css";
 import { getDisplayDate } from "./utils";
-
-const EditModal = ({
-  filterItem,
-  onClose,
-  showEditModal,
-  savedFilterList,
-  updateSavedFilterList,
-}) => {
-  const [filterName, setFilterName] = React.useState(filterItem?.filterName);
-  const [filterDesc, setFilterDesc] = React.useState(filterItem?.filterDesc);
-
-  const onFilterUpdate = () => {
-    const updatedList = savedFilterList.map((filter) => {
-      if (filterItem.filterId === filter.filterId) {
-        filter.filterName = filterName;
-        filter.filterDesc = filterDesc;
-        filter.modified_date = new Date();
-      }
-
-      return filter;
-    });
-
-    updateSavedFilterList(updatedList);
-    onClose();
-  };
-
-  return (
-    <Modal
-      onClose={onClose}
-      open={showEditModal}
-      backdropClose={false}
-      headerOptions={{
-        heading: "Filter view details",
-      }}
-      footer={
-        <>
-          <Button appearance="basic" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            appearance="primary"
-            className="ml-4"
-            onClick={onFilterUpdate}
-          >
-            Update
-          </Button>
-        </>
-      }
-    >
-      <Label withInput={true}>Name</Label>
-      <Input
-        placeholder="Enter name"
-        className="mb-6"
-        value={filterName}
-        onChange={(e) => setFilterName(e.target.value)}
-      />
-
-      <Label withInput={true} optional={true}>
-        Description
-      </Label>
-      <Input
-        placeholder="Enter a description..."
-        className="mb-4"
-        value={filterDesc}
-        onChange={(e) => setFilterDesc(e.target.value)}
-      />
-    </Modal>
-  );
-};
-
-const ContextMenu = ({
-  filterItem,
-  updateSavedFilterList,
-  savedFilterList,
-}) => {
-  const [showEditModal, setShowEditModal] = React.useState(false);
-
-  const onEditHandler = () => {
-    setShowEditModal(true);
-  };
-
-  const onClose = () => {
-    setShowEditModal(!showEditModal);
-  };
-
-  const onDeleteHandler = () => {
-    const updatedList = savedFilterList.filter((filter) => {
-      return filterItem.filterId !== filter.filterId;
-    });
-
-    updateSavedFilterList(updatedList);
-  };
-
-  const onChangeHandler = (selectedOption) => {
-    if (selectedOption === "edit") {
-      onEditHandler();
-    } else if (selectedOption === "delete") {
-      onDeleteHandler();
-    }
-  };
-
-  return (
-    <>
-      <Dropdown
-        menu={true}
-        className="w-25"
-        optionType="WITH_ICON"
-        onChange={onChangeHandler}
-        align="left"
-        options={[
-          {
-            icon: "edit",
-            label: "Edit details",
-            value: "edit",
-          },
-          { icon: "delete", label: "Delete", value: "delete" },
-        ]}
-      />
-
-      <EditModal
-        filterItem={filterItem}
-        onClose={onClose}
-        showEditModal={showEditModal}
-        savedFilterList={savedFilterList}
-        updateSavedFilterList={updateSavedFilterList}
-      />
-    </>
-  );
-};
+import { ContextMenu } from "./ContextMenu";
 
 export const SavedFilterView = ({
   openSidesheet,
@@ -166,13 +32,14 @@ export const SavedFilterView = ({
   };
 
   const customCellRenderer = (props) => {
-    const {modified_date, created_date} = props.data;
+    const { modified_date, created_date } = props.data;
     const { displayDate, fullDate } = getDisplayDate(modified_date);
     return (
       <div className="d-flex align-items-center justify-content-end flex-grow-1">
         {/* <Tooltip tooltip={fullDate} position="top"> */}
         <Text appearance="subtle" className="mr-5">
-          {modified_date === created_date ? 'created' : 'modified'} {displayDate}
+          {modified_date === created_date ? "created" : "modified"}{" "}
+          {displayDate}
         </Text>
         {/* </Tooltip> */}
         <ContextMenu
