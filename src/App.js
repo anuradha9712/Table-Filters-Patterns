@@ -110,7 +110,6 @@ const App = () => {
 
     if (page && pageSize) {
       return new Promise((resolve) => {
-        // setTimeout(() => {
         const start = (page - 1) * pageSize;
         const end = start + pageSize;
         const slicedData = sortedData.slice(start, end);
@@ -120,19 +119,16 @@ const App = () => {
           count: sortedData.length,
           data: slicedData,
         });
-        // }, 2000);
       });
     }
 
     return new Promise((resolve) => {
-      // setTimeout(() => {
       resolve({
         searchTerm,
         schema,
         count: sortedData.length,
         data: sortedData,
       });
-      // }, 2000);
     });
   };
 

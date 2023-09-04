@@ -14,7 +14,7 @@ export const DraggableDropdown = (props) => {
 
   const handleParentChange = (e) => {
     setTempOptions(
-      tempOptions.map((option) => ({ ...option, selected: e.target.checked }))
+      tempOptions?.map((option) => ({ ...option, selected: e.target.checked }))
     );
   };
 
@@ -83,8 +83,8 @@ export const DraggableDropdown = (props) => {
             iconAlign="right"
           >
             {`Showing ${
-              options.filter((option) => option.selected).length
-            } of ${options.length} column${getPluralSuffix(options.length)}`}
+              options?.filter((option) => option.selected)?.length
+            } of ${options?.length} column${getPluralSuffix(options?.length)}`}
           </Button>
         }
         triggerClass="w-100"
@@ -98,15 +98,15 @@ export const DraggableDropdown = (props) => {
             <Checkbox
               className="OptionCheckbox"
               label="Select All"
-              checked={tempOptions.every((option) => option.selected)}
+              checked={tempOptions?.every((option) => option.selected)}
               indeterminate={
-                tempOptions.some((option) => option.selected) &&
-                tempOptions.some((option) => !option.selected)
+                tempOptions?.some((option) => option.selected) &&
+                tempOptions?.some((option) => !option.selected)
               }
               onChange={handleParentChange}
             />
           </div>
-          {tempOptions.map((option, index) => {
+          {tempOptions && tempOptions.map((option, index) => {
             return (
               <div
                 key={option.value}

@@ -24,50 +24,19 @@ export const ColumnSelection = (props) => {
     onSelectAll,
     selectAll,
     allowSelectAll,
-    // searchPlaceholder,
-    // searchTerm,
-    // updateSearchTerm,
-    // updateShowVerticalFilters,
   } = props;
 
   const [selectAllRecords, setSelectAllRecords] = React.useState(false);
-  const [flag, setFlag] = React.useState(true);
-  // const contextProp = React.useContext(TableContext);
-  // const { filterList, updateFilterList } = contextProp;
-
-  React.useEffect(() => {
-    setFlag(!flag);
-  }, [schema]);
 
   React.useEffect(() => {
     if (selectAll && selectAll.checked) {
       if (onSelectAll) onSelectAll(true, selectAllRecords);
     }
-  }, [selectAllRecords]);
+  }, [selectAllRecords, onSelectAll, selectAll]);
 
   React.useEffect(() => {
     if (selectAll && !selectAll.checked) setSelectAllRecords(false);
   }, [selectAll]);
-
-  // const filterSchema = schema.filter((s) => s.filters);
-
-  // const onSearchChange = (e) => {
-  //   const value = e.target.value;
-  //   if (updateSearchTerm) {
-  //     updateSearchTerm(value);
-  //   }
-  // };
-
-  // const onFilterChange = (name, filters) => {
-  //   const newFilterList = {
-  //     ...filterList,
-  //     [name]: filters,
-  //   };
-
-  //   if (updateFilterList) {
-  //     updateFilterList(newFilterList);
-  //   }
-  // };
 
   const columnOptions = schema?.map((s) => ({
     label: s.displayName,
@@ -83,8 +52,6 @@ export const ColumnSelection = (props) => {
 
     if (updateSchema) updateSchema(newSchema);
   };
-
-  // const hasSchema = (schema) => schema && !!schema.length;
 
   const getPluralSuffix = (count) => (count > 1 ? "s" : "");
 
@@ -112,7 +79,7 @@ export const ColumnSelection = (props) => {
           <Checkbox
             {...selectAll}
             onChange={(event) => {
-              if (onSelectAll) onSelectAll(event.target.checked);
+              if (onSelectAll) onSelectAll(event.target?.checked);
             }}
           />
         )}
@@ -123,11 +90,11 @@ export const ColumnSelection = (props) => {
         ) : (
           <div>
             <Label>{label}</Label>
-            {withPagination && selectAll.checked && allowSelectAll && (
+            {withPagination && selectAll?.checked && allowSelectAll && (
               <div className="ml-4">
                 {!selectAllRecords ? (
                   <Button size="tiny" onClick={() => setSelectAllRecords(true)}>
-                    {`Select all totalRecords} items`}
+                    {`Select all ${totalRecords} items`}
                   </Button>
                 ) : (
                   <Button
