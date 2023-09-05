@@ -47,9 +47,15 @@ export const HeaderFilters = ({
       >
         {Object.keys(filterList).map((filter, key) => {
           const selected = !unselectedChipList.includes(filter);
-          if (filterList[filter].length === 0) {
+          const optionLength = filterList[filter].length;
+
+          if (optionLength === 0) {
             return null;
           }
+          const label =
+            optionLength > 2
+              ? `${optionLength} selected`
+              : filterList[filter].toString();
           return (
             <Chip
               key={key}
@@ -58,7 +64,7 @@ export const HeaderFilters = ({
               selected={selected}
               type="selection"
               clearButton={true}
-              label={filterList[filter].toString()}
+              label={label}
               labelPrefix={
                 filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
               }
@@ -107,7 +113,7 @@ export const HeaderFilters = ({
               className="mx-4"
               subtle={true}
             >
-              View More
+              {`View all ${Object.keys(filterList).length}`}
             </LinkButton>
           )}
           <div className="border-left pl-4 d-flex align-items-center">

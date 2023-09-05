@@ -24,6 +24,7 @@ export const SavedFilterView = ({
     open: openSidesheet,
     onClose,
     headerOptions,
+    backdropClose: false,
   };
 
   const applyFilterHandler = (filterItem) => {
