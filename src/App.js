@@ -16,7 +16,9 @@ const App = () => {
   const [unselectedChipList, setUnselectedChipList] = React.useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
 
-  const classNames = showVerticalFilters ? "Table-verticalFilter" : "w-100";
+  const classNames = showVerticalFilters
+    ? "Table-verticalFilter Table-panel--open"
+    : "Table-panel--close";
 
   React.useEffect(() => {
     const updatedFilterList = getFilterList(filterList, unselectedChipList);

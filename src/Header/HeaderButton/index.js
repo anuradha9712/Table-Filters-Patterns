@@ -8,9 +8,12 @@ export const HeaderButton = ({
   toggleVerticalFilter,
   showVerticalFilters,
 }) => {
+
+  const headerClass = showVerticalFilters ? "Header-filters--hide" : "Header-filters--show";
+
   return (
-    <div>
-      {!showVerticalFilters && (
+    <div className={headerClass}>
+      {/* {!showVerticalFilters && ( */}
         <div className="d-flex align-items-center">
           <Dropdown
             className="ml-6"
@@ -86,7 +89,7 @@ export const HeaderButton = ({
             More Filters
           </Button>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

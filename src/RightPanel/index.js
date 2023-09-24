@@ -92,11 +92,17 @@ export const RightPanel = ({
     updateFilterList({});
   };
 
+  // const classNames = !showVerticalFilters
+  //   ? "d-none Table-filters--close"
+  //   : "Table-filters--open";
+
   return (
     <div
       ref={ref}
-      className={`Table-filters Table-filters--vertical bg-secondary-lightest${
-        !showVerticalFilters ? " d-none" : ""
+      className={`Table-filters Table-filters--vertical bg-secondary-lightest ${
+        !showVerticalFilters
+          ? " d-none Table-filters--close"
+          : "Table-filters--open"
       }`}
     >
       <div className={`px-5 ${separator ? "Table-filters--scroll" : ""}`}>
