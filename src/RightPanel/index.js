@@ -22,6 +22,7 @@ export const RightPanel = ({
   const [selectedOption, setSelectedOption] = React.useState({});
   const [pinnedFilters, setPinnedFilters] = React.useState([]);
   const [separator, setSeperator] = React.useState(false);
+  const [creationDate, setCreationDate] = React.useState('');
 
   let displayFilterList = [];
   let pinnedFilterList = [];
@@ -206,7 +207,13 @@ export const RightPanel = ({
                   {Element && (
                     <Element
                       {...props}
+                      date={
+                        selectedOption[value]?.includes(creationDate)
+                          ? creationDate
+                          : ""
+                      }
                       onDateChange={(date, dateStr) => {
+                        setCreationDate(dateStr);
                         onFilterChangeHandler(value, dateStr);
                       }}
                     />

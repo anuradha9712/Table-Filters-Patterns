@@ -48,12 +48,13 @@ export const HeaderFilters = ({
         {Object.keys(filterList).map((filter, key) => {
           const selected = !unselectedChipList.includes(filter);
           const optionLength = filterList[filter].length;
+          const filterType = typeof filterList[filter];
 
           if (optionLength === 0) {
             return null;
           }
           const label =
-            optionLength > 2
+            optionLength > 2 && filterType !== 'string'
               ? `${optionLength} selected`
               : filterList[filter].toString();
           return (

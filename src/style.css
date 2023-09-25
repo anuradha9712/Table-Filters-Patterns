@@ -112,6 +112,7 @@
   content: "";
   border-radius: 28px;
   background: red;
+  color: green;
   filter: blur(3px);
   /* width: 28px;
   height: 4px;
