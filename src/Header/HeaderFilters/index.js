@@ -24,6 +24,9 @@ export const HeaderFilters = ({
   const onChipClose = (filter) => {
     const newList = { ...filterList };
     delete newList[filter];
+
+    const unselectedList = unselectedChipList.filter((item) => item !== filter);
+    updateSelectedChipList(unselectedList);
     updateFilterList(newList);
   };
 
