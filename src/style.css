@@ -43,24 +43,6 @@
 
 /* Animations */
 
-@keyframes right-panel-open {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes right-panel-close {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
 @keyframes table-card-open {
   from {
     width: 100%;
@@ -89,21 +71,12 @@
   }
 }
 
-@keyframes header-filter-show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 .Table-filters--open {
-  animation: right-panel-open 240ms cubic-bezier(0.4, 0.14, 0.3, 1);
+  animation: fadeIn 240ms cubic-bezier(0.4, 0.14, 0.3, 1);
 }
 
 .Table-filters--close {
-  animation: right-panel-close 80ms cubic-bezier(0.4, 0.14, 0.3, 1);
+  animation: fadeOut 80ms cubic-bezier(0.4, 0.14, 0.3, 1);
 }
 
 .Table-panel--open {
@@ -122,6 +95,15 @@
 }
 
 .Header-filters--show {
-  animation: header-filter-show 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
+  animation: fadeIn 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
   animation-fill-mode: forwards;
 }
+
+.Selected-chip--show {
+  animation: fadeIn 240ms cubic-bezier(0, 0, 0.38, 0.9);
+  animation-fill-mode: forwards;
+}
+
+/* .Group-actions-button {
+  transition: 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
+} */

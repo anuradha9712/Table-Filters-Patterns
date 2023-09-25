@@ -57,19 +57,24 @@ export const HeaderFilters = ({
               ? `${optionLength} selected`
               : filterList[filter].toString();
           return (
-            <Chip
-              key={key}
-              onClick={() => onChipClick(filter)}
-              onClose={() => onChipClose(filter)}
-              selected={selected}
-              type="selection"
-              clearButton={true}
-              label={label}
-              labelPrefix={
-                filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
-              }
-              className="mr-4"
-            />
+            <div
+              style={{ animationDelay: key * 80 + "ms" }}
+              className="Selected-chip--show opacity-0"
+            >
+              <Chip
+                key={key}
+                onClick={() => onChipClick(filter)}
+                onClose={() => onChipClose(filter)}
+                selected={selected}
+                type="selection"
+                clearButton={true}
+                label={label}
+                labelPrefix={
+                  filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
+                }
+                className="mr-4"
+              />
+            </div>
           );
         })}
 
@@ -82,7 +87,7 @@ export const HeaderFilters = ({
               className="mx-4"
               subtle={true}
             >
-              View Less
+              View less
             </LinkButton>
 
             <div className="border-left pl-4 d-flex align-items-center">
@@ -104,7 +109,7 @@ export const HeaderFilters = ({
       </div>
 
       {Object.keys(filterList).length > 0 && !expanded && (
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center Group-actions-button">
           {isOverflow && (
             <LinkButton
               appearance="transparent"
