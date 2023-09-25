@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Chip, LinkButton } from "@innovaccer/design-system";
+import { Chip, LinkButton, Divider } from "@innovaccer/design-system";
 import { SaveFilter } from "./SaveFilter";
 
 export const HeaderFilters = ({
@@ -80,6 +80,7 @@ export const HeaderFilters = ({
 
         {Object.keys(filterList).length > 0 && expanded && (
           <div className="d-flex align-items-center">
+            {/* <Divider vertical={true} className="Chip-separator" /> */}
             <LinkButton
               appearance="transparent"
               aria-label="Re-evaluate"
@@ -110,6 +111,11 @@ export const HeaderFilters = ({
 
       {Object.keys(filterList).length > 0 && !expanded && (
         <div className="d-flex align-items-center Group-actions-button">
+          {/* <Divider
+            vertical={true}
+            data-test="view all divider"
+            className="Chip-separator"
+          /> */}
           {isOverflow && (
             <LinkButton
               appearance="transparent"
