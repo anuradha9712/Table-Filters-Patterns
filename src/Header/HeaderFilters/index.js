@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Chip, LinkButton, Divider } from "@innovaccer/design-system";
 import { SaveFilter } from "./SaveFilter";
+import classNames from "classnames";
 
 export const HeaderFilters = ({
   filterList,
@@ -39,15 +40,14 @@ export const HeaderFilters = ({
     }
   };
 
+  const wrapperClass = classNames({
+    "Header-filters-row": !expanded,
+    "d-flex flex-wrap flex-row": expanded,
+  });
+
   return (
     <div className="d-flex align-items-center">
-      <div
-        className={`${
-          !expanded ? "Header-filters-row" : "d-flex flex-wrap flex-row"
-        }`}
-        style={{ rowGap: "8px" }}
-        ref={ref}
-      >
+      <div className={wrapperClass} style={{ rowGap: "8px" }} ref={ref}>
         {Object.keys(filterList).map((filter, key) => {
           const selected = !unselectedChipList.includes(filter);
           const optionLength = filterList[filter].length;
@@ -57,14 +57,11 @@ export const HeaderFilters = ({
             return null;
           }
           const label =
-            optionLength > 2 && filterType !== 'string'
+            optionLength > 2 && filterType !== "string"
               ? `${optionLength} selected`
               : filterList[filter].toString();
           return (
-            <div
-              style={{ animationDelay: key * 80 + "ms" }}
-              className="Selected-chip--show opacity-0"
-            >
+            <div className="Selected-chip--show opacity-0">
               <Chip
                 key={key}
                 onClick={() => onChipClick(filter)}
@@ -83,7 +80,7 @@ export const HeaderFilters = ({
         })}
 
         {Object.keys(filterList).length > 0 && expanded && (
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center Selected-chip--show opacity-0">
             {/* <Divider vertical={true} className="Chip-separator" /> */}
             <LinkButton
               appearance="transparent"
@@ -114,7 +111,7 @@ export const HeaderFilters = ({
       </div>
 
       {Object.keys(filterList).length > 0 && !expanded && (
-        <div className="d-flex align-items-center Group-actions-button">
+        <div className="d-flex align-items-center Selected-chip--show opacity-0">
           {/* <Divider
             vertical={true}
             data-test="view all divider"

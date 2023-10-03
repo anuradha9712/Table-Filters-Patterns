@@ -71,6 +71,24 @@
   }
 }
 
+@keyframes slideDown {
+  from {
+    height: 40px;
+  }
+  to {
+    height: 64px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: 64px;
+  }
+  to {
+    height: 40px;
+  }
+}
+
 .Table-filters--open {
   animation: fadeIn 240ms cubic-bezier(0.4, 0.14, 0.3, 1);
 }
@@ -102,11 +120,8 @@
 .Selected-chip--show {
   animation: fadeIn 240ms cubic-bezier(0, 0, 0.38, 0.9);
   animation-fill-mode: forwards;
+  animation-delay: 80ms;
 }
-
-/* .Group-actions-button {
-  transition: 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
-} */
 
 .Chip-separator {
   content: "";
@@ -119,4 +134,14 @@
   transform: rotate(-90deg); */
   flex-shrink: 0;
   display: inline-block;
+}
+
+.Header-wrapper-slideDown {
+  animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
+  animation-fill-mode: forwards;
+}
+
+.Header-wrapper-slideUp {
+  animation: slideUp 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
+  animation-fill-mode: forwards;
 }
