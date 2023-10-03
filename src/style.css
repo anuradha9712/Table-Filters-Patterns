@@ -123,19 +123,6 @@
   animation-delay: 80ms;
 }
 
-.Chip-separator {
-  content: "";
-  border-radius: 28px;
-  background: red;
-  color: green;
-  filter: blur(3px);
-  /* width: 28px;
-  height: 4px;
-  transform: rotate(-90deg); */
-  flex-shrink: 0;
-  display: inline-block;
-}
-
 .Header-wrapper-slideDown {
   animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
   animation-fill-mode: forwards;
