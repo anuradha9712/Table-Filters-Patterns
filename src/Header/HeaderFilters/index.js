@@ -13,6 +13,8 @@ export const HeaderFilters = ({
 }) => {
   const [isOverflow, setIsOverflow] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [hideAnimation, setHideAnimation] = React.useState(false);
+  const [hideChipIndex, setHideChipIndex] = React.useState(-1);
 
   const ref = React.useRef();
 
@@ -40,6 +42,13 @@ export const HeaderFilters = ({
     }
   };
 
+  const onAnimationEndHandler = (filter) => {
+    if (hideAnimation) {
+      onChipClose(filter);
+      setHideAnimation(false);
+    }
+  };
+
   const wrapperClass = classNames({
     "Header-filters-row": !expanded,
     "d-flex flex-wrap flex-row": expanded,
@@ -53,6 +62,12 @@ export const HeaderFilters = ({
           const optionLength = filterList[filter].length;
           const filterType = typeof filterList[filter];
 
+          const chipClass = classNames({
+            "Selected-chip--hide": hideAnimation && hideChipIndex === key,
+            "Selected-chip--show opacity-0": true,
+            "mr-4": true,
+          });
+
           if (optionLength === 0) {
             return null;
           }
@@ -61,19 +76,24 @@ export const HeaderFilters = ({
               ? `${optionLength} selected`
               : filterList[filter].toString();
           return (
-            <div className="Selected-chip--show opacity-0">
+            <div
+              className={chipClass}
+              onAnimationEnd={() => onAnimationEndHandler(filter)}
+            >
               <Chip
                 key={key}
                 onClick={() => onChipClick(filter)}
-                onClose={() => onChipClose(filter)}
-                selected={selected}
+                onClose={() => {
+                  setHideAnimation(true);
+                  setHideChipIndex(key);
+                }}
+                label={label}
                 type="selection"
                 clearButton={true}
-                label={label}
+                selected={selected}
                 labelPrefix={
                   filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
                 }
-                className="mr-4"
               />
             </div>
           );

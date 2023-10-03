@@ -123,6 +123,11 @@
   animation-delay: 80ms;
 }
 
+.Selected-chip--hide {
+  animation: fadeOut 240ms cubic-bezier(0.2, 0, 1, 0.9);
+  animation-fill-mode: forwards;
+}
+
 .Header-wrapper-slideDown {
   animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
   animation-fill-mode: forwards;
