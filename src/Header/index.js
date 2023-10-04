@@ -4,22 +4,14 @@ import { HeaderSearch } from "./HeaderSearch";
 import HeaderFilters from "./HeaderFilters";
 import { HeaderButton } from "./HeaderButton";
 import { SavedFilterView } from "./SavedFilterView";
-import classNames from "classnames";
 import "../style.css";
 
 export const Header = (props) => {
-  const { filterList } = props;
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
-  const filterLength = Object.keys(filterList).length;
-
-  const wrapperClass = classNames({
-    "Header-wrapper-slideDown": filterLength > 0,
-    "Header-wrapper-slideUp": filterLength <= 0,
-  });
 
   return (
-    <div className={wrapperClass}>
+    <div>
       <div className="d-flex mb-4 w-50 Header-wrapper">
         <HeaderSearch updateSearchTerm={props.updateSearchTerm} />
         <HeaderButton {...props} />

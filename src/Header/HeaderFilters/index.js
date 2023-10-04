@@ -54,8 +54,18 @@ export const HeaderFilters = ({
     "d-flex flex-wrap flex-row": expanded,
   });
 
+  const filterLength = Object.keys(filterList).length;
+
+  const filterRowClass = classNames({
+    "d-flex align-items-center": true,
+    "Filter-row--expanded": expanded,
+    "Filter-row--collapsed": !expanded,
+    "Header-wrapper-slideDown": filterLength > 0,
+    "Header-wrapper-slideUp": filterLength <= 0,
+  });
+
   return (
-    <div className="d-flex align-items-center">
+    <div className={filterRowClass}>
       <div className={wrapperClass} style={{ rowGap: "8px" }} ref={ref}>
         {Object.keys(filterList).map((filter, key) => {
           const selected = !unselectedChipList.includes(filter);
