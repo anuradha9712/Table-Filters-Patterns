@@ -133,6 +133,8 @@
 .Header-filters--show {
   animation: fadeIn 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
   animation-fill-mode: forwards;
+  opacity: 0;
+  animation-delay: 80ms;
 }
 
 .Selected-chip--show {

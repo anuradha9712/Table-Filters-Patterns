@@ -1,38 +1,46 @@
 import React from "react";
 import { Button, Tooltip } from "@innovaccer/design-system";
-import { HeaderSearch } from "./HeaderSearch";
 import HeaderFilters from "./HeaderFilters";
+import { HeaderSearch } from "./HeaderSearch";
 import { HeaderButton } from "./HeaderButton";
 import { SavedFilterView } from "./SavedFilterView";
 import "../style.css";
+
+const getButtonPosition = () => {
+  const headerButton = document.getElementById("header-quick-filters");
+  const headerButtonWidth = headerButton && headerButton.getClientRects()[0]?.left;
+  return headerButtonWidth;
+};
 
 export const Header = (props) => {
   const { showVerticalFilters } = props;
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
-  const headerButtonWidth = document.getElementById(
-    "header-quick-filters"
-  )?.clientWidth;
+  const [buttonPosition, setButtonPosition] = React.useState();
+
+  React.useEffect(() => {
+    setButtonPosition(getButtonPosition())
+  }, [showVerticalFilters]);
 
   const keyframe = `
     @keyframes slidePanelRight {
       from {
-        right: 284px;
+        right: ${buttonPosition}px;
       }
       to {
-        right: ${headerButtonWidth}px;
+        right: 0;
       }
     }
 
     @keyframes slidePanelLeft {
       from {
-        left: 284px;
+        left: ${buttonPosition}px;
       }
       to {
         left: 0;
       }
     }
-`;
+  `;
 
   const animation = showVerticalFilters
     ? "slidePanelLeft 160ms cubic-bezier(0.2, 0, 0.38, 0.9)"
@@ -53,7 +61,6 @@ export const Header = (props) => {
           <Tooltip tooltip="No saved filter views">
             <Button
               icon="list"
-              className="ml-4"
               onClick={() => setOpenSidesheet(true)}
               disabled={true}
               style={styles}
@@ -64,7 +71,6 @@ export const Header = (props) => {
         ) : (
           <Button
             icon="list"
-            className="ml-4"
             onClick={() => setOpenSidesheet(true)}
             style={styles}
           >

@@ -16,7 +16,6 @@ export const HeaderButton = ({
     <div className={headerClass} id='header-quick-filters'>
       <div className="d-flex align-items-center">
         <Dropdown
-          className="ml-6"
           disabled={loading}
           withCheckbox={true}
           showApplyButton={true}
@@ -85,7 +84,7 @@ export const HeaderButton = ({
             },
           ]}
         />
-        <Button icon="add" className="ml-4" onClick={toggleVerticalFilter}>
+        <Button icon="add" className="mx-4" onClick={toggleVerticalFilter}>
           More Filters
         </Button>
       </div>
