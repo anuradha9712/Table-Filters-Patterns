@@ -116,46 +116,56 @@
 }
 
 .Table-panel--open {
-  animation: table-card-open 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: table-card-open 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
 
 .Table-panel--close {
-  animation: table-card-close 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: table-card-close 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
 
 .Header-filters--hide {
-  animation: header-filter-hide 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: header-filter-hide 80ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
 
 .Header-filters--show {
-  animation: fadeIn 80ms cubic-bezier(0.2, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: fadeIn 80ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
   opacity: 0;
   animation-delay: 80ms;
 }
 
+@keyframes groupActionSlide {
+  from {
+    opacity: 0;
+    /* right: 500px; */
+    right: 8px;
+  }
+  to {
+    opacity: 1;
+    /* right: 20px; */
+    right: 0;
+  }
+}
+
 .Selected-chip--show {
-  animation: fadeIn 240ms cubic-bezier(0, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: fadeIn 240ms cubic-bezier(0, 0, 0.38, 0.9) forwards;
   animation-delay: 80ms;
 }
 
+.Group-action--show {
+  animation: groupActionSlide 240ms cubic-bezier(0, 0, 0.38, 0.9) forwards;
+  /* animation-delay: 80ms; */
+}
+
 .Selected-chip--hide {
-  animation: fadeOut 240ms cubic-bezier(0.2, 0, 1, 0.9);
-  animation-fill-mode: forwards;
+  animation: fadeOut 240ms cubic-bezier(0.2, 0, 1, 0.9) forwards;
 }
 
 .Header-wrapper-slideDown {
-  animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
 
 .Header-wrapper-slideUp {
-  animation: slideUp 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
-  animation-fill-mode: forwards;
+  animation: slideUp 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
 
 .Filter-row--expanded {
@@ -163,5 +173,31 @@
 }
 
 .Filter-row--collapsed {
-  animation: collapsed 160ms cubic-bezier(0.2, 0, 0.38, 0.9)
+  animation: collapsed 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+@keyframes slideLeft {
+  from {
+    left: 100%;
+  }
+  to {
+    left: 0;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    right: 100%;
+  }
+  to {
+    right: 0;
+  }
+}
+
+.Filter-btn-slide--left {
+  animation: slideLeft 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+}
+
+.Filter-btn-slide--right {
+  animation: slideRight 120ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }

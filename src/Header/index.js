@@ -4,56 +4,21 @@ import HeaderFilters from "./HeaderFilters";
 import { HeaderSearch } from "./HeaderSearch";
 import { HeaderButton } from "./HeaderButton";
 import { SavedFilterView } from "./SavedFilterView";
+import classNames from "classnames";
 import "../style.css";
-
-const getButtonPosition = () => {
-  const headerButton = document.getElementById("header-quick-filters");
-  const headerButtonWidth = headerButton && headerButton.getClientRects()[0]?.left;
-  return headerButtonWidth;
-};
 
 export const Header = (props) => {
   const { showVerticalFilters } = props;
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
-  const [buttonPosition, setButtonPosition] = React.useState();
 
-  React.useEffect(() => {
-    setButtonPosition(getButtonPosition())
-  }, [showVerticalFilters]);
-
-  const keyframe = `
-    @keyframes slidePanelRight {
-      from {
-        right: ${buttonPosition}px;
-      }
-      to {
-        right: 0;
-      }
-    }
-
-    @keyframes slidePanelLeft {
-      from {
-        left: ${buttonPosition}px;
-      }
-      to {
-        left: 0;
-      }
-    }
-  `;
-
-  const animation = showVerticalFilters
-    ? "slidePanelLeft 160ms cubic-bezier(0.2, 0, 0.38, 0.9)"
-    : "slidePanelRight 120ms cubic-bezier(0.2, 0, 0.38, 0.9)";
-
-  const styles = {
-    animation,
-    animationFillMode: "forwards",
-  };
+  const filterBtnClass = classNames({
+    "Filter-btn-slide--left": showVerticalFilters,
+    "Filter-btn-slide--right": !showVerticalFilters,
+  });
 
   return (
     <div>
-      <style>{keyframe}</style>
       <div className="d-flex mb-4 w-50 Header-wrapper">
         <HeaderSearch updateSearchTerm={props.updateSearchTerm} />
         <HeaderButton {...props} />
@@ -63,7 +28,7 @@ export const Header = (props) => {
               icon="list"
               onClick={() => setOpenSidesheet(true)}
               disabled={true}
-              style={styles}
+              className={filterBtnClass}
             >
               Filter views
             </Button>
@@ -72,7 +37,7 @@ export const Header = (props) => {
           <Button
             icon="list"
             onClick={() => setOpenSidesheet(true)}
-            style={styles}
+            className={filterBtnClass}
           >
             Filter views
           </Button>

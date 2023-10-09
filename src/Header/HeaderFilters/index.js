@@ -15,6 +15,7 @@ export const HeaderFilters = ({
   const [expanded, setExpanded] = React.useState(false);
   const [hideAnimation, setHideAnimation] = React.useState(false);
   const [hideChipIndex, setHideChipIndex] = React.useState(-1);
+  const [showSlideAnimation, setShowSlideAnimation] = React.useState(false);
 
   const ref = React.useRef();
 
@@ -22,6 +23,7 @@ export const HeaderFilters = ({
     if (ref.current) {
       setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
     }
+    setShowSlideAnimation(true);
   }, [filterList]);
 
   const onChipClose = (filter) => {
@@ -63,6 +65,16 @@ export const HeaderFilters = ({
     "Header-wrapper-slideDown": filterLength > 0,
     "Header-wrapper-slideUp": filterLength <= 0,
   });
+
+  const groupActionClass = classNames({
+    "d-flex align-items-center ": true,
+    "Group-action--show": showSlideAnimation,
+  });
+
+  const animationEndHandler = () => {
+    console.log('animation end');
+    setShowSlideAnimation(false);
+  }
 
   return (
     <div className={filterRowClass}>
@@ -110,13 +122,16 @@ export const HeaderFilters = ({
         })}
 
         {Object.keys(filterList).length > 0 && expanded && (
-          <div className="d-flex align-items-center Selected-chip--show opacity-0">
+          <div
+            className={groupActionClass}
+            onAnimationEnd={animationEndHandler}
+          >
             {/* <Divider vertical={true} className="Chip-separator" /> */}
             <LinkButton
               appearance="transparent"
               aria-label="Re-evaluate"
               onClick={() => setExpanded(false)}
-              className="mx-4"
+              className={`mx-4 ${groupActionClass}`}
               subtle={true}
             >
               View less
@@ -141,7 +156,7 @@ export const HeaderFilters = ({
       </div>
 
       {Object.keys(filterList).length > 0 && !expanded && (
-        <div className="d-flex align-items-center Selected-chip--show opacity-0">
+        <div className={groupActionClass} onAnimationEnd={animationEndHandler}>
           {/* <Divider
             vertical={true}
             data-test="view all divider"
@@ -152,7 +167,7 @@ export const HeaderFilters = ({
               appearance="transparent"
               aria-label="View more"
               onClick={() => setExpanded(true)}
-              className="mx-4"
+              className={`mx-4 ${groupActionClass}`}
               subtle={true}
             >
               {`View all ${Object.keys(filterList).length}`}
@@ -163,6 +178,7 @@ export const HeaderFilters = ({
               appearance="transparent"
               aria-label="Clear filters"
               onClick={() => updateFilterList({})}
+              className={groupActionClass}
             >
               Clear filters
             </LinkButton>
