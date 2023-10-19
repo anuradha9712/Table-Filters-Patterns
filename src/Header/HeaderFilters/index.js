@@ -3,6 +3,14 @@ import { Chip, LinkButton, Divider } from "@innovaccer/design-system";
 import { SaveFilter } from "./SaveFilter";
 import classNames from "classnames";
 
+function usePrevious(value) {
+  const ref = React.useRef({});
+  React.useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
+
 export const HeaderFilters = ({
   filterList,
   updateFilterList,
@@ -15,16 +23,28 @@ export const HeaderFilters = ({
   const [expanded, setExpanded] = React.useState(false);
   const [hideAnimation, setHideAnimation] = React.useState(false);
   const [hideChipIndex, setHideChipIndex] = React.useState(-1);
-  const [showSlideAnimation, setShowSlideAnimation] = React.useState(false);
+  const [isFilterAdded, setIsFilterAdded] = React.useState(false);
+  const [isFilterRemoved, setIsFilterRemoved] = React.useState(false);
 
   const ref = React.useRef();
+  const prevFilterList = usePrevious(filterList);
 
+  /** ==== Revisit Once ==== */
   React.useEffect(() => {
     if (ref.current) {
       setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
     }
-    setShowSlideAnimation(true);
-  }, [filterList]);
+    console.log("filterLsitss", filterList, prevFilterList);
+    if (Object.keys(filterList)?.length > Object.keys(prevFilterList)?.length) {
+      console.log("hhhh filter added");
+      setIsFilterAdded(true);
+    } 
+    // else if (Object.keys(filterList)?.length > Object.keys(prevFilterList)?.length) {
+    //   console.log("hhhh filter removed");
+    //   setIsFilterRemoved(true);
+    // }
+    // setShowSlideAnimation(true);
+  }, [filterList, prevFilterList]);
 
   const onChipClose = (filter) => {
     const newList = { ...filterList };
@@ -68,13 +88,14 @@ export const HeaderFilters = ({
 
   const groupActionClass = classNames({
     "d-flex align-items-center ": true,
-    "Group-action--show": showSlideAnimation,
+    "Group-action-slide-right": isFilterAdded,
+    "Group-action-slide-left": isFilterRemoved,
   });
 
-  const animationEndHandler = () => {
-    console.log('animation end');
-    setShowSlideAnimation(false);
-  }
+  const buttonAnimationEndHandler = () => {
+    setIsFilterAdded(false);
+    setIsFilterRemoved(false);
+  };
 
   return (
     <div className={filterRowClass}>
@@ -124,7 +145,7 @@ export const HeaderFilters = ({
         {Object.keys(filterList).length > 0 && expanded && (
           <div
             className={groupActionClass}
-            onAnimationEnd={animationEndHandler}
+            onAnimationEnd={buttonAnimationEndHandler}
           >
             {/* <Divider vertical={true} className="Chip-separator" /> */}
             <LinkButton
@@ -156,7 +177,10 @@ export const HeaderFilters = ({
       </div>
 
       {Object.keys(filterList).length > 0 && !expanded && (
-        <div className={groupActionClass} onAnimationEnd={animationEndHandler}>
+        <div
+          className={groupActionClass}
+          onAnimationEnd={buttonAnimationEndHandler}
+        >
           {/* <Divider
             vertical={true}
             data-test="view all divider"
