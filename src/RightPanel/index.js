@@ -17,15 +17,54 @@ export const RightPanel = ({
   filterList,
   loading,
   updateFilterList,
+  setPinnedFilterList,
 }) => {
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
   const [selectedOption, setSelectedOption] = React.useState({});
   const [pinnedFilters, setPinnedFilters] = React.useState([]);
-  const [separator, setSeperator] = React.useState(false);
-  const [creationDate, setCreationDate] = React.useState('');
+  const [separator, setSeparator] = React.useState(false);
+  const [creationDate, setCreationDate] = React.useState("");
+  const [loader, setLoader] = React.useState(false);
 
-  let displayFilterList = [];
-  let pinnedFilterList = [];
+  const getDisplayFilterList = React.useCallback(() => {
+    let list = [];
+    staticFilterList.forEach((filterItem) => {
+      if (!pinnedFilters.includes(filterItem.optionKey)) {
+        list.push(filterItem);
+      }
+    });
+
+    return list;
+  }, [pinnedFilters]);
+
+  const getPinFilterList = React.useCallback(() => {
+    let list = [];
+    staticFilterList.forEach((filterItem) => {
+      if (pinnedFilters.includes(filterItem.optionKey)) {
+        list.push(filterItem);
+      }
+    });
+
+    return list;
+  }, [pinnedFilters]);
+
+  const [displayFilterList, setDisplayFilterList] = React.useState(() =>
+    getDisplayFilterList()
+  );
+  const [pinnedFilterList, setPinFilterList] = React.useState(() =>
+    getPinFilterList()
+  );
+
+  React.useEffect(() => {
+    setDisplayFilterList(getDisplayFilterList());
+    setPinFilterList(getPinFilterList());
+    setLoader(false);
+  }, [pinnedFilters, getDisplayFilterList, getPinFilterList]);
+
+  React.useEffect(() => {
+    const list = [...pinnedFilterList, ...displayFilterList].slice(0, 3);
+    setPinnedFilterList(list);
+  }, [pinnedFilterList, displayFilterList, setPinnedFilterList]);
 
   const ref = React.useRef();
 
@@ -36,17 +75,9 @@ export const RightPanel = ({
   React.useEffect(() => {
     if (ref.current) {
       // If filter options causes overflow stick the Apply buttons to bottom and show separator
-      setSeperator(ref.current.scrollHeight > ref.current.clientHeight);
+      setSeparator(ref.current.scrollHeight > ref.current.clientHeight);
     }
   }, [selectedFilterList]);
-
-  staticFilterList.forEach((filterItem) => {
-    if (!pinnedFilters.includes(filterItem.optionKey)) {
-      displayFilterList.push(filterItem);
-    } else {
-      pinnedFilterList.push(filterItem);
-    }
-  });
 
   const onNewFilterAddition = (selected) => {
     const list = [];
@@ -78,6 +109,7 @@ export const RightPanel = ({
       pinnedList.push(optionKey);
     }
     setPinnedFilters(pinnedList);
+    setLoader(true);
   };
 
   const onFilterChangeHandler = (name, selected) => {
@@ -92,10 +124,6 @@ export const RightPanel = ({
     setSelectedOption({});
     updateFilterList({});
   };
-
-  // const classNames = !showVerticalFilters
-  //   ? "d-none Table-filters--close"
-  //   : "Table-filters--open";
 
   return (
     <div
@@ -119,7 +147,7 @@ export const RightPanel = ({
         {pinnedFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div className="py-4" key={key}>
+            <div className="py-4" key={listItem}>
               <div className="d-flex align-items-center mb-3">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Unpin" position="bottom-start">
@@ -155,7 +183,7 @@ export const RightPanel = ({
         {displayFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div className="py-4" key={key}>
+            <div className="py-4" key={listItem}>
               <div className="d-flex align-items-center mb-3 FilterLabel">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Pin" position="bottom-start">
@@ -171,6 +199,7 @@ export const RightPanel = ({
               <Dropdown
                 disabled={loading}
                 withCheckbox={true}
+                loading={loader}
                 showApplyButton={true}
                 applyButtonLabel="Select"
                 key={selectedOption[optionKey]}

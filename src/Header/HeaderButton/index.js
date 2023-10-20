@@ -7,83 +7,46 @@ export const HeaderButton = ({
   onFilterChange,
   toggleVerticalFilter,
   showVerticalFilters,
+  pinnedFilterList,
 }) => {
   const headerClass = showVerticalFilters
     ? "Header-filters--hide"
     : "Header-filters--show";
 
+  const [loader, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 100);
+  }, [pinnedFilterList]);
+
   return (
-    <div className={headerClass} id='header-quick-filters'>
+    <div className={headerClass} id="header-quick-filters">
       <div className="d-flex align-items-center">
-        <Dropdown
-          disabled={loading}
-          withCheckbox={true}
-          showApplyButton={true}
-          inlineLabel="Name"
-          key={filterList["name"]}
-          onChange={(selected) => onFilterChange("name", selected)}
-          options={[
-            {
-              label: "A-G",
-              value: "a-g",
-              selected: filterList["name"]?.includes("a-g"),
-            },
-            {
-              label: "H-R",
-              value: "h-r",
-              selected: filterList["name"]?.includes("h-r"),
-            },
-            {
-              label: "S-Z",
-              value: "s-z",
-              selected: filterList["name"]?.includes("s-z"),
-            },
-          ]}
-        />
-
-        <Dropdown
-          className="ml-4"
-          disabled={loading}
-          withCheckbox={true}
-          showApplyButton={true}
-          inlineLabel="Gender"
-          key={filterList["gender"]}
-          onChange={(selected) => onFilterChange("gender", selected)}
-          options={[
-            {
-              label: "Male",
-              value: "male",
-              selected: filterList["gender"]?.includes("male"),
-            },
-            {
-              label: "Female",
-              value: "female",
-              selected: filterList["gender"]?.includes("female"),
-            },
-          ]}
-        />
-
-        <Dropdown
-          className="ml-4"
-          disabled={loading}
-          withCheckbox={true}
-          showApplyButton={true}
-          inlineLabel="Type"
-          key={filterList["type"]}
-          onChange={(selected) => onFilterChange("type", selected)}
-          options={[
-            {
-              label: "Batch Execution",
-              value: "Batch Execution",
-              selected: filterList["type"]?.includes("Batch Execution"),
-            },
-            {
-              label: "Test Function",
-              value: "Test Function",
-              selected: filterList["type"]?.includes("Test Function"),
-            },
-          ]}
-        />
+        {pinnedFilterList.map((filterItem, key) => {
+          const { inlineLabel, optionKey, optionList } = filterItem;
+          return (
+            <Dropdown
+              disabled={loading}
+              className={key !== 0 ? "ml-4" : ""}
+              loading={loader}
+              withCheckbox={true}
+              showApplyButton={true}
+              inlineLabel={inlineLabel}
+              key={filterList[optionKey]}
+              onChange={(selected) => onFilterChange(optionKey, selected)}
+              options={optionList.map((optionItem) => {
+                optionItem.selected = filterList[optionKey]?.includes(
+                  optionItem.value
+                );
+                return optionItem;
+              })}
+            />
+          );
+        })}
         <Button icon="add" className="mx-4" onClick={toggleVerticalFilter}>
           More Filters
         </Button>

@@ -15,6 +15,7 @@ const App = () => {
   const [tableData, setTableData] = React.useState(originalData);
   const [unselectedChipList, setUnselectedChipList] = React.useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [pinnedFilterList, setPinnedFilterList] = React.useState([]);
 
   const classNames = showVerticalFilters
     ? "Table-verticalFilter Table-panel--open"
@@ -77,15 +78,16 @@ const App = () => {
   };
 
   const headerOptions = {
+    loading,
     filterList,
-    updateFilterList,
-    updateSelectedChipList,
-    unselectedChipList,
-    toggleVerticalFilter,
-    showVerticalFilters,
     onFilterChange,
     updateSearchTerm,
-    loading,
+    updateFilterList,
+    pinnedFilterList,
+    unselectedChipList,
+    showVerticalFilters,
+    toggleVerticalFilter,
+    updateSelectedChipList,
   };
 
   return (
@@ -112,6 +114,7 @@ const App = () => {
         updateFilterList={updateFilterList}
         onCloseHandler={toggleVerticalFilter}
         showVerticalFilters={showVerticalFilters}
+        setPinnedFilterList={setPinnedFilterList}
       />
     </div>
   );
