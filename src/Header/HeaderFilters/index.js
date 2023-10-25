@@ -18,6 +18,7 @@ export const HeaderFilters = ({
   unselectedChipList,
   savedFilterList,
   updateSavedFilterList,
+  setShowToast,
 }) => {
   const [isOverflow, setIsOverflow] = React.useState(false);
   const [expanded, setExpanded] = React.useState(false);
@@ -38,7 +39,7 @@ export const HeaderFilters = ({
     if (Object.keys(filterList)?.length > Object.keys(prevFilterList)?.length) {
       console.log("hhhh filter added");
       setIsFilterAdded(true);
-    } 
+    }
     // else if (Object.keys(filterList)?.length > Object.keys(prevFilterList)?.length) {
     //   console.log("hhhh filter removed");
     //   setIsFilterRemoved(true);
@@ -170,6 +171,7 @@ export const HeaderFilters = ({
                 filterList={filterList}
                 savedFilterList={savedFilterList}
                 updateSavedFilterList={updateSavedFilterList}
+                setShowToast={setShowToast}
               />
             </div>
           </div>
@@ -210,6 +212,7 @@ export const HeaderFilters = ({
               filterList={filterList}
               savedFilterList={savedFilterList}
               updateSavedFilterList={updateSavedFilterList}
+              setShowToast={setShowToast}
             />
           </div>
         </div>

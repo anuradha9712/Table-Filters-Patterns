@@ -41,6 +41,12 @@
   display: flex;
 }
 
+.Filter-toast {
+  left: 16px;
+  bottom: 16px;
+  z-index: 1;
+}
+
 /* Animations */
 
 @keyframes table-card-open {
@@ -251,4 +257,3 @@
 .Pin-filter-slide--down {
   animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
-

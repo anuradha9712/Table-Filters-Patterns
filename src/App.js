@@ -1,6 +1,6 @@
 import React from "react";
 import "@innovaccer/design-system/css/dist/index.css";
-import { Card, Table } from "@innovaccer/design-system";
+import { Card, Table, Toast } from "@innovaccer/design-system";
 import { schema } from "./schema";
 import { Header } from "./Header";
 import { RightPanel } from "./RightPanel";
@@ -16,6 +16,7 @@ const App = () => {
   const [unselectedChipList, setUnselectedChipList] = React.useState([]);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [pinnedFilterList, setPinnedFilterList] = React.useState([]);
+  const [showToast, setShowToast] = React.useState(false);
 
   const classNames = showVerticalFilters
     ? "Table-verticalFilter Table-panel--open"
@@ -88,34 +89,46 @@ const App = () => {
     showVerticalFilters,
     toggleVerticalFilter,
     updateSelectedChipList,
+    setShowToast,
   };
 
   return (
-    <div className="d-flex vh-100">
-      <div className={classNames}>
-        <Card className="overflow-hidden">
-          <Table
-            pageSize={7}
-            schema={schema}
-            data={tableData}
-            loading={loading}
-            withHeader={true}
-            withCheckbox={true}
-            withPagination={true}
-            headerOptions={{
-              children: <Header {...headerOptions} />,
-            }}
-          />
-        </Card>
+    <div>
+      <div className="d-flex vh-100">
+        <div className={classNames}>
+          <Card className="overflow-hidden">
+            <Table
+              pageSize={7}
+              schema={schema}
+              data={tableData}
+              loading={loading}
+              withHeader={true}
+              withCheckbox={true}
+              withPagination={true}
+              headerOptions={{
+                children: <Header {...headerOptions} />,
+              }}
+            />
+          </Card>
+        </div>
+        <RightPanel
+          loading={loading}
+          filterList={filterList}
+          updateFilterList={updateFilterList}
+          onCloseHandler={toggleVerticalFilter}
+          showVerticalFilters={showVerticalFilters}
+          setPinnedFilterList={setPinnedFilterList}
+        />
       </div>
-      <RightPanel
-        loading={loading}
-        filterList={filterList}
-        updateFilterList={updateFilterList}
-        onCloseHandler={toggleVerticalFilter}
-        showVerticalFilters={showVerticalFilters}
-        setPinnedFilterList={setPinnedFilterList}
-      />
+      {showToast && (
+        <Toast
+          appearance="success"
+          title="Saved filter view"
+          onClose={() => setShowToast(false)}
+          className="position-fixed Filter-toast"
+          message="You can find this view later in the “saved filter views” list."
+        />
+      )}
     </div>
   );
 };

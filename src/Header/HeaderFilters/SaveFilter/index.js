@@ -13,12 +13,12 @@ export const SaveFilter = ({
   filterList,
   savedFilterList,
   updateSavedFilterList,
+  setShowToast,
 }) => {
   const [showModal, setShowModal] = React.useState(false);
   const [filterName, setFilterName] = React.useState("");
   const [filterDesc, setFilterDesc] = React.useState("");
   const [isFilterSaved, setIsFilterSaved] = React.useState(false);
-  // const [showToast, setShowToast] = React.useState(false);
 
   React.useEffect(() => {
     setIsFilterSaved(false);
@@ -43,16 +43,14 @@ export const SaveFilter = ({
     updateSavedFilterList([...savedFilterList, list]);
     onClose();
     setIsFilterSaved(true);
-    // setShowToast(true);
+    setShowToast(true);
   };
 
   return (
     <div className="ml-6">
       {isFilterSaved ? (
         <Tooltip tooltip="Already saved filter view">
-          <LinkButton onClick={() => setShowModal(!showModal)} disabled={true}>
-            Save as filter view
-          </LinkButton>
+          <LinkButton disabled={true}>Save as filter view</LinkButton>
         </Tooltip>
       ) : (
         <LinkButton onClick={() => setShowModal(!showModal)}>
@@ -99,13 +97,6 @@ export const SaveFilter = ({
           onChange={(e) => setFilterDesc(e.target.value)}
         />
       </Modal>
-      {/* {showToast && (
-        <Toast
-          appearance="success"
-          message='You can find this view later in the "saved filter views" list.'
-          title="Saved filter view"
-        />
-      )} */}
     </div>
   );
 };
