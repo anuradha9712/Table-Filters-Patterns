@@ -9,6 +9,7 @@ import {
   Divider,
 } from "@innovaccer/design-system";
 import { staticFilterList, dynamicFilterList } from "./data";
+import classNames from "classnames";
 import "../style.css";
 
 export const RightPanel = ({
@@ -25,6 +26,8 @@ export const RightPanel = ({
   const [separator, setSeparator] = React.useState(false);
   const [creationDate, setCreationDate] = React.useState("");
   const [loader, setLoader] = React.useState(false);
+  const [showAnimation, setShowAnimation] = React.useState(false);
+  const ref = React.useRef();
 
   const getDisplayFilterList = React.useCallback(() => {
     let list = [];
@@ -56,6 +59,10 @@ export const RightPanel = ({
   );
 
   React.useEffect(() => {
+    setShowAnimation(true);
+  }, [pinnedFilters]);
+
+  React.useEffect(() => {
     setDisplayFilterList(getDisplayFilterList());
     setPinFilterList(getPinFilterList());
     setLoader(false);
@@ -65,8 +72,6 @@ export const RightPanel = ({
     const list = [...pinnedFilterList, ...displayFilterList].slice(0, 3);
     setPinnedFilterList(list);
   }, [pinnedFilterList, displayFilterList, setPinnedFilterList]);
-
-  const ref = React.useRef();
 
   React.useEffect(() => {
     setSelectedOption(filterList);
@@ -125,6 +130,16 @@ export const RightPanel = ({
     updateFilterList({});
   };
 
+  const pinFilterClass = classNames({
+    "Pin-filter-slide--up": true,
+    "py-4": true,
+  });
+
+  // const displayFilterClass = classNames({
+  //   "Pin-filter-slide--down": showAnimation,
+  //   "py-4": true,
+  // });
+
   return (
     <div
       ref={ref}
@@ -147,7 +162,11 @@ export const RightPanel = ({
         {pinnedFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div className="py-4" key={listItem}>
+            <div
+              // className={`py-4 ${showAnimation ? 'Pin-filter-slide--up' : ''}`}
+              className={pinFilterClass}
+              key={listItem}
+            >
               <div className="d-flex align-items-center mb-3">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Unpin" position="bottom-start">
@@ -183,7 +202,10 @@ export const RightPanel = ({
         {displayFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div className="py-4" key={listItem}>
+            <div
+              className="py-4"
+              key={key}
+            >
               <div className="d-flex align-items-center mb-3 FilterLabel">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Pin" position="bottom-start">

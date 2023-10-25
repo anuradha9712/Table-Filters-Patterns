@@ -223,3 +223,32 @@
 .Filter-btn-slide--right {
   animation: slideRight 120ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
 }
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.Pin-filter-slide--up {
+  animation: slideUp 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.Pin-filter-slide--down {
+  animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+}
+
