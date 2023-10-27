@@ -42,8 +42,8 @@
 }
 
 .Filter-toast {
-  left: 16px;
-  bottom: 16px;
+  left: var(--spacing-2);
+  bottom: var(--spacing-2);
   z-index: 1;
 }
 
@@ -79,25 +79,25 @@
 
 @keyframes slideDown {
   from {
-    height: 0px;
+    height: 0;
   }
   to {
-    height: 24px;
+    height: var(--spacing-xl);
   }
 }
 
 @keyframes slideUp {
   from {
-    height: 24px;
+    height: var(--spacing-xl);
   }
   to {
-    height: 0px;
+    height: 0;
   }
 }
 
 @keyframes expand {
   from {
-    height: 24px;
+    height: var(--spacing-xl);
   }
   to {
     height: 56px;
@@ -109,46 +109,46 @@
     height: 56px;
   }
   to {
-    height: 24px;
+    height: var(--spacing-xl);
   }
 }
 
 .Table-filters--open {
-  animation: fadeIn 240ms cubic-bezier(0.4, 0.14, 0.3, 1);
+  animation: fadeIn var(--duration--moderate-02) var(--standard-expressive-curve);
 }
 
 .Table-filters--close {
-  animation: fadeOut 80ms cubic-bezier(0.4, 0.14, 0.3, 1);
+  animation: fadeOut var(--duration--fast-01) var(--standard-expressive-curve);
 }
 
 .Table-panel--open {
-  animation: table-card-open 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: table-card-open var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
 
 .Table-panel--close {
-  animation: table-card-close 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: table-card-close var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
 
 .Header-filters--hide {
-  animation: header-filter-hide 80ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: header-filter-hide var(--duration--fast-01) var(--standard-productive-curve) forwards;
 }
 
 .Header-filters--show {
-  animation: fadeIn 80ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: fadeIn var(--duration--fast-01) var(--standard-productive-curve) forwards;
   opacity: 0;
-  animation-delay: 80ms;
+  animation-delay: var(--duration--fast-01);
 }
 
 .Selected-chip--show {
-  animation: fadeIn 240ms cubic-bezier(0, 0, 0.38, 0.9) forwards;
-  animation-delay: 80ms;
+  animation: fadeIn var(--duration--moderate-02) var(--entrance-productive-curve) forwards;
+  animation-delay: var(--duration--fast-01);
 }
 
 @keyframes action-slide-right {
   from {
     opacity: 0;
     /* right: 500px; */
-    right: 8px;
+    right: var(--spacing);
   }
   to {
     opacity: 1;
@@ -168,40 +168,40 @@
     opacity: 1;
     /* left: 20px; */
     /* left: 0; */
-    right: 8px;
+    right: var(--spacing);
   }
 }
 
 .Group-action-slide-right {
-  animation: action-slide-right 80ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: action-slide-right var(--duration--fast-01) var(--standard-productive-curve) forwards;
   opacity: 0;
-  /* animation-delay: 80ms; */
+  /* animation-delay: var(--duration--fast-01); */
 }
 
 .Group-action-slide-left {
-  animation: action-slide-left 80ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: action-slide-left var(--duration--fast-01) var(--standard-productive-curve) forwards;
   opacity: 0;
-  /* animation-delay: 80ms; */
+  /* animation-delay: var(--duration--fast-01); */
 }
 
 .Selected-chip--hide {
-  animation: fadeOut 240ms cubic-bezier(0.2, 0, 1, 0.9) forwards;
+  animation: fadeOut var(--duration--moderate-02) var(--exit-productive-curve) forwards;
 }
 
 .Header-wrapper-slideDown {
-  animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: slideDown var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
 
 .Header-wrapper-slideUp {
-  animation: slideUp 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: slideUp var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
 
 .Filter-row--expanded {
-  animation: expand 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
+  animation: expand var(--duration--moderate-01) var(--standard-productive-curve);
 }
 
 .Filter-row--collapsed {
-  animation: collapsed 160ms cubic-bezier(0.2, 0, 0.38, 0.9);
+  animation: collapsed var(--duration--moderate-01) var(--standard-productive-curve);
 }
 
 @keyframes slideLeft {
@@ -223,11 +223,11 @@
 }
 
 .Filter-btn-slide--left {
-  animation: slideLeft 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: slideLeft var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
 
 .Filter-btn-slide--right {
-  animation: slideRight 120ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: slideRight var(--duration--fast-02) var(--standard-productive-curve) forwards;
 }
 
 @keyframes slideUp {
@@ -242,7 +242,7 @@
 }
 
 .Pin-filter-slide--up {
-  animation: slideUp 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: slideUp var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
 
 @keyframes slideDown {
@@ -255,5 +255,5 @@
 }
 
 .Pin-filter-slide--down {
-  animation: slideDown 160ms cubic-bezier(0.2, 0, 0.38, 0.9) forwards;
+  animation: slideDown var(--duration--moderate-01) var(--standard-productive-curve) forwards;
 }
