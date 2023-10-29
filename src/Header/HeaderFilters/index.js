@@ -148,7 +148,6 @@ export const HeaderFilters = ({
             className={groupActionClass}
             onAnimationEnd={buttonAnimationEndHandler}
           >
-            {/* <Divider vertical={true} className="Chip-separator" /> */}
             <LinkButton
               appearance="transparent"
               aria-label="Re-evaluate"
@@ -183,21 +182,20 @@ export const HeaderFilters = ({
           className={groupActionClass}
           onAnimationEnd={buttonAnimationEndHandler}
         >
-          {/* <Divider
-            vertical={true}
-            data-test="view all divider"
-            className="Chip-separator"
-          /> */}
           {isOverflow && (
-            <LinkButton
-              appearance="transparent"
-              aria-label="View more"
-              onClick={() => setExpanded(true)}
-              className={`mx-4 ${groupActionClass}`}
-              subtle={true}
-            >
-              {`View all ${Object.keys(filterList).length}`}
-            </LinkButton>
+            <>
+              <Divider vertical={true} className="Chip-separator" />
+              <Divider vertical={true} className="Chip-view-separator" />
+              <LinkButton
+                appearance="transparent"
+                aria-label="View more"
+                onClick={() => setExpanded(true)}
+                className={`mx-4 ${groupActionClass}`}
+                subtle={true}
+              >
+                {`View all ${Object.keys(filterList).length}`}
+              </LinkButton>
+            </>
           )}
           <div className="border-left pl-4 d-flex align-items-center">
             <LinkButton
