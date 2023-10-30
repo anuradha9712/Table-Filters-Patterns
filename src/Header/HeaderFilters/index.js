@@ -30,21 +30,13 @@ export const HeaderFilters = ({
   const ref = React.useRef();
   const prevFilterList = usePrevious(filterList);
 
-  /** ==== Revisit Once ==== */
   React.useEffect(() => {
     if (ref.current) {
       setIsOverflow(ref.current.scrollWidth > ref.current.clientWidth);
     }
-    console.log("filterLsitss", filterList, prevFilterList);
     if (Object.keys(filterList)?.length > Object.keys(prevFilterList)?.length) {
-      console.log("hhhh filter added");
       setIsFilterAdded(true);
     }
-    // else if (Object.keys(filterList)?.length > Object.keys(prevFilterList)?.length) {
-    //   console.log("hhhh filter removed");
-    //   setIsFilterRemoved(true);
-    // }
-    // setShowSlideAnimation(true);
   }, [filterList, prevFilterList]);
 
   const onChipClose = (filter) => {

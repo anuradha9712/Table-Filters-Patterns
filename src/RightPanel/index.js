@@ -26,7 +26,6 @@ export const RightPanel = ({
   const [separator, setSeparator] = React.useState(false);
   const [creationDate, setCreationDate] = React.useState("");
   const [loader, setLoader] = React.useState(false);
-  const [showAnimation, setShowAnimation] = React.useState(false);
   const ref = React.useRef();
 
   const getDisplayFilterList = React.useCallback(() => {
@@ -57,10 +56,6 @@ export const RightPanel = ({
   const [pinnedFilterList, setPinFilterList] = React.useState(() =>
     getPinFilterList()
   );
-
-  React.useEffect(() => {
-    setShowAnimation(true);
-  }, [pinnedFilters]);
 
   React.useEffect(() => {
     setDisplayFilterList(getDisplayFilterList());
@@ -135,11 +130,6 @@ export const RightPanel = ({
     "py-4": true,
   });
 
-  // const displayFilterClass = classNames({
-  //   "Pin-filter-slide--down": showAnimation,
-  //   "py-4": true,
-  // });
-
   return (
     <div
       ref={ref}
@@ -163,7 +153,6 @@ export const RightPanel = ({
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
             <div
-              // className={`py-4 ${showAnimation ? 'Pin-filter-slide--up' : ''}`}
               className={pinFilterClass}
               key={listItem}
             >
