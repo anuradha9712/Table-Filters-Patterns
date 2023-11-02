@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  List,
-  Card,
-  Text,
-  Sidesheet,
-} from "@innovaccer/design-system";
+import { List, Card, Text, Sidesheet } from "@innovaccer/design-system";
 import "../../style.css";
 import { getDisplayDate } from "./utils";
 import { ContextMenu } from "./ContextMenu";
@@ -24,6 +19,7 @@ export const SavedFilterView = ({
     open: openSidesheet,
     onClose,
     headerOptions,
+    backdropClose: false,
   };
 
   const applyFilterHandler = (filterItem) => {
@@ -33,15 +29,13 @@ export const SavedFilterView = ({
 
   const customCellRenderer = (props) => {
     const { modified_date, created_date } = props.data;
-    const { displayDate, fullDate } = getDisplayDate(modified_date);
+    const { displayDate } = getDisplayDate(modified_date);
     return (
       <div className="d-flex align-items-center justify-content-end flex-grow-1">
-        {/* <Tooltip tooltip={fullDate} position="top"> */}
         <Text appearance="subtle" className="mr-5">
           {modified_date === created_date ? "created" : "modified"}{" "}
           {displayDate}
         </Text>
-        {/* </Tooltip> */}
         <ContextMenu
           filterItem={props?.data}
           savedFilterList={savedFilterList}

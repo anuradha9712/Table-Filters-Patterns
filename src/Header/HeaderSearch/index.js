@@ -10,7 +10,6 @@ export function debounce(func, delay = 500) {
 }
 
 export const HeaderSearch = ({ updateSearchTerm }) => {
-
   const onSearchHandler = debounce((target) => {
     updateSearchTerm(target?.value);
   });
@@ -18,6 +17,7 @@ export const HeaderSearch = ({ updateSearchTerm }) => {
   return (
     <Input
       name="TableHeader-search"
+      className="mr-6"
       icon="search"
       placeholder="Search"
       onChange={({ target }) => onSearchHandler(target)}

@@ -27,45 +27,52 @@ export const EditModal = ({
   };
 
   return (
-    <Modal
-      onClose={onClose}
-      open={showEditModal}
-      backdropClose={false}
-      headerOptions={{
-        heading: "Filter view details",
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
       }}
-      footer={
-        <>
-          <Button appearance="basic" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            appearance="primary"
-            className="ml-4"
-            onClick={onFilterUpdate}
-          >
-            Update
-          </Button>
-        </>
-      }
     >
-      <Label withInput={true}>Name</Label>
-      <Input
-        placeholder="Enter name"
-        className="mb-6"
-        value={filterName}
-        onChange={(e) => setFilterName(e.target.value)}
-      />
+      <Modal
+        onClose={onClose}
+        open={showEditModal}
+        backdropClose={false}
+        headerOptions={{
+          heading: "Filter view details",
+        }}
+        footer={
+          <>
+            <Button appearance="basic" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              appearance="primary"
+              className="ml-4"
+              onClick={onFilterUpdate}
+            >
+              Update
+            </Button>
+          </>
+        }
+      >
+        <Label withInput={true}>Name</Label>
+        <Input
+          placeholder="Enter name"
+          className="mb-6"
+          value={filterName}
+          onChange={(e) => setFilterName(e.target.value)}
+        />
 
-      <Label withInput={true} optional={true}>
-        Description
-      </Label>
-      <Input
-        placeholder="Enter a description..."
-        className="mb-4"
-        value={filterDesc}
-        onChange={(e) => setFilterDesc(e.target.value)}
-      />
-    </Modal>
+        <Label withInput={true} optional={true}>
+          Description
+        </Label>
+        <Input
+          placeholder="Enter a description..."
+          className="mb-4"
+          value={filterDesc}
+          onChange={(e) => setFilterDesc(e.target.value)}
+        />
+      </Modal>
+    </div>
   );
 };

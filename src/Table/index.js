@@ -23,6 +23,7 @@ export class Table extends React.Component {
       selectAll: getSelectAll([]),
       searchTerm: undefined,
       showVerticalFilters: props.showVerticalFilters,
+      pinnedFilterList: [],
     };
 
     this.pageSize = 8;
@@ -238,6 +239,12 @@ export class Table extends React.Component {
     this.setState({ showVerticalFilters: false });
   }
 
+  setPinnedFilterList(pinnedList) {
+    this.setState({
+      pinnedFilterList: pinnedList,
+    });
+  }
+
   render() {
     const { loaderSchema } = this.props;
 
@@ -267,9 +274,11 @@ export class Table extends React.Component {
       withCheckbox: withCheckbox,
       withPagination: withPagination,
       pageSize: pageSize,
+      pinnedFilterList: this.state.pinnedFilterList,
+      // setShowToast,
     };
 
-    const headerProps = {...this.state, ...headerOptions}
+    const headerProps = { ...this.state, ...headerOptions };
 
     return (
       <div className="d-flex vh-100">
@@ -315,6 +324,7 @@ export class Table extends React.Component {
           showVerticalFilters={showVerticalFilters}
           filterList={this.state.filterList}
           updateFilterList={this.updateFilterList.bind(this)}
+          setPinnedFilterList={() => this.setPinnedFilterList.bind(this)}
         />
       </div>
     );

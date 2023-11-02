@@ -9,6 +9,7 @@ import {
   Divider,
 } from "@innovaccer/design-system";
 import { staticFilterList, dynamicFilterList } from "./data";
+import classNames from "classnames";
 import "../style.css";
 
 export const RightPanel = ({
@@ -17,16 +18,55 @@ export const RightPanel = ({
   filterList,
   loading,
   updateFilterList,
+  setPinnedFilterList,
 }) => {
   const [selectedFilterList, setSelectedFilterList] = React.useState([]);
   const [selectedOption, setSelectedOption] = React.useState({});
   const [pinnedFilters, setPinnedFilters] = React.useState([]);
-  const [separator, setSeperator] = React.useState(false);
-
-  let displayFilterList = [];
-  let pinnedFilterList = [];
-
+  const [separator, setSeparator] = React.useState(false);
+  const [creationDate, setCreationDate] = React.useState("");
+  const [loader, setLoader] = React.useState(false);
   const ref = React.useRef();
+
+  const getDisplayFilterList = React.useCallback(() => {
+    let list = [];
+    staticFilterList.forEach((filterItem) => {
+      if (!pinnedFilters.includes(filterItem.optionKey)) {
+        list.push(filterItem);
+      }
+    });
+
+    return list;
+  }, [pinnedFilters]);
+
+  const getPinFilterList = React.useCallback(() => {
+    let list = [];
+    staticFilterList.forEach((filterItem) => {
+      if (pinnedFilters.includes(filterItem.optionKey)) {
+        list.push(filterItem);
+      }
+    });
+
+    return list;
+  }, [pinnedFilters]);
+
+  const [displayFilterList, setDisplayFilterList] = React.useState(() =>
+    getDisplayFilterList()
+  );
+  const [pinnedFilterList, setPinFilterList] = React.useState(() =>
+    getPinFilterList()
+  );
+
+  React.useEffect(() => {
+    setDisplayFilterList(getDisplayFilterList());
+    setPinFilterList(getPinFilterList());
+    setLoader(false);
+  }, [pinnedFilters, getDisplayFilterList, getPinFilterList]);
+
+  React.useEffect(() => {
+    const list = [...pinnedFilterList, ...displayFilterList].slice(0, 3);
+    setPinnedFilterList(list);
+  }, [pinnedFilterList, displayFilterList, setPinnedFilterList]);
 
   React.useEffect(() => {
     setSelectedOption(filterList);
@@ -35,17 +75,9 @@ export const RightPanel = ({
   React.useEffect(() => {
     if (ref.current) {
       // If filter options causes overflow stick the Apply buttons to bottom and show separator
-      setSeperator(ref.current.scrollHeight > ref.current.clientHeight);
+      setSeparator(ref.current.scrollHeight > ref.current.clientHeight);
     }
   }, [selectedFilterList]);
-
-  staticFilterList.forEach((filterItem) => {
-    if (!pinnedFilters.includes(filterItem.optionKey)) {
-      displayFilterList.push(filterItem);
-    } else {
-      pinnedFilterList.push(filterItem);
-    }
-  });
 
   const onNewFilterAddition = (selected) => {
     const list = [];
@@ -77,6 +109,7 @@ export const RightPanel = ({
       pinnedList.push(optionKey);
     }
     setPinnedFilters(pinnedList);
+    setLoader(true);
   };
 
   const onFilterChangeHandler = (name, selected) => {
@@ -92,11 +125,18 @@ export const RightPanel = ({
     updateFilterList({});
   };
 
+  const pinFilterClass = classNames({
+    "Pin-filter-slide--up": true,
+    "py-4": true,
+  });
+
   return (
     <div
       ref={ref}
-      className={`Table-filters Table-filters--vertical bg-secondary-lightest${
-        !showVerticalFilters ? " d-none" : ""
+      className={`Table-filters Table-filters--vertical bg-secondary-lightest ${
+        !showVerticalFilters
+          ? " d-none Table-filters--close"
+          : "Table-filters--open"
       }`}
     >
       <div className={`px-5 ${separator ? "Table-filters--scroll" : ""}`}>
@@ -112,7 +152,7 @@ export const RightPanel = ({
         {pinnedFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div className="py-4" key={key}>
+            <div className={pinFilterClass} key={listItem}>
               <div className="d-flex align-items-center mb-3">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Unpin" position="bottom-start">
@@ -164,6 +204,7 @@ export const RightPanel = ({
               <Dropdown
                 disabled={loading}
                 withCheckbox={true}
+                loading={loader}
                 showApplyButton={true}
                 applyButtonLabel="Select"
                 key={selectedOption[optionKey]}
@@ -200,7 +241,13 @@ export const RightPanel = ({
                   {Element && (
                     <Element
                       {...props}
+                      date={
+                        selectedOption[value]?.includes(creationDate)
+                          ? creationDate
+                          : ""
+                      }
                       onDateChange={(date, dateStr) => {
+                        setCreationDate(dateStr);
                         onFilterChangeHandler(value, dateStr);
                       }}
                     />

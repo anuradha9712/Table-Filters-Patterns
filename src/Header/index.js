@@ -1,15 +1,21 @@
 import React from "react";
 import { Button, Tooltip } from "@innovaccer/design-system";
-import { HeaderSearch } from "./HeaderSearch";
 import HeaderFilters from "./HeaderFilters";
+import { HeaderSearch } from "./HeaderSearch";
 import { HeaderButton } from "./HeaderButton";
 import { SavedFilterView } from "./SavedFilterView";
-import { ColumnSelection } from "./ColumnSelection";
+import classNames from "classnames";
 import "../style.css";
 
 export const Header = (props) => {
+  const { showVerticalFilters } = props;
   const [savedFilterList, setSavedFilterList] = React.useState([]);
   const [openSidesheet, setOpenSidesheet] = React.useState(false);
+
+  const filterBtnClass = classNames({
+    "Filter-btn-slide--left": showVerticalFilters,
+    "Filter-btn-slide--right": !showVerticalFilters,
+  });
 
   return (
     <div>
@@ -20,9 +26,9 @@ export const Header = (props) => {
           <Tooltip tooltip="No saved filter views">
             <Button
               icon="list"
-              className="ml-4"
               onClick={() => setOpenSidesheet(true)}
               disabled={true}
+              className={filterBtnClass}
             >
               Filter views
             </Button>
@@ -30,8 +36,8 @@ export const Header = (props) => {
         ) : (
           <Button
             icon="list"
-            className="ml-4"
             onClick={() => setOpenSidesheet(true)}
+            className={filterBtnClass}
           >
             Filter views
           </Button>
@@ -51,7 +57,6 @@ export const Header = (props) => {
           updateFilterList={props.updateFilterList}
         />
       )}
-      <ColumnSelection {...props} />
     </div>
   );
 };
