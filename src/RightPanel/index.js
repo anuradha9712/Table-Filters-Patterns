@@ -140,10 +140,10 @@ export const RightPanel = ({
       }`}
     >
       <div className={`px-5 ${separator ? "Table-filters--scroll" : ""}`}>
-        <div className="d-flex align-items-center justify-content-between pt-5 mb-7">
+        <div className="d-flex align-items-center justify-content-between pt-5 mb-6">
           <Subheading>Filters</Subheading>
-          <Icon
-            name="close"
+          <Button
+            icon="close"
             className="cursor-pointer"
             onClick={onCloseHandler}
           />
@@ -152,10 +152,7 @@ export const RightPanel = ({
         {pinnedFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div
-              className={pinFilterClass}
-              key={listItem}
-            >
+            <div className={pinFilterClass} key={listItem}>
               <div className="d-flex align-items-center mb-3">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Unpin" position="bottom-start">
@@ -191,10 +188,7 @@ export const RightPanel = ({
         {displayFilterList.map((listItem, key) => {
           const { inlineLabel, optionKey, optionList } = listItem;
           return (
-            <div
-              className="py-4"
-              key={key}
-            >
+            <div className="py-4" key={key}>
               <div className="d-flex align-items-center mb-3 FilterLabel">
                 <Label>{inlineLabel}</Label>
                 <Tooltip tooltip="Pin" position="bottom-start">
@@ -252,6 +246,7 @@ export const RightPanel = ({
                           ? creationDate
                           : ""
                       }
+                      size="small"
                       onDateChange={(date, dateStr) => {
                         setCreationDate(dateStr);
                         onFilterChangeHandler(value, dateStr);
@@ -275,6 +270,7 @@ export const RightPanel = ({
           placeholder="Select"
           withCheckbox={true}
           showApplyButton={true}
+          applyButtonLabel="Add"
           onChange={onNewFilterAddition}
           customTrigger={() => (
             <Button
