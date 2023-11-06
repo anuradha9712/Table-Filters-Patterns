@@ -71,8 +71,9 @@ export const SavedFilterView = ({
   return (
     <div>
       <Sidesheet {...options}>
-        <Card shadow="none" className="mt-5 pt-5">
+        <Card shadow="none" className="mt-5">
           <List
+            className="Filter-list"
             pageSize={5}
             type="resource"
             schema={schema}

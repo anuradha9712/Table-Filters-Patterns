@@ -126,7 +126,7 @@ const App = () => {
           title="Saved filter view"
           onClose={() => setShowToast(false)}
           className="position-fixed Filter-toast"
-          message="You can find this view later in the “saved filter views” list."
+          message="You can find this view later in the “filter views” list."
         />
       )}
     </div>
