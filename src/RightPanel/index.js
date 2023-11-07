@@ -286,6 +286,7 @@ export const RightPanel = ({
 
         <div className="d-flex justify-content-between pt-4">
           <Button
+            className="w-100 mr-5"
             onClick={onResetHandler}
             appearance="transparent"
             disabled={Object.keys(selectedOption).length === 0}
@@ -293,6 +294,7 @@ export const RightPanel = ({
             Reset values
           </Button>
           <Button
+            className="w-100"
             onClick={() => updateFilterList(selectedOption)}
             disabled={selectedOption === filterList}
           >
