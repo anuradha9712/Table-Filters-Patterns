@@ -98,6 +98,8 @@ export const HeaderFilters = ({
           const optionLength = filterList[filter].length;
           const filterType = typeof filterList[filter];
 
+          const filterSeparator = filter?.replace('_', ' ');
+
           const chipClass = classNames({
             "Selected-chip--hide": hideAnimation && hideChipIndex === key,
             "Selected-chip--show opacity-0": true,
@@ -128,7 +130,7 @@ export const HeaderFilters = ({
                 clearButton={true}
                 selected={selected}
                 labelPrefix={
-                  filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
+                  filterSeparator.charAt(0).toUpperCase() + filterSeparator.slice(1) + ":"
                 }
               />
             </div>
