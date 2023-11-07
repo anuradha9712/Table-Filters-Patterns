@@ -41,11 +41,10 @@ export const RightPanel = ({
 
   const getPinFilterList = React.useCallback(() => {
     let list = [];
-    staticFilterList.forEach((filterItem) => {
-      if (pinnedFilters.includes(filterItem.optionKey)) {
-        list.push(filterItem);
-      }
-    });
+
+    pinnedFilters?.forEach((pinItem) => {
+      list.push(staticFilterList?.find(filterItem => filterItem.optionKey === pinItem));
+    })
 
     return list;
   }, [pinnedFilters]);
@@ -106,7 +105,7 @@ export const RightPanel = ({
     if (pinnedFilters.includes(optionKey)) {
       pinnedList = pinnedList.filter((pinnedItem) => pinnedItem !== optionKey);
     } else {
-      pinnedList.push(optionKey);
+      pinnedList.unshift(optionKey);
     }
     setPinnedFilters(pinnedList);
     setLoader(true);
