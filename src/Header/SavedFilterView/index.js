@@ -74,6 +74,7 @@ export const SavedFilterView = ({
         <Card shadow="none" className="mt-5">
           <List
             className="Filter-list"
+            key={savedFilterList}
             pageSize={5}
             type="resource"
             schema={schema}
