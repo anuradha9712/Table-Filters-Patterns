@@ -47,6 +47,14 @@ const App = () => {
 
   }, [searchTerm]);
 
+  React.useEffect(() => {
+    if(showToast) {
+      setTimeout(() => {
+        setShowToast(false);
+      }, 1500);
+    }
+  }, [showToast]);
+
   const toggleVerticalFilter = () => {
     setShowVerticalFilters(!showVerticalFilters);
   };
