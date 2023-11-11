@@ -29,22 +29,24 @@ export const HeaderButton = ({
         {pinnedFilterList.map((filterItem, key) => {
           const { inlineLabel, optionKey, optionList } = filterItem;
           return (
-            <Dropdown
-              disabled={loading}
-              className={key !== 0 ? "ml-4" : ""}
-              loading={loader}
-              withCheckbox={true}
-              showApplyButton={true}
-              inlineLabel={inlineLabel}
-              key={filterList[optionKey]}
-              onChange={(selected) => onFilterChange(optionKey, selected)}
-              options={optionList.map((optionItem) => {
-                optionItem.selected = filterList[optionKey]?.includes(
-                  optionItem.value
-                );
-                return optionItem;
-              })}
-            />
+            <React.Fragment key={key}>
+              <Dropdown
+                disabled={loading}
+                className={key !== 0 ? "ml-4" : ""}
+                loading={loader}
+                withCheckbox={true}
+                showApplyButton={true}
+                inlineLabel={inlineLabel}
+                key={filterList[optionKey]}
+                onChange={(selected) => onFilterChange(optionKey, selected)}
+                options={optionList.map((optionItem) => {
+                  optionItem.selected = filterList[optionKey]?.includes(
+                    optionItem.value
+                  );
+                  return optionItem;
+                })}
+              />
+            </React.Fragment>
           );
         })}
         <Button icon="add" className="mx-4" onClick={toggleVerticalFilter}>
