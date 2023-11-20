@@ -115,7 +115,7 @@
 
 @keyframes expand {
   from {
-    height: var(--spacing-xl);
+    height: var(--spacing-3);
   }
   to {
     height: 56px;
@@ -127,7 +127,7 @@
     height: 56px;
   }
   to {
-    height: var(--spacing-xl);
+    height: var(--spacing-3);
   }
 }
 
@@ -218,13 +218,11 @@
 }
 
 .Filter-row--expanded {
-  animation: expand var(--duration--moderate-01)
-    var(--standard-productive-curve);
+  animation: expand var(--duration--moderate-01) var(--standard-productive-curve);
 }
 
 .Filter-row--collapsed {
-  animation: collapsed var(--duration--moderate-01)
-    var(--standard-productive-curve);
+  animation: collapsed var(--duration--moderate-01) var(--standard-productive-curve);
 }
 
 @keyframes slideLeft {

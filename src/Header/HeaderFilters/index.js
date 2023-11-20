@@ -77,6 +77,7 @@ export const HeaderFilters = ({
   const filterLength = Object.keys(filterList).length;
 
   const filterRowClass = classNames({
+    "mt-4" : filterLength > 0,
     "d-flex align-items-center": true,
     "Filter-row--expanded": expanded,
     "Filter-row--collapsed": !expanded,
