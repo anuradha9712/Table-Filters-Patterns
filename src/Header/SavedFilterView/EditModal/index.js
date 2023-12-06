@@ -1,5 +1,11 @@
 import React from "react";
-import { Modal, Input, Label, Button } from "@innovaccer/design-system";
+import {
+  Modal,
+  Input,
+  Label,
+  Button,
+  Textarea,
+} from "@innovaccer/design-system";
 
 export const EditModal = ({
   filterItem,
@@ -66,7 +72,7 @@ export const EditModal = ({
         <Label withInput={true} optional={true}>
           Description
         </Label>
-        <Input
+        <Textarea
           placeholder="Enter a description..."
           className="mb-4"
           value={filterDesc}

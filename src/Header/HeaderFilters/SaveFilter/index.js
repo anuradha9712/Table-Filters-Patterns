@@ -6,6 +6,7 @@ import {
   Button,
   Input,
   Tooltip,
+  Textarea,
 } from "@innovaccer/design-system";
 
 export const SaveFilter = ({
@@ -89,7 +90,7 @@ export const SaveFilter = ({
         <Label withInput={true} optional={true}>
           Description
         </Label>
-        <Input
+        <Textarea
           placeholder="Enter a description..."
           className="mb-4"
           value={filterDesc}

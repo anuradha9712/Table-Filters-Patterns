@@ -41,11 +41,10 @@ export const RightPanel = ({
 
   const getPinFilterList = React.useCallback(() => {
     let list = [];
-    staticFilterList.forEach((filterItem) => {
-      if (pinnedFilters.includes(filterItem.optionKey)) {
-        list.push(filterItem);
-      }
-    });
+
+    pinnedFilters?.forEach((pinItem) => {
+      list.push(staticFilterList?.find(filterItem => filterItem.optionKey === pinItem));
+    })
 
     return list;
   }, [pinnedFilters]);
@@ -106,7 +105,7 @@ export const RightPanel = ({
     if (pinnedFilters.includes(optionKey)) {
       pinnedList = pinnedList.filter((pinnedItem) => pinnedItem !== optionKey);
     } else {
-      pinnedList.push(optionKey);
+      pinnedList.unshift(optionKey);
     }
     setPinnedFilters(pinnedList);
     setLoader(true);
@@ -140,10 +139,10 @@ export const RightPanel = ({
       }`}
     >
       <div className={`px-5 ${separator ? "Table-filters--scroll" : ""}`}>
-        <div className="d-flex align-items-center justify-content-between pt-5 mb-7">
+        <div className="d-flex align-items-center justify-content-between pt-5 mb-6">
           <Subheading>Filters</Subheading>
-          <Icon
-            name="close"
+          <Button
+            icon="close"
             className="cursor-pointer"
             onClick={onCloseHandler}
           />
@@ -246,6 +245,7 @@ export const RightPanel = ({
                           ? creationDate
                           : ""
                       }
+                      size="small"
                       onDateChange={(date, dateStr) => {
                         setCreationDate(dateStr);
                         onFilterChangeHandler(value, dateStr);
@@ -269,6 +269,7 @@ export const RightPanel = ({
           placeholder="Select"
           withCheckbox={true}
           showApplyButton={true}
+          applyButtonLabel="Add"
           onChange={onNewFilterAddition}
           customTrigger={() => (
             <Button
@@ -284,6 +285,7 @@ export const RightPanel = ({
 
         <div className="d-flex justify-content-between pt-4">
           <Button
+            className="w-100 mr-5"
             onClick={onResetHandler}
             appearance="transparent"
             disabled={Object.keys(selectedOption).length === 0}
@@ -291,6 +293,7 @@ export const RightPanel = ({
             Reset values
           </Button>
           <Button
+            className="w-100"
             onClick={() => updateFilterList(selectedOption)}
             disabled={selectedOption === filterList}
           >

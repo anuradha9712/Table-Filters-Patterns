@@ -85,18 +85,14 @@ const App = () => {
       searchTerm,
       unselectedChipList,
     } = options;
-    console.log("step 22", filterList, unselectedChipList);
 
     const onSearch = (d, searchTerm = "") => {
       return (
         d.firstName.toLowerCase().match(searchTerm.toLowerCase()) ||
         d.lastName.toLowerCase().match(searchTerm.toLowerCase())
       );
-
-      // return true;
     };
 
-    // const data = JSON.stringify(originalData.slice(0, 10), null, 4);
     const data = originalData;
     const updatedFilterList = getFilterList(filterList, unselectedChipList);
 

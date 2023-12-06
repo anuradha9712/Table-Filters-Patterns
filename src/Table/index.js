@@ -1,6 +1,6 @@
 import * as React from "react";
 import { debounce } from "throttle-debounce";
-import { Card, Grid, Pagination } from "@innovaccer/design-system";
+import { Card, Grid, Pagination, Toast } from "@innovaccer/design-system";
 import { updateBatchData, getSelectAll, getTotalPages } from "../utils";
 import { Header } from "../Header";
 import { RightPanel } from "../RightPanel";
@@ -24,9 +24,10 @@ export class Table extends React.Component {
       searchTerm: undefined,
       showVerticalFilters: props.showVerticalFilters,
       pinnedFilterList: [],
+      showToast: false,
     };
 
-    this.pageSize = 8;
+    this.pageSize = 10;
     this.searchDebounceDuration = 750;
     this.debounceUpdate = debounce(
       this.searchDebounceDuration,
@@ -53,6 +54,22 @@ export class Table extends React.Component {
     ) {
       if (!this.props.loading) this.updateData({});
     }
+
+    if (prevState.showToast !== this.state.showToast) {
+      if (this.state.showToast) {
+        setTimeout(() => {
+          this.setState({
+            showToast: false,
+          });
+        }, 1500);
+      }
+    }
+  }
+
+  handleToast(showToast) {
+    this.setState({
+      showToast: showToast,
+    });
   }
 
   updateData() {
@@ -65,7 +82,6 @@ export class Table extends React.Component {
 
   updateDataFn() {
     this.onSelect(-1, false);
-    console.log("step 1");
 
     const { fetchData } = this.props;
 
@@ -206,17 +222,8 @@ export class Table extends React.Component {
   }
 
   updateFilterList(newFilterList) {
-    const newList = { ...this.state.filterList, ...newFilterList };
-    console.log(
-      "newList",
-      newList,
-      "newFilterList",
-      newFilterList,
-      "this.state.filterList"
-    );
     this.setState({
       filterList: newFilterList,
-      // filterList: newList,
       page: 1,
     });
   }
@@ -268,64 +275,74 @@ export class Table extends React.Component {
       unselectedChipList: this.state.unselectedChipList,
       updateSearchTerm: this.updateSearchTerm.bind(this),
       updateSchema: this.updateSchema.bind(this),
-      updateSearchTerm: this.updateSearchTerm.bind(this),
       updateShowVerticalFilters: this.updateShowVerticalFilters.bind(this),
       onSelectAll: this.onSelectAll.bind(this),
       withCheckbox: withCheckbox,
       withPagination: withPagination,
       pageSize: pageSize,
       pinnedFilterList: this.state.pinnedFilterList,
-      // setShowToast,
+      setShowToast: this.handleToast.bind(this),
     };
 
     const headerProps = { ...this.state, ...headerOptions };
 
     return (
-      <div className="d-flex vh-100">
-        <div className={classNames}>
-          <Card className="Table overflow-hidden">
-            <div className="Table-header">
-              <Header {...headerProps} />
-            </div>
-            <div className="Table-grid">
-              <Grid
-                {...this.state}
-                updateData={this.updateData.bind(this)}
-                updateSchema={this.updateSchema.bind(this)}
-                updateSortingList={this.updateSortingList.bind(this)}
-                updateFilterList={this.updateFilterList.bind(this)}
-                withCheckbox={withCheckbox}
-                onSelect={this.onSelect.bind(this)}
-                onSelectAll={this.onSelectAll.bind(this)}
-                showMenu={true}
-                type="data"
-                size="comfortable"
-                draggable={true}
-                withPagination={withPagination && totalPages > 1}
-                pageSize={pageSize}
-                loaderSchema={loaderSchema}
-              />
-            </div>
-            {withPagination && totalPages > 1 && (
-              <div className="Table-pagination">
-                <Pagination
-                  page={this.state.page}
-                  totalPages={getTotalPages(totalRecords, pageSize)}
-                  type="jump"
-                  onPageChange={this.onPageChange.bind(this)}
-                />
+      <div>
+        <div className="d-flex vh-100">
+          <div className={classNames}>
+            <Card className="Table overflow-hidden pt-5">
+              <div className="Table-header pl-5 pb-5">
+                <Header {...headerProps} />
               </div>
-            )}
-          </Card>
+              <div className="Table-grid">
+                <Grid
+                  {...this.state}
+                  updateData={this.updateData.bind(this)}
+                  updateSchema={this.updateSchema.bind(this)}
+                  updateSortingList={this.updateSortingList.bind(this)}
+                  updateFilterList={this.updateFilterList.bind(this)}
+                  withCheckbox={withCheckbox}
+                  onSelect={this.onSelect.bind(this)}
+                  onSelectAll={this.onSelectAll.bind(this)}
+                  showMenu={true}
+                  type="data"
+                  size="comfortable"
+                  draggable={true}
+                  withPagination={withPagination && totalPages > 1}
+                  pageSize={pageSize}
+                  loaderSchema={loaderSchema}
+                />
+                </div>
+                {withPagination && totalPages > 1 && (
+                  <div className="Table-pagination">
+                    <Pagination
+                      page={this.state.page}
+                      totalPages={getTotalPages(totalRecords, pageSize)}
+                      type="jump"
+                      onPageChange={this.onPageChange.bind(this)}
+                    />
+                  </div>
+                )}
+            </Card>
+          </div>
+          <RightPanel
+            loading={loading}
+            onCloseHandler={() => this.setState({ showVerticalFilters: false })}
+            showVerticalFilters={showVerticalFilters}
+            filterList={this.state.filterList}
+            updateFilterList={this.updateFilterList.bind(this)}
+            setPinnedFilterList={() => this.setPinnedFilterList.bind(this)}
+          />
         </div>
-        <RightPanel
-          loading={loading}
-          onCloseHandler={() => this.setState({ showVerticalFilters: false })}
-          showVerticalFilters={showVerticalFilters}
-          filterList={this.state.filterList}
-          updateFilterList={this.updateFilterList.bind(this)}
-          setPinnedFilterList={() => this.setPinnedFilterList.bind(this)}
-        />
+        {this.state.showToast && (
+          <Toast
+            appearance="success"
+            title="Saved filter view"
+            onClose={this.handleToast.bind(this)}
+            className="position-fixed Filter-toast"
+            message="You can find this view later in the “filter views” list."
+          />
+        )}
       </div>
     );
   }

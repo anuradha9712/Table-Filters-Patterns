@@ -64,6 +64,11 @@ export const HeaderFilters = ({
     }
   };
 
+  const onClearHandler = () => {
+    updateFilterList({});
+    setExpanded(false);
+  };
+
   const wrapperClass = classNames({
     "Header-filters-row": !expanded,
     "d-flex flex-wrap flex-row": expanded,
@@ -72,6 +77,7 @@ export const HeaderFilters = ({
   const filterLength = Object.keys(filterList).length;
 
   const filterRowClass = classNames({
+    "mt-4": filterLength > 0,
     "d-flex align-items-center": true,
     "Filter-row--expanded": expanded,
     "Filter-row--collapsed": !expanded,
@@ -97,6 +103,8 @@ export const HeaderFilters = ({
           const selected = !unselectedChipList.includes(filter);
           const optionLength = filterList[filter].length;
           const filterType = typeof filterList[filter];
+
+          const filterSeparator = filter?.replace("_", " ");
 
           const chipClass = classNames({
             "Selected-chip--hide": hideAnimation && hideChipIndex === key,
@@ -128,7 +136,9 @@ export const HeaderFilters = ({
                 clearButton={true}
                 selected={selected}
                 labelPrefix={
-                  filter.charAt(0).toUpperCase() + filter.slice(1) + ":"
+                  filterSeparator.charAt(0).toUpperCase() +
+                  filterSeparator.slice(1) +
+                  ":"
                 }
               />
             </div>
@@ -154,7 +164,7 @@ export const HeaderFilters = ({
               <LinkButton
                 appearance="transparent"
                 aria-label="Re-evaluate"
-                onClick={() => updateFilterList({})}
+                onClick={onClearHandler}
               >
                 Clear filters
               </LinkButton>
@@ -193,7 +203,7 @@ export const HeaderFilters = ({
             <LinkButton
               appearance="transparent"
               aria-label="Clear filters"
-              onClick={() => updateFilterList({})}
+              onClick={onClearHandler}
               className={groupActionClass}
             >
               Clear filters
